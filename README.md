@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+**Contexte du projet :**
 
-## Getting Started
+Simon développe un éditeur de texte en ligne utilisant Next.js et ShadCN UI. L'objectif de l'application est de permettre aux utilisateurs de déposer un sujet de TD au format PDF pour générer un template prêt à remplir, avec des questions et des espaces vides pour les réponses. L'éditeur utilisera MDX ou LaTeX pour le formatage, et Novel sera utilisé pour l'édition de texte.
 
-First, run the development server:
+**Fonctionnalités principales :**
+1. **Téléchargement de documents** :
+   - Les utilisateurs déposeront un sujet de TD au format PDF.
+   - Un parser, utilisant une API d'IA (comme Groq ou OpenAI via Vercel AI SDK), extraira les données du PDF.
+   - L'utilisateur pourra modifier le texte extrait avant de valider.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Step-by-step flow** :
+   - L'application inclura un *stepper* pour guider l'utilisateur à travers les différentes étapes de création d'un projet :
+     1. Informations générales à propos du sujet.
+     2. Choix entre parser un sujet de TD ou commencer avec un document vide.
+     3. Option de choisir un template si nécessaire.
+     4. Confirmation du parsing.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Composants dynamiques dans l'éditeur** :
+   - L'éditeur prendra en charge des composants interactifs tels que des cases à cocher et des zones dynamiques. Novel devrait pouvoir supporter cela par défaut.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Exportation en PDF** :
+   - À ce stade, l'objectif est d'avoir un système d'exportation simple, par exemple en utilisant react-pdf (HTML → PDF). L'idée est de rendre cette méthode d'export facilement interchangeable plus tard, en fonction des besoins.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5. **Collaboration** :
+   - À terme, il serait souhaité d'ajouter une fonctionnalité de collaboration en temps réel.
 
-## Learn More
+**Pages de l'application :**
 
-To learn more about Next.js, take a look at the following resources:
+1. **Page d'accueil** :
+   - Une page sobre inspirée de l'onboarding de VS Code.
+   - Un bouton pour créer un nouveau projet.
+   - Une liste simple des projets récents.
+  
+2. **Page d'éditeur** (/editor/id) :
+   - Cette page correspond à un projet ouvert et contient l'éditeur de texte pour travailler sur le sujet de TD.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Stockage des projets et gestion de l'authentification :**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Le stockage des projets et la gestion de l'authentification seront gérés via un backend, avec **Neon.tech** comme solution choisie. Neon permet également de gérer les utilisateurs et leurs projets de manière scalable.
+- La liste des projets récents sera affichée sur la page d'accueil.
 
-## Deploy on Vercel
+**Prochaines étapes** :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Structurer l'application avec les pages définies ci-dessus.
+2. Implémenter le modal avec un stepper pour la création de nouveaux projets.
+3. Intégrer le parsing basique du PDF et l'édition avec Novel.
+4. Explorer des options simples d'exportation en PDF.
+5. Réfléchir à une intégration de la collaboration à plus long terme.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**idées** :
+
+1. Générer des liens d'invitation pour ajouter facilement un utilisateur à une équipe
