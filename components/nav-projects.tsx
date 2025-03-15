@@ -35,6 +35,7 @@ import { deleteProject, restoreProject } from "@/actions/deleteProjectAction";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useMounted } from "@/hooks/use-mounted";
 
 type Project = Prisma.ProjectGetPayload<object>;
@@ -55,6 +56,7 @@ export function NavProjects({ teamId }: { teamId: number }) {
   const noProjects = visibleProjects.length === 0;
 
   const isMounted = useMounted();
+  const router = useRouter();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
@@ -91,6 +93,11 @@ export function NavProjects({ teamId }: { teamId: number }) {
       if (success && data) {
         resolve(data);
         removeProject(project.id);
+
+        if (project.id.toString() === activeProjectId) {
+          router.push(`/t/${teamId}`); // Rediriger vers l'accueil de l'équipe
+        }
+
       } else {
         reject(error);
       }

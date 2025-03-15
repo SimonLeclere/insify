@@ -9,6 +9,7 @@ import MultiStepViewer from "./MultiStepViewer";
 import { toast } from "sonner";
 import { Prisma } from "@prisma/client";
 import { useProjects } from "@/providers/ProjectsContext";
+import { useRouter } from "next/navigation";
 
 type UserTeams = Prisma.UserGetPayload<{
   include: {
@@ -39,6 +40,7 @@ export default function CreateProjectForm({
   onClose,
 }: CreateProjectFormProps) {
   const { addProject } = useProjects();
+  const router = useRouter();
 
   const projectForm = useForm<CreateProjectFormValues>({
     defaultValues: {
@@ -74,6 +76,8 @@ export default function CreateProjectForm({
       if (success && data) {
         resolve(data);
         addProject(data);
+
+        router.push(`/t/${data.teamId}/editor/${data.id}`);
       } else {
         reject(error);
       }

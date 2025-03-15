@@ -2,20 +2,12 @@
 
 import { withProps } from "@udecode/cn";
 import { BasicElementsPlugin } from "@udecode/plate-basic-elements/react";
-import {
-  BasicMarksPlugin,
-  BoldPlugin,
-  ItalicPlugin,
-  StrikethroughPlugin,
-  UnderlinePlugin,
-} from "@udecode/plate-basic-marks/react";
-import {
-  ParagraphPlugin,
-  PlateElement,
-  PlateLeaf,
-  usePlateEditor,
-} from "@udecode/plate/react";
-import { autoformatPlugin } from "@/components/editor/autoformatPlugin";
+import { BasicMarksPlugin, BoldPlugin, ItalicPlugin, StrikethroughPlugin, UnderlinePlugin } from "@udecode/plate-basic-marks/react";
+import { ParagraphPlugin, PlateElement, PlateLeaf, usePlateEditor } from "@udecode/plate/react";
+import { ListPlugin } from '@udecode/plate-list/react';
+import { autoformatPlugin } from "@/components/editor/plugins/autoformatPlugin";
+import { resetBlockTypePlugin } from "@/components/editor/plugins/resetNodePlugin";
+import { exitBreakPlugin } from "@/components/editor/plugins/exitBreakPlugin";
 
 export const useCreateEditor = () => {
   return usePlateEditor({
@@ -51,7 +43,16 @@ export const useCreateEditor = () => {
     plugins: [
       BasicElementsPlugin,
       BasicMarksPlugin,
-      autoformatPlugin
+      autoformatPlugin,
+      resetBlockTypePlugin,
+      exitBreakPlugin,
+      ListPlugin,
     ],
+    value: [
+      {
+        type: 'h1',
+        children: [{ text: '' }],
+      }
+    ]
   });
 };

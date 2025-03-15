@@ -1,26 +1,34 @@
-import { getServerAuth } from "@/hooks/serverAuth"
-import { notFound, redirect } from "next/navigation"
+import { getServerAuth } from "@/hooks/serverAuth";
+import { notFound, redirect } from "next/navigation";
 
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/app-sidebar";
 
-import { ProjectModalProvider } from '@/components/CreateProjectModal/ProjectModalProvider';
+import { ProjectModalProvider } from "@/components/CreateProjectModal/ProjectModalProvider";
 import { ProjectsProvider } from "@/providers/ProjectsContext";
 
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import "@/app/globals.css"
-import { prisma } from "@/lib/prisma"
+} from "@/components/ui/sidebar";
+import "@/app/globals.css";
+import { prisma } from "@/lib/prisma";
+import { CommandMenu } from "@/components/commandk";
 
-export default async function RootLayout({ children, breadcrumb, params }: { children: React.ReactNode, breadcrumb: React.ReactNode, params: Promise<{ teamID: string }> }) {
+export default async function RootLayout({
+  children,
+  breadcrumb,
+  params,
+}: {
+  children: React.ReactNode;
+  breadcrumb: React.ReactNode;
+  params: Promise<{ teamID: string }>;
+}) {
+  const { teamID } = await params;
 
-  const { teamID } = await params
-
-  const session = await getServerAuth() 
+  const session = await getServerAuth();
   if (!session || !session.user) {
-    return notFound()
+    return notFound();
   }
 
   // Fetch des données depuis la DB
@@ -42,14 +50,19 @@ export default async function RootLayout({ children, breadcrumb, params }: { chi
     },
   });
 
-  if (user && (!teamID || !user.teams.some((t) => t.id.toString() === teamID))) {
+  if (
+    user &&
+    (!teamID || !user.teams.some((t) => t.id.toString() === teamID))
+  ) {
     // find the user's default team
-    const defaultTeam = user.teams.find(team => {
-      return team.TeamUser.find(u => u.userId === user.id && u.role === "owner");
+    const defaultTeam = user.teams.find((team) => {
+      return team.TeamUser.find(
+        (u) => u.userId === user.id && u.role === "owner"
+      );
     });
 
     if (defaultTeam) return redirect(`/t/${defaultTeam.id}`);
-    redirect('/')
+    redirect("/");
   }
 
   const currentTeamID = Number(teamID);
@@ -62,21 +75,26 @@ export default async function RootLayout({ children, breadcrumb, params }: { chi
   return (
     <SidebarProvider>
       <ProjectsProvider initialProjects={projects}>
-        <ProjectModalProvider teams={user?.teams} currentTeamID={currentTeamID} >
+        <ProjectModalProvider teams={user?.teams} currentTeamID={currentTeamID}>
           <AppSidebar user={user} currentTeamID={currentTeamID} />
           <SidebarInset className="flex flex-1 flex-col">
             
             {/* Navbar */}
-            <header className="flex h-16 shrink-0 items-center gap-2 px-4">
-              <SidebarTrigger className="-ml-1" />
-              {breadcrumb}
+            <header className="flex h-16 shrink-0 items-center justify-between px-4">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger className="-ml-1" />
+                {breadcrumb}
+              </div>
+              <CommandMenu />
             </header>
 
             {/* Contenu dynamique */}
-            <main className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</main>
+            <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+              {children}
+            </main>
           </SidebarInset>
         </ProjectModalProvider>
       </ProjectsProvider>
     </SidebarProvider>
-  )
+  );
 }

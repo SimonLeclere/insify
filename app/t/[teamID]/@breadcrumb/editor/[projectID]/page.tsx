@@ -5,8 +5,10 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
 
 import { PrismaClient } from "@prisma/client";
+import { Home } from "lucide-react";
 
 const prisma = new PrismaClient();
 
@@ -42,6 +44,7 @@ async function getTeamAndProject(teamId: number, projectId: number) {
 export default async function BreadcrumbSlot({
   params,
 }: {
+  isMobile: boolean;
   params: Promise<{ projectID: string; teamID: string }>;
 }) {
   const { projectID, teamID } = await params;
@@ -50,7 +53,19 @@ export default async function BreadcrumbSlot({
   return (
     <BreadcrumbList>
       <BreadcrumbItem>
-        <BreadcrumbLink href={`/t/${teamID}`}>Accueil</BreadcrumbLink>
+        <BreadcrumbLink href={`/t/${teamID}`} className="hidden lg:inline-flex">
+          Accueil
+        </BreadcrumbLink>
+        <BreadcrumbLink href={`/t/${teamID}`} className="lg:hidden inline-flex">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+          >
+            <Home />
+            <span className="sr-only">Accueil</span>
+          </Button>
+        </BreadcrumbLink>
       </BreadcrumbItem>
 
       {result?.teamName && (

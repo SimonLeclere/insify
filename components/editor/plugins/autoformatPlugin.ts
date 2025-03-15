@@ -1,7 +1,9 @@
 'use client';
 
+import type { SlateEditor } from '@udecode/plate';
 import type { AutoformatRule } from '@udecode/plate-autoformat';
 
+import { ElementApi, isType } from '@udecode/plate';
 import {
   autoformatArrow,
   autoformatLegal,
@@ -22,11 +24,32 @@ import {
 } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { insertEmptyCodeBlock } from '@udecode/plate-code-block';
-import { CodeBlockPlugin } from '@udecode/plate-code-block/react';
+import {
+  CodeBlockPlugin,
+  CodeLinePlugin,
+} from '@udecode/plate-code-block/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
 import { ParagraphPlugin } from '@udecode/plate/react';
 
-const autoformatMarks: AutoformatRule[] = [
+export const format = (editor: SlateEditor, customFormatting: () => void) => {
+  if (editor.selection) {
+    const parentEntry = editor.api.parent(editor.selection);
+
+    if (!parentEntry) return;
+
+    const [node] = parentEntry;
+
+    if (
+      ElementApi.isElement(node) &&
+      !isType(editor, node, CodeBlockPlugin.key) &&
+      !isType(editor, node, CodeLinePlugin.key)
+    ) {
+      customFormatting();
+    }
+  }
+};
+
+export const autoformatMarks: AutoformatRule[] = [
   {
     match: '***',
     mode: 'mark',
@@ -89,7 +112,7 @@ const autoformatMarks: AutoformatRule[] = [
   },
 ];
 
-const autoformatBlocks: AutoformatRule[] = [
+export const autoformatBlocks: AutoformatRule[] = [
   {
     match: '# ',
     mode: 'block',
@@ -135,7 +158,7 @@ const autoformatBlocks: AutoformatRule[] = [
         insertNodesOptions: { select: true },
       });
     },
-  },
+  }
 ];
 
 export const autoformatPlugin = AutoformatPlugin.configure({
@@ -150,14 +173,6 @@ export const autoformatPlugin = AutoformatPlugin.configure({
       ...autoformatLegalHtml,
       ...autoformatArrow,
       ...autoformatMath,
-    ].map(
-      (rule): AutoformatRule => ({
-        ...rule,
-        query: (editor) =>
-          !editor.api.some({
-            match: { type: editor.getType(CodeBlockPlugin) },
-          }),
-      })
-    ),
+    ],
   },
 });
