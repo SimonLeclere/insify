@@ -42,7 +42,7 @@ async function getTeamAndProject(teamId: number, projectId: number) {
 export default async function BreadcrumbSlot({
   params,
 }: {
-  params: { projectID: string; teamID: string };
+  params: Promise<{ projectID: string; teamID: string }>;
 }) {
   const { projectID, teamID } = await params;
   const result = await getTeamAndProject(Number(teamID), Number(projectID));

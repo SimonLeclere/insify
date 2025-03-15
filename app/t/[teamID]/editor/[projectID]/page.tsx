@@ -1,10 +1,9 @@
-// src/components/SomeComponent.tsx
-"use client";
-import React from "react";
+import { PlateEditor } from '@/components/editor/plate-editor';
 
-export default function SomeComponent() {
+export default function Page() {
   return (
-    <div>
+    <div className="h-screen w-full" data-registry="plate">
+      <PlateEditor />
     </div>
   );
 }

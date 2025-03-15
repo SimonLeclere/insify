@@ -34,6 +34,7 @@ import { Prisma } from "@prisma/client";
 import { deleteProject, restoreProject } from "@/actions/deleteProjectAction";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useMounted } from "@/hooks/use-mounted";
 
 type Project = Prisma.ProjectGetPayload<object>;
@@ -41,6 +42,7 @@ type Project = Prisma.ProjectGetPayload<object>;
 export function NavProjects({ teamId }: { teamId: number }) {
   const { isMobile } = useSidebar();
   const { openModal } = useProjectModal();
+  const { projectID: activeProjectId } = useParams<{ projectID: string }>();
 
   const {
     visibleProjects,
@@ -82,9 +84,8 @@ export function NavProjects({ teamId }: { teamId: number }) {
   }, []);
 
   const handleDelete = async (project: Project) => {
-    
     setConfirmOpen(false);
-    
+
     const promise = new Promise(async (resolve, reject) => {
       const { success, data, error } = await deleteProject(project.id);
       if (success && data) {
@@ -95,28 +96,26 @@ export function NavProjects({ teamId }: { teamId: number }) {
       }
     });
 
-      toast.promise(promise, {
-        loading: "Suppression du projet...",
-        success: () => ({
-          message: "Projet supprimé avec succès !",
-          action: {
-            label: "Annuler",
-            onClick: async () => {
-              const { success, data } = await restoreProject(
-                project.id
-              );
-              if (success && data) {
-                toast.success("Projet restauré !");
-                restoreProjectInNav(data.id);
-              } else {
-                toast.error("Impossible de restaurer le projet.");
-              }
-            },
+    toast.promise(promise, {
+      loading: "Suppression du projet...",
+      success: () => ({
+        message: "Projet supprimé avec succès !",
+        action: {
+          label: "Annuler",
+          onClick: async () => {
+            const { success, data } = await restoreProject(project.id);
+            if (success && data) {
+              toast.success("Projet restauré !");
+              restoreProjectInNav(data.id);
+            } else {
+              toast.error("Impossible de restaurer le projet.");
+            }
           },
-        }),
-        error: "Erreur lors de la suppression du projet",
-      });
-    };
+        },
+      }),
+      error: "Erreur lors de la suppression du projet",
+    });
+  };
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -149,7 +148,13 @@ export function NavProjects({ teamId }: { teamId: number }) {
                   delay: isMounted ? 0 : index * 0.05,
                 }}
               >
-                <SidebarMenuItem>
+                <SidebarMenuItem
+                  className={
+                    item.id.toString() === activeProjectId
+                      ? "bg-sidebar-accent text-sidebar-accent-foreground rounded-md"
+                      : ""
+                  }
+                >
                   <SidebarMenuButton asChild>
                     <Link href={`/t/${teamId}/editor/${item.id}`}>
                       <Icon />
@@ -188,10 +193,24 @@ export function NavProjects({ teamId }: { teamId: number }) {
                             setConfirmOpen(true);
                           }
                         }}
-                        className={`${isShiftPressed ? "text-destructive" : ""} transition-colors`}
+                        className={`${
+                          isShiftPressed ? "text-destructive" : ""
+                        } transition-colors`}
                       >
-                        <Trash2 className={`${isShiftPressed ? "text-destructive" : "text-muted-foreground"} transition-colors`} />
-                        <span className={`${isShiftPressed ? "text-destructive" : ""} transition-colors`}>Delete</span>
+                        <Trash2
+                          className={`${
+                            isShiftPressed
+                              ? "text-destructive"
+                              : "text-muted-foreground"
+                          } transition-colors`}
+                        />
+                        <span
+                          className={`${
+                            isShiftPressed ? "text-destructive" : ""
+                          } transition-colors`}
+                        >
+                          Delete
+                        </span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -269,7 +288,12 @@ export function NavProjects({ teamId }: { teamId: number }) {
             <Button variant="outline" onClick={() => setConfirmOpen(false)}>
               Annuler
             </Button>
-            <Button variant="destructive" onClick={() => selectedProject && handleDelete(selectedProject)}>              Supprimer
+            <Button
+              variant="destructive"
+              onClick={() => selectedProject && handleDelete(selectedProject)}
+            >
+              {" "}
+              Supprimer
             </Button>
           </DialogFooter>
         </DialogContent>

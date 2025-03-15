@@ -14,7 +14,7 @@ import {
 import "@/app/globals.css"
 import { prisma } from "@/lib/prisma"
 
-export default async function RootLayout({ children, breadcrumb, params }: { children: React.ReactNode, breadcrumb: React.ReactNode, params: { teamID: string } }) {
+export default async function RootLayout({ children, breadcrumb, params }: { children: React.ReactNode, breadcrumb: React.ReactNode, params: Promise<{ teamID: string }> }) {
 
   const { teamID } = await params
 
