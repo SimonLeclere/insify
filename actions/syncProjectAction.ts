@@ -48,7 +48,7 @@ export async function updateProject(
         id: projectIdNum,
       },
       data: {
-        nodes: nodes as unknown as Prisma.InputJsonValue[], //
+        nodes: JSON.stringify(nodes)
       },
     });
 

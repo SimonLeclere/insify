@@ -11,7 +11,7 @@ type Project = Prisma.ProjectGetPayload<object>;
 
 export function PlateEditor({ projectId, project }: { projectId: string, project: Project }) {
 
-  const editor = useCreateEditor(project.nodes as unknown as Value);
+  const editor = useCreateEditor(JSON.parse(project.nodes));
   const { syncProject } = useSync();
 
   return (

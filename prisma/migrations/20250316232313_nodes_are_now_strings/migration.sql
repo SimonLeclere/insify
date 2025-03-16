@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Project" ALTER COLUMN "nodes" SET NOT NULL,
+ALTER COLUMN "nodes" SET DEFAULT '[]',
+ALTER COLUMN "nodes" SET DATA TYPE TEXT;

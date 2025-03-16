@@ -67,7 +67,7 @@ export async function createProjectAction(data: CreateProjectFormValues) {
           },
         ],
       },
-    ] as unknown as Prisma.InputJsonValue[];
+    ];
 
     // Création du projet dans la base de données
     const project = await prisma.project.create({
@@ -77,7 +77,7 @@ export async function createProjectAction(data: CreateProjectFormValues) {
         icon: data.icon || "Book",
         team: { connect: { id: teamId } },
         creator: { connect: { id: teamUser.id } },
-        nodes: nodes,
+        nodes: JSON.stringify(nodes),
       },
     });
     return { success: true, data: project, error: null };

@@ -72,8 +72,6 @@ export default async function RootLayout({
     orderBy: { updatedAt: "desc" },
   });
 
-  projects.map(p => p.nodes = p.nodes as Prisma.JsonArray)
-
   return (
     <SidebarProvider>
       <SyncProvider>
