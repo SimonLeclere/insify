@@ -6,6 +6,7 @@ import { Prisma } from "@prisma/client";
 type Project = Prisma.ProjectGetPayload<object>;
 
 type ProjectsContextType = {
+  allUserProjects: Project[];
   visibleProjects: Project[];
   addProject: (newProject: Project) => void;
   removeProject: (projectID: number) => void;
@@ -50,8 +51,10 @@ export const ProjectsProvider = ({ children, initialProjects }: { children: Reac
   const visibleProjects = allProjects.filter(p => !p.deletedAt).slice(0, visibleCount);
   const hasMore = allProjects.filter(p => !p.deletedAt).length > visibleCount;
 
+  const allUserProjects = allProjects.filter(p => !p.deletedAt)
+
   return (
-    <ProjectsContext.Provider value={{ visibleProjects, addProject, removeProject, restoreProject, loadMoreProjects, hasMore }}>
+    <ProjectsContext.Provider value={{ visibleProjects, allUserProjects, addProject, removeProject, restoreProject, loadMoreProjects, hasMore }}>
       {children}
     </ProjectsContext.Provider>
   );

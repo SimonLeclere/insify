@@ -15,6 +15,7 @@ import "@/app/globals.css";
 import { prisma } from "@/lib/prisma";
 import { CommandMenu } from "@/components/commandk";
 import { SyncProvider } from "@/providers/SyncProvider";
+import { TeamsProvider } from "@/providers/TeamsProvider";
 
 export default async function RootLayout({
   children,
@@ -39,19 +40,14 @@ export default async function RootLayout({
     where: { id: session.user.id },
     include: {
       teams: {
-        select: {
-          id: true, // ID de l'équipe
-          name: true, // Nom de l'équipe
-          TeamUser: {
-            select: {
-              userId: true, // Id de l'utilisateur
-              role: true, // Rôle de l'utilisateur dans l'équipe
-            },
-          },
+        include: {
+          TeamUser: true,
         },
       },
     },
   });
+
+  if (!user) return redirect("/auth/login");
 
   if (
     user &&
@@ -78,31 +74,35 @@ export default async function RootLayout({
   return (
     <SidebarProvider>
       <SyncProvider>
-        <ProjectsProvider initialProjects={projects}>
-          <ProjectModalProvider teams={user?.teams} currentTeamID={currentTeamID}>
-            <AppSidebar user={user} currentTeamID={currentTeamID} />
-            <SidebarInset className="flex flex-1 flex-col">
-              
-              {/* Navbar */}
-              <header className="flex h-16 shrink-0 items-center justify-between px-4">
-                <div className="flex items-center gap-2 min-w-0">
-                  <SidebarTrigger className="-ml-1" />
-                  {breadcrumb}
-                </div>
+        <TeamsProvider initialTeams={user.teams} currentTeam={currentTeamID}>
+          <ProjectsProvider initialProjects={projects}>
+            <ProjectModalProvider
+              teams={user?.teams}
+              currentTeamID={currentTeamID}
+            >
+              <AppSidebar user={user} currentTeamID={currentTeamID} />
+              <SidebarInset className="flex flex-1 flex-col">
+                {/* Navbar */}
+                <header className="flex h-16 shrink-0 items-center justify-between px-4">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <SidebarTrigger className="-ml-1" />
+                    {breadcrumb}
+                  </div>
 
-                <div className="flex items-center gap-2">
-                  {syncstatus}
-                  <CommandMenu />
-                </div>
-              </header>
+                  <div className="flex items-center gap-2">
+                    {syncstatus}
+                    <CommandMenu />
+                  </div>
+                </header>
 
-              {/* Contenu dynamique */}
-              <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                {children}
-              </main>
-            </SidebarInset>
-          </ProjectModalProvider>
-        </ProjectsProvider>
+                {/* Contenu dynamique */}
+                <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                  {children}
+                </main>
+              </SidebarInset>
+            </ProjectModalProvider>
+          </ProjectsProvider>
+        </TeamsProvider>
       </SyncProvider>
     </SidebarProvider>
   );

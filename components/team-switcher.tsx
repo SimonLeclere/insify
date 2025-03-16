@@ -19,41 +19,33 @@ import {
 } from "@/components/ui/sidebar"
 import { Prisma } from "@prisma/client"
 import { useRouter } from "next/navigation"
+import { useTeams } from "@/providers/TeamsProvider"
 
-type UserTeams = Prisma.UserGetPayload<{
+type TeamWithTeamUsers = Prisma.TeamGetPayload<{
   include: {
-    teams: {
-      select: {
-        id: true;
-        name: true;
-        TeamUser: {
-          select: {
-            userId: true;
-            role: true;
-          };
-        };
-      };
-    };
+    TeamUser: true;
   };
-}>['teams'];
+}>
 
 type TeamSwitcherProps = {
-  teams: UserTeams | undefined;
-  currentTeamID: number;
-  onChange?: (team: UserTeams[number]) => void;
+  onChange?: (team: TeamWithTeamUsers) => void;
 };
 
-export function TeamSwitcher({ teams, currentTeamID, onChange }: TeamSwitcherProps) {
+export function TeamSwitcher({ onChange }: TeamSwitcherProps) {
 
   const { isMobile } = useSidebar()
+  const { teams, currentTeamID, setCurrentTeamID } = useTeams()
   const router = useRouter();
   
   const [activeTeam, setActiveTeam] = React.useState(teams && (teams.find(x => x.id === currentTeamID) || teams[0]))
 
-  const changeTeam = (team: UserTeams[number]) => {
+  const changeTeam = (team: TeamWithTeamUsers) => {
     setActiveTeam(team)
     if (onChange) onChange(team)
-    else router.push(`/t/${team.id}`);
+    else {
+      setCurrentTeamID(team.id)
+      router.push(`/t/${team.id}`);
+    }
   };
 
   if (!teams || !activeTeam) {

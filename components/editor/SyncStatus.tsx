@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { RefreshCcw, Check, Clock, TriangleAlert } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSync } from "@/providers/SyncProvider";
@@ -11,9 +11,14 @@ export function SyncStatus() {
   const [isHovered, setIsHovered] = useState(false);
   const [flashGreen, setFlashGreen] = useState(false);
   const [textWidth, setTextWidth] = useState(0);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
     if (syncState === "synced") {
+      if (!hasMounted.current) {
+        hasMounted.current = true;
+        return;
+      }
       setFlashGreen(true);
       const timeout = setTimeout(() => {
         setFlashGreen(false);
@@ -68,18 +73,17 @@ export function SyncStatus() {
     Icon = TriangleAlert
   }
   
-  const bgColor = syncState === "error" 
-  ? "#fecaca" // Rouge clair pour l'erreur
+  const colors = syncState === "error" 
+  ? "bg-destructive text-destructive-foreground" // Rouge clair pour l'erreur
   : syncState === "synced" && flashGreen 
-    ? "#d1fae5" // Vert clair si synchronisé et flashGreen est actif
-    : "#e5e7eb"; // Gris par défaut
+    ? "bg-success text-success-foreground" // Vert clair si synchronisé et flashGreen est actif
+    : "bg-muted text-muted-foreground"; // Gris par défaut
 
   const displayText = getDisplayText();
 
   return (
     <motion.div
-      className="rounded-lg px-2 py-1 text-sm text-muted-foreground flex items-center overflow-hidden h-6 justify-start"
-      style={{ backgroundColor: bgColor }}
+      className={`rounded-lg px-2 py-1 text-sm text-muted-foreground flex items-center overflow-hidden h-6 justify-start transition-colors ${colors}`}
       animate={{
         width: displayText ? textWidth + 32 : 32,  // 32 = largeur de l'icône
       }}

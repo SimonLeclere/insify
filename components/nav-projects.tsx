@@ -163,7 +163,7 @@ export function NavProjects({ teamId }: { teamId: number }) {
                   }
                 >
                   <SidebarMenuButton asChild>
-                    <Link href={`/t/${teamId}/editor/${item.id}`}>
+                    <Link href={`/t/${item.teamId}/editor/${item.id}`}>
                       <Icon />
                       <span>{item.name}</span>
                     </Link>

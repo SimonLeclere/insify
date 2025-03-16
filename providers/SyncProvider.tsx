@@ -19,7 +19,7 @@ const SyncContext = createContext<SyncContextProps>({
 });
 
 export const SyncProvider = ({ children }: { children: React.ReactNode }) => {
-  const [status, setStatus] = useState<SyncStatusType>('waiting');
+  const [status, setStatus] = useState<SyncStatusType>('synced');
   const lastDataSyncedRef = useRef<JsonValue[] | undefined>(undefined);
 
   // Créez la fonction debounce pour la synchronisation
@@ -44,7 +44,14 @@ export const SyncProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Fonction qui est appelée depuis n'importe quel composant pour synchroniser
   const syncProject = (projectId: string, value: Value) => {
+    
+    if(!lastDataSyncedRef.current) {
+      lastDataSyncedRef.current = JSON.parse(JSON.stringify(value)); // TODO: trouver mieux
+      return;
+    }
+
     if(JSON.stringify(value) === JSON.stringify(lastDataSyncedRef.current)) return;
+    
     setStatus('waiting');  // Mettre l'état à "waiting" dès que l'utilisateur commence à modifier
     debouncedSyncRef.current(projectId, value);  // Appeler la fonction debounced
   };
