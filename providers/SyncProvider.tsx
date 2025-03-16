@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useRef, useEffect } from 'r
 import debounce from 'lodash.debounce';
 import { Value } from '@udecode/plate';
 import { updateProject } from '@/actions/syncProjectAction';
+import { JsonValue } from '@prisma/client/runtime/library';
 
 export type SyncStatusType = 'waiting' | 'syncing' | 'synced' | 'error';
 
@@ -19,6 +20,7 @@ const SyncContext = createContext<SyncContextProps>({
 
 export const SyncProvider = ({ children }: { children: React.ReactNode }) => {
   const [status, setStatus] = useState<SyncStatusType>('waiting');
+  const lastDataSyncedRef = useRef<JsonValue[] | undefined>(undefined);
 
   // Créez la fonction debounce pour la synchronisation
   const debouncedSyncRef = useRef(
@@ -28,7 +30,10 @@ export const SyncProvider = ({ children }: { children: React.ReactNode }) => {
         
         const result = await updateProject(projectId, value)
 
-        if (result.success) setStatus('synced');
+        if (result.success && result.data) {
+          setStatus('synced');
+          lastDataSyncedRef.current = result.data.nodes;
+        }
         else setStatus('error');
       } catch (error) {
         console.error('Erreur lors de la synchronisation', error);
@@ -39,6 +44,7 @@ export const SyncProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Fonction qui est appelée depuis n'importe quel composant pour synchroniser
   const syncProject = (projectId: string, value: Value) => {
+    if(JSON.stringify(value) === JSON.stringify(lastDataSyncedRef.current)) return;
     setStatus('waiting');  // Mettre l'état à "waiting" dès que l'utilisateur commence à modifier
     debouncedSyncRef.current(projectId, value);  // Appeler la fonction debounced
   };

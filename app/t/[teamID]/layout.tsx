@@ -14,15 +14,16 @@ import {
 import "@/app/globals.css";
 import { prisma } from "@/lib/prisma";
 import { CommandMenu } from "@/components/commandk";
-import { SyncStatus } from "@/components/editor/SyncStatus";
 import { SyncProvider } from "@/providers/SyncProvider";
 
 export default async function RootLayout({
   children,
   breadcrumb,
+  syncstatus,
   params,
 }: {
   children: React.ReactNode;
+  syncstatus: React.ReactNode;
   breadcrumb: React.ReactNode;
   params: Promise<{ teamID: string }>;
 }) {
@@ -90,7 +91,7 @@ export default async function RootLayout({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <SyncStatus />
+                  {syncstatus}
                   <CommandMenu />
                 </div>
               </header>
