@@ -1,8 +1,9 @@
 "use server";
 
-import { CreateProjectFormValues } from "@/components/CreateProjectForm/types";
+import { CreateProjectFormValues } from "@/components/CreateProjectModal/CreateProjectForm/types";
 import { getServerAuth } from "@/hooks/serverAuth";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 export async function createProjectAction(data: CreateProjectFormValues) {
   try {
@@ -57,7 +58,16 @@ export async function createProjectAction(data: CreateProjectFormValues) {
     }
 
     // Définir la valeur de "nodes" en fonction du template
-    const nodes = {};
+    const nodes = [
+      {
+        type: "h1",
+        children: [
+          {
+            text: "",
+          },
+        ],
+      },
+    ] as unknown as Prisma.InputJsonValue[];
 
     // Création du projet dans la base de données
     const project = await prisma.project.create({
