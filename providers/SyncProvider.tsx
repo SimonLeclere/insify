@@ -83,7 +83,7 @@ export const SyncProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (result.success && result.data) {
           setStatus("synced");
-          lastDataSyncedRef.current = result.data.nodes;
+          if (result.data.nodes) lastDataSyncedRef.current = result.data.nodes;
         } else {
           setStatus("error");
         }
