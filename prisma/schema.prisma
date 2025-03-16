@@ -132,7 +132,7 @@ model Project {
   creatorId Int
   creator   TeamUser @relation(fields: [creatorId], references: [id])
 
-  nodes Json @default("[]") @db.JsonB
+  nodes Json @default("[]") @db.Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
