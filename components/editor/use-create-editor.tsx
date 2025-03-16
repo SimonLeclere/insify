@@ -8,8 +8,9 @@ import { ListPlugin } from '@udecode/plate-list/react';
 import { autoformatPlugin } from "@/components/editor/plugins/autoformatPlugin";
 import { resetBlockTypePlugin } from "@/components/editor/plugins/resetNodePlugin";
 import { exitBreakPlugin } from "@/components/editor/plugins/exitBreakPlugin";
+import { Value } from "@udecode/plate";
 
-export const useCreateEditor = () => {
+export const useCreateEditor = (initialNodes: Value) => {
   return usePlateEditor({
     override: {
       components: {
@@ -48,7 +49,7 @@ export const useCreateEditor = () => {
       exitBreakPlugin,
       ListPlugin,
     ],
-    value: [
+    value: initialNodes || [
       {
         type: 'h1',
         children: [{ text: '' }],

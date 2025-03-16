@@ -14,6 +14,8 @@ import {
 import "@/app/globals.css";
 import { prisma } from "@/lib/prisma";
 import { CommandMenu } from "@/components/commandk";
+import { SyncStatus } from "@/components/editor/SyncStatus";
+import { SyncProvider } from "@/providers/SyncProvider";
 
 export default async function RootLayout({
   children,
@@ -74,27 +76,33 @@ export default async function RootLayout({
 
   return (
     <SidebarProvider>
-      <ProjectsProvider initialProjects={projects}>
-        <ProjectModalProvider teams={user?.teams} currentTeamID={currentTeamID}>
-          <AppSidebar user={user} currentTeamID={currentTeamID} />
-          <SidebarInset className="flex flex-1 flex-col">
-            
-            {/* Navbar */}
-            <header className="flex h-16 shrink-0 items-center justify-between px-4">
-              <div className="flex items-center gap-2">
-                <SidebarTrigger className="-ml-1" />
-                {breadcrumb}
-              </div>
-              <CommandMenu />
-            </header>
+      <SyncProvider>
+        <ProjectsProvider initialProjects={projects}>
+          <ProjectModalProvider teams={user?.teams} currentTeamID={currentTeamID}>
+            <AppSidebar user={user} currentTeamID={currentTeamID} />
+            <SidebarInset className="flex flex-1 flex-col">
+              
+              {/* Navbar */}
+              <header className="flex h-16 shrink-0 items-center justify-between px-4">
+                <div className="flex items-center gap-2 min-w-0">
+                  <SidebarTrigger className="-ml-1" />
+                  {breadcrumb}
+                </div>
 
-            {/* Contenu dynamique */}
-            <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
-              {children}
-            </main>
-          </SidebarInset>
-        </ProjectModalProvider>
-      </ProjectsProvider>
+                <div className="flex items-center gap-2">
+                  <SyncStatus />
+                  <CommandMenu />
+                </div>
+              </header>
+
+              {/* Contenu dynamique */}
+              <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                {children}
+              </main>
+            </SidebarInset>
+          </ProjectModalProvider>
+        </ProjectsProvider>
+      </SyncProvider>
     </SidebarProvider>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { Forward, Info, MoreHorizontal, PlusIcon, Trash2 } from "lucide-react";
+import { Download, Forward, Info, MoreHorizontal, PlusIcon, Trash2 } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 import * as Icons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -187,6 +187,10 @@ export function NavProjects({ teamId }: { teamId: number }) {
                       <DropdownMenuItem>
                         <Forward className="text-muted-foreground" />
                         <span>Share</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Download className="text-muted-foreground" />
+                        <span>Export</span>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem

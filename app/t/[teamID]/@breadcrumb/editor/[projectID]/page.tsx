@@ -51,16 +51,16 @@ export default async function BreadcrumbSlot({
   const result = await getTeamAndProject(Number(teamID), Number(projectID));
 
   return (
-    <BreadcrumbList>
-      <BreadcrumbItem>
-        <BreadcrumbLink href={`/t/${teamID}`} className="hidden lg:inline-flex">
+    <BreadcrumbList className="flex flex-nowrap items-center min-w-0 overflow-hidden whitespace-nowrap">
+      <BreadcrumbItem className="min-w-0">
+        <BreadcrumbLink href={`/t/${teamID}`} className="hidden lg:inline-flex min-w-0">
           Accueil
         </BreadcrumbLink>
-        <BreadcrumbLink href={`/t/${teamID}`} className="lg:hidden inline-flex">
+        <BreadcrumbLink href={`/t/${teamID}`} className="lg:hidden inline-flex min-w-0">
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7"
+            className="h-7 w-7 min-w-0"
           >
             <Home />
             <span className="sr-only">Accueil</span>
@@ -70,9 +70,9 @@ export default async function BreadcrumbSlot({
 
       {result?.teamName && (
         <>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href={`/${teamID}/projects`}>
+          <BreadcrumbSeparator className="hidden lg:inline-flex min-w-0"/>
+          <BreadcrumbItem className="hidden lg:inline-flex min-w-0">
+            <BreadcrumbLink href={`/t/${teamID}/projects`}>
               {result.teamName}
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -81,9 +81,9 @@ export default async function BreadcrumbSlot({
 
       {result?.projectName && (
         <>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage className="capitalize">
+          <BreadcrumbSeparator className="min-w-0" />
+          <BreadcrumbItem className="shrink min-w-0 overflow-hidden text-ellipsis">
+            <BreadcrumbPage className="capitalize min-w-0 shrink overflow-hidden text-ellipsis">
               {result.projectName}
             </BreadcrumbPage>
           </BreadcrumbItem>
