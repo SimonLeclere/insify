@@ -19,32 +19,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import useProjectMultiStepForm from "./useProjectMultiStepForm";
 import { Button } from "@/components/ui/button";
 import { TeamSwitcher } from "@/components/team-switcher";
-import { Prisma } from "@prisma/client";
 import { IconPicker } from "@/components/ui/icon-picker";
 
-type UserTeams = Prisma.UserGetPayload<{
-  include: {
-    teams: {
-      select: {
-        id: true;
-        name: true;
-        TeamUser: {
-          select: {
-            userId: true;
-            role: true;
-          };
-        };
-      };
-    };
-  };
-}>["teams"];
 
 type MultiStepViewerProps = {
   form: UseFormReturn<CreateProjectFormValues>;
-  teams: UserTeams | undefined;
 };
 
-export default function MultiStepViewer({ form, teams }: MultiStepViewerProps) {
+export default function MultiStepViewer({ form }: MultiStepViewerProps) {
   // Définir les contenus pour les différentes étapes.
   const stepFormElements: { [key: number]: React.JSX.Element } = {
     1: (
@@ -116,8 +98,6 @@ export default function MultiStepViewer({ form, teams }: MultiStepViewerProps) {
               <FormItem>
                 <FormLabel>Équipe</FormLabel>
                 <TeamSwitcher
-                  currentTeamID={Number(field.value)}
-                  teams={teams}
                   onChange={(t) => field.onChange(t.id)}
                 />
                 <FormMessage />

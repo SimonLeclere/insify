@@ -7,35 +7,16 @@ import { createProjectAction } from "@/actions/createProjectAction";
 import { Form } from "@/components/ui/form";
 import MultiStepViewer from "./MultiStepViewer";
 import { toast } from "sonner";
-import { Prisma } from "@prisma/client";
 import { useProjects } from "@/providers/ProjectsContext";
 import { useRouter } from "next/navigation";
 
-type UserTeams = Prisma.UserGetPayload<{
-  include: {
-    teams: {
-      select: {
-        id: true;
-        name: true;
-        TeamUser: {
-          select: {
-            userId: true;
-            role: true;
-          };
-        };
-      };
-    };
-  };
-}>["teams"];
 
 type CreateProjectFormProps = {
-  teams: UserTeams | undefined;
   currentTeamID: number;
   onClose: () => void;
 };
 
 export default function CreateProjectForm({
-  teams,
   currentTeamID,
   onClose,
 }: CreateProjectFormProps) {
@@ -100,7 +81,7 @@ export default function CreateProjectForm({
         onSubmit={handleSubmit(onSubmit)}
         className="rounded-md max-w-3xl transition-transform"
       >
-        <MultiStepViewer form={projectForm} teams={teams} />
+        <MultiStepViewer form={projectForm} />
       </form>
     </Form>
   );

@@ -76,10 +76,7 @@ export default async function RootLayout({
       <SyncProvider>
         <TeamsProvider initialTeams={user.teams} currentTeam={currentTeamID}>
           <ProjectsProvider initialProjects={projects}>
-            <ProjectModalProvider
-              teams={user?.teams}
-              currentTeamID={currentTeamID}
-            >
+            <ProjectModalProvider currentTeamID={currentTeamID}>
               <AppSidebar user={user} currentTeamID={currentTeamID} />
               <SidebarInset className="flex flex-1 flex-col">
                 {/* Navbar */}
