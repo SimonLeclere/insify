@@ -52,15 +52,15 @@ export default async function BreadcrumbSlot({
 
   return (
     <BreadcrumbList className="flex flex-nowrap items-center min-w-0 overflow-hidden whitespace-nowrap">
-      <BreadcrumbItem className="min-w-0">
-        <BreadcrumbLink href={`/t/${teamID}`} className="hidden lg:inline-flex min-w-0">
+      <BreadcrumbItem>
+        <BreadcrumbLink href={`/t/${teamID}`} className="hidden lg:inline-flex">
           Accueil
         </BreadcrumbLink>
-        <BreadcrumbLink href={`/t/${teamID}`} className="lg:hidden inline-flex min-w-0">
+        <BreadcrumbLink href={`/t/${teamID}`} className="lg:hidden inline-flex">
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 min-w-0"
+            className="h-7 w-7"
           >
             <Home />
             <span className="sr-only">Accueil</span>
@@ -70,8 +70,8 @@ export default async function BreadcrumbSlot({
 
       {result?.teamName && (
         <>
-          <BreadcrumbSeparator className="hidden lg:inline-flex min-w-0"/>
-          <BreadcrumbItem className="hidden lg:inline-flex min-w-0">
+          <BreadcrumbSeparator className="hidden lg:inline-flex"/>
+          <BreadcrumbItem className="hidden lg:inline-flex">
             <BreadcrumbLink href={`/t/${teamID}/projects`}>
               {result.teamName}
             </BreadcrumbLink>
@@ -81,7 +81,7 @@ export default async function BreadcrumbSlot({
 
       {result?.projectName && (
         <>
-          <BreadcrumbSeparator className="min-w-0" />
+          <BreadcrumbSeparator />
           <BreadcrumbItem className="shrink min-w-0 overflow-hidden text-ellipsis">
             <BreadcrumbPage className="capitalize min-w-0 shrink overflow-hidden text-ellipsis">
               {result.projectName}
