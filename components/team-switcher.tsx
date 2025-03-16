@@ -97,7 +97,7 @@ export function TeamSwitcher({ onChange }: TeamSwitcherProps) {
               <div className="bg-background flex size-6 items-center justify-center rounded-md border">
                 <Plus className="size-4" />
               </div>
-              <div className="text-muted-foreground font-medium">Add team</div>
+              <div className="text-muted-foreground font-medium">Ajouter une équipe</div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
