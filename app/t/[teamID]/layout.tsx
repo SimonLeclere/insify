@@ -16,7 +16,6 @@ import { prisma } from "@/lib/prisma";
 import { CommandMenu } from "@/components/commandk";
 import { SyncProvider } from "@/providers/SyncProvider";
 import { TeamsProvider } from "@/providers/TeamsProvider";
-import { Prisma } from "@prisma/client";
 
 export default async function RootLayout({
   children,

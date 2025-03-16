@@ -3,7 +3,6 @@
 import { CreateProjectFormValues } from "@/components/CreateProjectModal/CreateProjectForm/types";
 import { getServerAuth } from "@/hooks/serverAuth";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 
 export async function createProjectAction(data: CreateProjectFormValues) {
   try {
