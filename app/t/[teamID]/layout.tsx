@@ -16,6 +16,7 @@ import { prisma } from "@/lib/prisma";
 import { CommandMenu } from "@/components/commandk";
 import { SyncProvider } from "@/providers/SyncProvider";
 import { TeamsProvider } from "@/providers/TeamsProvider";
+import { Prisma } from "@prisma/client";
 
 export default async function RootLayout({
   children,
@@ -70,6 +71,8 @@ export default async function RootLayout({
     where: { teamId: { in: user?.teams.map((t) => t.id) || [] } },
     orderBy: { updatedAt: "desc" },
   });
+
+  projects.map(p => p.nodes = p.nodes as Prisma.JsonArray)
 
   return (
     <SidebarProvider>
