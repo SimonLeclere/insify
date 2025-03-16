@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import CreateProjectForm from "@/components/CreateProjectForm/CreateProjectForm";
+import CreateProjectForm from "@/components/CreateProjectModal/CreateProjectForm/CreateProjectForm";
 import { Prisma } from "@prisma/client";
 
 
