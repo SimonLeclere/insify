@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
- 
+
+// Used to make the app installable as a PWA
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'INSify',
@@ -7,19 +9,15 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'A notion-like editor made for fun',
     start_url: '/t/1',
     display: 'standalone',
+    lang: "fr",
     background_color: '#ffffff',
-    theme_color: '#000000',
-    // icons: [
-    //   {
-    //     src: '/favicon.icon',
-    //     sizes: '192x192',
-    //     type: 'image/png',
-    //   },
-    //   {
-    //     src: '/icon-512x512.png',
-    //     sizes: '512x512',
-    //     type: 'image/png',
-    //   },
-    // ],
+    theme_color: 'light',
+    icons: [
+      {
+        src: '/favicon.png',
+        sizes: '192x192',
+        type: 'image/png',
+      }
+    ],
   }
 }
