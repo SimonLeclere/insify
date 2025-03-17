@@ -15,8 +15,7 @@ export default async function Page({ params }: {
   if (!project) return notFound()
 
   return (
-    <div className="h-screen w-full" data-registry="plate">
-      {/* TODO: fix hydratation error when on mobile sized screen */}
+    <div className="w-full" data-registry="plate">
       <PlateEditor projectId={projectID} project={project} />
     </div>
   );

@@ -22,7 +22,7 @@ export function PlateEditor({ projectId, project }: { projectId: string, project
       }}
     >
       <EditorContainer>
-        <Editor variant="default" placeholder="Nouveau projet" />
+        <Editor variant="default" placeholder="Nouveau projet" className="px-4 lg:px-0" />
       </EditorContainer>
     </Plate>
   );

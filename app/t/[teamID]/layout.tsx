@@ -93,7 +93,7 @@ export default async function RootLayout({
                 </header>
 
                 {/* Contenu dynamique */}
-                <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                <main className="flex flex-1 flex-col gap-4 p-4 pt-0 overflow-auto">
                   {children}
                 </main>
               </SidebarInset>

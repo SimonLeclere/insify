@@ -12,6 +12,7 @@ export function SyncStatus() {
   const [flashGreen, setFlashGreen] = useState(false);
   const [textWidth, setTextWidth] = useState(0);
   const hasMounted = useRef(false);
+  const clickTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (syncState === "synced") {
@@ -91,6 +92,15 @@ export function SyncStatus() {
 
   const displayText = getDisplayText();
 
+  const handleClick = () => {
+    setIsHovered(true);
+    // On nettoie un éventuel timeout précédent
+    if (clickTimeout.current) clearTimeout(clickTimeout.current);
+    clickTimeout.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 2000);
+  };
+
   return (
     <motion.div
       className={`rounded-lg px-2 py-1 text-sm text-muted-foreground flex items-center overflow-hidden h-6 justify-start transition-colors ${colors}`}
@@ -100,6 +110,7 @@ export function SyncStatus() {
       transition={{ duration: 0.5 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
+      onClick={handleClick}
     >
       <Icon size={16} className="flex-shrink-0" />
       <AnimatePresence>
