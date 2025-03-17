@@ -67,7 +67,7 @@ export default async function RootLayout({
   const currentTeamID = Number(teamID);
 
   const projects = await prisma.project.findMany({
-    where: { teamId: { in: user?.teams.map((t) => t.id) || [] } },
+    where: { teamId: Number(teamID) },
     orderBy: { updatedAt: "desc" },
   });
 

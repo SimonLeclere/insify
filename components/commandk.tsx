@@ -29,15 +29,17 @@ const IconsMap = Icons as unknown as Record<string, Icons.LucideIcon>;
 import { useProjectModal } from "@/components/CreateProjectModal/ProjectModalProvider";
 import { useProjects } from "@/providers/ProjectsContext";
 import { useRouter } from "next/navigation";
+import { useTeams } from "@/providers/TeamsProvider";
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   const { openModal: openCreateProjectModal } = useProjectModal();
   const { theme, setTheme } = useTheme();
   const { allUserProjects } = useProjects();
+  const { teams, currentTeamID } = useTeams();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -54,7 +56,7 @@ export function CommandMenu() {
   const runCommand = useCallback((command: () => unknown) => {
     setOpen(false);
     command();
-    setSearch("")
+    setSearch("");
   }, []);
 
   return (
@@ -98,9 +100,13 @@ export function CommandMenu() {
 
                 return (
                   <CommandItem
-                    key={p.id}
+                    key={`projet-${p.id}`}
                     keywords={["%"]}
-                    onSelect={() => runCommand(() => router.push(`/t/${p.teamId}/editor/${p.id}`))}
+                    onSelect={() =>
+                      runCommand(() =>
+                        router.push(`/t/${p.teamId}/editor/${p.id}`)
+                      )
+                    }
                   >
                     <Icon />
                     <span>{p.name}</span>
@@ -109,14 +115,13 @@ export function CommandMenu() {
                 );
               })}
 
-            {
-              !search?.startsWith("%") &&
+            {!search?.startsWith("%") && (
               <CommandItem onSelect={() => setSearch("%")}>
                 <LayoutGrid />
                 <span>Projets</span>
                 <CommandShortcut>%</CommandShortcut>
               </CommandItem>
-            }
+            )}
             <CommandItem onSelect={() => runCommand(openCreateProjectModal)}>
               <Plus />
               <span>Créer un nouveau projet</span>
@@ -124,35 +129,88 @@ export function CommandMenu() {
           </CommandGroup>
 
           <CommandGroup heading="Équipes">
-            {/* {search?.trim().startsWith("$") &&
-              allUserProjects?.map((p) => {
-                const Icon = (p.icon && IconsMap[p.icon]) || IconsMap["Book"];
-
+            {search?.trim().startsWith("$") &&
+              teams?.map((t) => {
                 return (
                   <CommandItem
-                    key={p.id}
+                    key={`team-${t.id}`}
                     keywords={["%"]}
-                    onSelect={() => runCommand(() => router.push(`/t/${p.teamId}/editor/${p.id}`))}
+                    onSelect={() => runCommand(() => router.push(`/t/${t.id}`))}
                   >
-                    <Icon />
-                    <span>{p.name}</span>
-                    <span className="sr-only">%{p.name}</span>
+                    <Icons.UsersRound />
+                    <span>{t.name}</span>
+                    <span className="sr-only">$ {t.name}</span>
                   </CommandItem>
                 );
-              })} */}
+              })}
 
-            {
-              !search?.startsWith("$") &&
+            {!search?.startsWith("$") && (
               <CommandItem onSelect={() => setSearch("$")}>
-                <LayoutGrid />
+                <Icons.UsersRound />
                 <span>Équipes</span>
                 <CommandShortcut>$</CommandShortcut>
               </CommandItem>
-            }
+            )}
             <CommandItem>
               <Plus />
               <span>Créer une nouvelle équipe</span>
             </CommandItem>
+          </CommandGroup>
+
+          <CommandGroup heading="Documentation">
+
+            {!search?.startsWith("?") && (
+              <CommandItem onSelect={() => setSearch("?")}>
+                <Icons.BookOpen />
+                <span>Documentation</span>
+                <CommandShortcut>{"?"}</CommandShortcut>
+              </CommandItem>
+            )}
+          </CommandGroup>
+
+          <CommandGroup heading="Navigation">
+            {search?.trim().startsWith(">") && (
+              <>
+                <CommandItem
+                  keywords={[">"]}
+                  onSelect={() =>
+                    runCommand(() => router.push(`/t/${currentTeamID}`))
+                  }
+                >
+                  <Icons.Home />
+                  <span>Accueil</span>
+                  <span className="sr-only">{"> accueil"}</span>
+                </CommandItem>
+                <CommandItem
+                  keywords={[">"]}
+                  onSelect={() =>
+                    runCommand(() => router.push(`/t/${currentTeamID}/projects`))
+                  }
+                >
+                  <LayoutGrid />
+                  <span>Projets</span>
+                  <span className="sr-only">{"> Projets"}</span>
+                </CommandItem>
+                <CommandItem
+                  keywords={[">"]}
+                  onSelect={() =>
+                    runCommand(() => router.push(`/t/${currentTeamID}/doc`))
+                  }
+                >
+                  <Icons.BookOpen />
+                  <span>Documentation</span>
+                  <span className="sr-only">{"> Documentation"}</span>
+                </CommandItem>
+              </>
+            )}
+
+            {!search?.startsWith(">") && (
+              <CommandItem onSelect={() => setSearch(">")}>
+                <LayoutGrid />
+                <span>Navigation</span>
+                <CommandShortcut>{">"}</CommandShortcut>
+              </CommandItem>
+            )}
           </CommandGroup>
 
           <CommandGroup heading="Theme">
