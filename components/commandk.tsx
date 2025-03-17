@@ -84,7 +84,12 @@ export function CommandMenu() {
         </kbd>
       </Button>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog open={open} onOpenChange={(open: boolean) => {
+        setOpen(open)
+        if (!open) {
+            setTimeout(() => setSearch(""), 200);
+        }
+      }}>
         <CommandInput
           placeholder="Tapez une commande ou recherchez..."
           value={search}
