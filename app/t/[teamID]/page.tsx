@@ -4,6 +4,7 @@ import { CreateProjectButton } from "@/components/createProjectButton";
 import { Separator } from "@/components/ui/separator";
 import { useProjects } from "@/providers/ProjectsContext";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 function formatRelativeDate(date: Date): string {
   const now = new Date();
@@ -31,8 +32,9 @@ function formatRelativeDate(date: Date): string {
 
 export default function Page() {
   const { visibleProjects } = useProjects();
+  const router = useRouter();
 
-  const projectsToShow = visibleProjects.slice(0, 3)
+  const projectsToShow = visibleProjects.slice(0, 3);
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
@@ -56,24 +58,27 @@ export default function Page() {
             <AnimatePresence>
               {projectsToShow.map((project) => (
                 <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{
-                  duration: 0.3,
-                  ease: "easeOut",
-                }}
-              >
-                <li
-                  className="flex items-center justify-between rounded-lg border p-3 transition hover:bg-muted/50"
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeOut",
+                  }}
                 >
-                  <span>{project.name}</span>
-                  <span className="text-sm text-muted-foreground">
-                    {formatRelativeDate(project.updatedAt)}
-                  </span>
-                </li>
+                  <li
+                    className="flex items-center justify-between rounded-lg border p-3 transition hover:bg-muted/50 cursor-pointer"
+                    onClick={() =>
+                      router.push(`/t/${project.teamId}/editor/${project.id}`)
+                    }
+                  >
+                    <span>{project.name}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {formatRelativeDate(project.updatedAt)}
+                    </span>
+                  </li>
                 </motion.div>
               ))}
             </AnimatePresence>
