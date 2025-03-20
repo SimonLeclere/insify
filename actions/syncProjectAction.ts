@@ -1,11 +1,10 @@
 'use server'
 
 import { prisma } from "@/lib/prisma";
-import { Value } from "@udecode/plate";
 
 export async function updateProject(
   projectId: string,
-  nodes: Value
+  nodes: object
 ) {
 
   const projectIdNum = Number(projectId);

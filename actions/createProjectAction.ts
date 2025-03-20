@@ -56,18 +56,6 @@ export async function createProjectAction(data: CreateProjectFormValues) {
       };
     }
 
-    // Définir la valeur de "nodes" en fonction du template
-    const nodes = [
-      {
-        type: "h1",
-        children: [
-          {
-            text: "",
-          },
-        ],
-      },
-    ];
-
     // Création du projet dans la base de données
     const project = await prisma.project.create({
       data: {
@@ -76,7 +64,6 @@ export async function createProjectAction(data: CreateProjectFormValues) {
         icon: data.icon || "Book",
         team: { connect: { id: teamId } },
         creator: { connect: { id: teamUser.id } },
-        nodes: JSON.stringify(nodes),
       },
     });
     return { success: true, data: project, error: null };

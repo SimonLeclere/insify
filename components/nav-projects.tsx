@@ -37,6 +37,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useMounted } from "@/hooks/use-mounted";
+import useExportPDF from "@/hooks/useExportPDF";
 
 type Project = Prisma.ProjectGetPayload<object>;
 
@@ -57,6 +58,8 @@ export function NavProjects({ teamId }: { teamId: number }) {
 
   const isMounted = useMounted();
   const router = useRouter();
+  const exportPDF = useExportPDF();
+
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
@@ -188,7 +191,7 @@ export function NavProjects({ teamId }: { teamId: number }) {
                         <Forward className="text-muted-foreground" />
                         <span>Share</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => exportPDF(item)}>
                         <Download className="text-muted-foreground" />
                         <span>Export</span>
                       </DropdownMenuItem>

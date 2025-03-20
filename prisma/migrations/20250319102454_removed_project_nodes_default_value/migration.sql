@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Project" ALTER COLUMN "nodes" DROP NOT NULL,
+ALTER COLUMN "nodes" DROP DEFAULT;

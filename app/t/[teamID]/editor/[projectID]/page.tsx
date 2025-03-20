@@ -1,6 +1,6 @@
-import { PlateEditor } from '@/components/editor/plate-editor';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
+import { Editor } from "@/components/editor/DynamicEditor";
 
 export default async function Page({ params }: {
   params: Promise<{ teamID: string, projectID: string }>;
@@ -15,8 +15,8 @@ export default async function Page({ params }: {
   if (!project) return notFound()
 
   return (
-    <div className="w-full" data-registry="plate">
-      <PlateEditor projectId={projectID} project={project} />
+    <div className="xl:px-40">
+      <Editor project={project} projectId={projectID} />
     </div>
-  );
+  )
 }
