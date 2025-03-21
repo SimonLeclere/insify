@@ -47,9 +47,9 @@ const getNavItems = (teamID: number | null, pathname: string | null) => [
     icon: BookOpen,
     isActive: pathname?.startsWith(`${baseURL}/${teamID}/doc`),
     items: [
-      { title: "Introduction", url: `${baseURL}/${teamID}/doc/intro` },
-      { title: "Tutoriels", url: `${baseURL}/${teamID}/doc/tutorials` },
-      { title: "Nouveautés", url: `${baseURL}/${teamID}/doc/changelog` },
+      { title: "Introduction", url: `${baseURL}/${teamID}/docs/introduction` },
+      { title: "Tutoriels", url: `${baseURL}/${teamID}/docs/tutorials` },
+      { title: "Nouveautés", url: `${baseURL}/${teamID}/docs/changelog` },
     ],
   },
   {

@@ -199,7 +199,7 @@ export function CommandMenu() {
                 <CommandItem
                   keywords={[">"]}
                   onSelect={() =>
-                    runCommand(() => router.push(`/t/${currentTeamID}/doc`))
+                    runCommand(() => router.push(`/t/${currentTeamID}/docs/introduction`))
                   }
                 >
                   <Icons.BookOpen />

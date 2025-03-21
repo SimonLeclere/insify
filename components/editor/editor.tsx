@@ -5,30 +5,40 @@ import { BlockNoteView } from "@blocknote/shadcn";
 
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/shadcn/style.css";
+
 import { fr } from "./fr";
+import { extensions } from "./extensions"
 
 import { useSync } from "@/providers/SyncProvider";
-import { Prisma } from "@prisma/client";
 
-type Project = Prisma.ProjectGetPayload<object>;
-
-export default function Editor({ project, projectId }: { project: Project, projectId: string }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function Editor({ content, projectId, readOnly=false }: { content: any, projectId?: string, readOnly?: boolean }) {
   const { syncProject } = useSync();
 
-  const initialContent = project.nodes && JSON.parse(project.nodes)
-
   const editor = useCreateBlockNote({
-    initialContent: initialContent || undefined,
+    initialContent: content || undefined,
     dictionary: fr,
     trailingBlock: false,
+    tables: {
+      splitCells: true,
+      cellBackgroundColor: true,
+      cellTextColor: true,
+      headers: true,
+    },
+    _tiptapOptions: {
+      extensions: extensions,
+    },
   });
 
   return (
     <BlockNoteView
       editor={editor}
+      editable={!readOnly}
       onChange={() => {
-        syncProject(projectId, editor.document);
+        console.log(JSON.stringify(editor.document, null, 2))
+        return projectId && syncProject(projectId, editor.document)
       }}
     />
   );
 }
+
