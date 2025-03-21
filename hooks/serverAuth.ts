@@ -6,7 +6,7 @@ export async function getServerAuth(redirectTo: string = "/auth/login") {
   const session = await auth();
 
   if (!session && redirectTo) {
-    redirect(redirectTo); // Redirection immédiate côté serveur
+    redirect(redirectTo);
   }
 
   return session;

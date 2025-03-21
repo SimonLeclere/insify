@@ -1,0 +1,17 @@
+{
+  "$schema": "https://www.partykit.io/schema.json",
+  "name": "insify",
+  "main": "./partykit/server.ts",
+  "compatibilityDate": "2025-03-21",
+
+  "serve": {
+    "path": "public",
+    "build": {
+      "entry": "./partykit/server.ts",
+      "loader": {
+        ".woff": "file",
+        ".woff2": "file"
+      }
+    }
+  }
+}
