@@ -1,4 +1,8829 @@
-var mi=Object.create;var gr=Object.defineProperty;var wi=Object.getOwnPropertyDescriptor;var yi=Object.getOwnPropertyNames;var xi=Object.getPrototypeOf,bi=Object.prototype.hasOwnProperty;var ki=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Si=(e,t,n,r)=>{if(t&&typeof t=="object"||typeof t=="function")for(let s of yi(t))!bi.call(e,s)&&s!==n&&gr(e,s,{get:()=>t[s],enumerable:!(r=wi(t,s))||r.enumerable});return e};var Ui=(e,t,n)=>(n=e!=null?mi(xi(e)):{},Si(t||!e||!e.__esModule?gr(n,"default",{value:e,enumerable:!0}):n,e));var ri=ki((oa,ni)=>{var zc="Expected a function",ti=NaN,$c="[object Symbol]",Pc=/^\s+|\s+$/g,Gc=/^[-+]0x[0-9a-f]+$/i,Jc=/^0b[01]+$/i,Yc=/^0o[0-7]+$/i,Hc=parseInt,Wc=typeof global=="object"&&global&&global.Object===Object&&global,qc=typeof self=="object"&&self&&self.Object===Object&&self,Xc=Wc||qc||Function("return this")(),Kc=Object.prototype,Zc=Kc.toString,Qc=Math.max,tl=Math.min,tr=function(){return Xc.Date.now()};function el(e,t,n){var r,s,i,o,c,l,a=0,h=!1,d=!1,u=!0;if(typeof e!="function")throw new TypeError(zc);t=ei(t)||0,er(n)&&(h=!!n.leading,d="maxWait"in n,i=d?Qc(ei(n.maxWait)||0,t):i,u="trailing"in n?!!n.trailing:u);function f(U){var nt=r,Rt=s;return r=s=void 0,a=U,o=e.apply(Rt,nt),o}function g(U){return a=U,c=setTimeout(ge,t),h?f(U):o}function w(U){var nt=U-l,Rt=U-a,fr=t-nt;return d?tl(fr,i-Rt):fr}function N(U){var nt=U-l,Rt=U-a;return l===void 0||nt>=t||nt<0||d&&Rt>=i}function ge(){var U=tr();if(N(U))return ur(U);c=setTimeout(ge,w(U))}function ur(U){return c=void 0,u&&r?f(U):(r=s=void 0,o)}function gi(){c!==void 0&&clearTimeout(c),a=0,r=l=s=c=void 0}function pi(){return c===void 0?o:ur(tr())}function nn(){var U=tr(),nt=N(U);if(r=arguments,s=this,l=U,nt){if(c===void 0)return g(l);if(d)return c=setTimeout(ge,t),f(l)}return c===void 0&&(c=setTimeout(ge,t)),o}return nn.cancel=gi,nn.flush=pi,nn}function er(e){var t=typeof e;return!!e&&(t=="object"||t=="function")}function nl(e){return!!e&&typeof e=="object"}function rl(e){return typeof e=="symbol"||nl(e)&&Zc.call(e)==$c}function ei(e){if(typeof e=="number")return e;if(rl(e))return ti;if(er(e)){var t=typeof e.valueOf=="function"?e.valueOf():e;e=er(t)?t+"":t}if(typeof e!="string")return e===0?e:+e;e=e.replace(Pc,"");var n=Jc.test(e);return n||Yc.test(e)?Hc(e.slice(2),n?2:8):Gc.test(e)?ti:+e}ni.exports=el});var V=Math.floor;var kt=Math.abs;var pe=(e,t)=>e<t?e:t,q=(e,t)=>e>t?e:t,wl=Number.isNaN;var me=e=>e!==0?e<0:1/e<0;var rn=Number.MAX_SAFE_INTEGER,yl=Number.MIN_SAFE_INTEGER,xl=1<<31;var pr=Number.isInteger||(e=>typeof e=="number"&&isFinite(e)&&V(e)===e),bl=Number.isNaN,kl=Number.parseInt;var P=()=>new Set;var we=e=>e[e.length-1];var wr=(e,t)=>{for(let n=0;n<t.length;n++)e.push(t[n])},R=Array.from;var on=Array.isArray;var Ei=String.fromCharCode,Sl=String.fromCodePoint,Ul=Ei(65535),_i=e=>e.toLowerCase(),Ci=/^\s*/g,Ai=e=>e.replace(Ci,""),Di=/([A-Z])/g,ln=(e,t)=>Ai(e.replace(Di,n=>`${t}${_i(n)}`));var Ii=e=>{let t=unescape(encodeURIComponent(e)),n=t.length,r=new Uint8Array(n);for(let s=0;s<n;s++)r[s]=t.codePointAt(s);return r},Ut=typeof TextEncoder<"u"?new TextEncoder:null,Ti=e=>Ut.encode(e),yr=Ut?Ti:Ii;var St=typeof TextDecoder>"u"?null:new TextDecoder("utf-8",{fatal:!0,ignoreBOM:!0});St&&St.decode(new Uint8Array).length===1&&(St=null);var G=e=>new Error(e),F=()=>{throw G("Method unimplemented")},j=()=>{throw G("Unexpected case")};var ht=class{constructor(){this.cpos=0,this.cbuf=new Uint8Array(100),this.bufs=[]}},v=()=>new ht;var dn=e=>{let t=e.cpos;for(let n=0;n<e.bufs.length;n++)t+=e.bufs[n].length;return t};var k=e=>{let t=new Uint8Array(dn(e)),n=0;for(let r=0;r<e.bufs.length;r++){let s=e.bufs[r];t.set(s,n),n+=s.length}return t.set(new Uint8Array(e.cbuf.buffer,0,e.cpos),n),t},vi=(e,t)=>{let n=e.cbuf.length;n-e.cpos<t&&(e.bufs.push(new Uint8Array(e.cbuf.buffer,0,e.cpos)),e.cbuf=new Uint8Array(q(n,t)*2),e.cpos=0)},C=(e,t)=>{let n=e.cbuf.length;e.cpos===n&&(e.bufs.push(e.cbuf),e.cbuf=new Uint8Array(n*2),e.cpos=0),e.cbuf[e.cpos++]=t};var xe=C;var p=(e,t)=>{for(;t>127;)C(e,128|127&t),t=V(t/128);C(e,127&t)},be=(e,t)=>{let n=me(t);for(n&&(t=-t),C(e,(t>63?128:0)|(n?64:0)|63&t),t=V(t/64);t>0;)C(e,(t>127?128:0)|127&t),t=V(t/128)},hn=new Uint8Array(3e4),Vi=hn.length/3,Li=(e,t)=>{if(t.length<Vi){let n=Ut.encodeInto(t,hn).written||0;p(e,n);for(let r=0;r<n;r++)C(e,hn[r])}else b(e,yr(t))},Oi=(e,t)=>{let n=unescape(encodeURIComponent(t)),r=n.length;p(e,r);for(let s=0;s<r;s++)C(e,n.codePointAt(s))},X=Ut&&Ut.encodeInto?Li:Oi;var zt=(e,t)=>{let n=e.cbuf.length,r=e.cpos,s=pe(n-r,t.length),i=t.length-s;e.cbuf.set(t.subarray(0,s),r),e.cpos+=s,i>0&&(e.bufs.push(e.cbuf),e.cbuf=new Uint8Array(q(n*2,i)),e.cbuf.set(t.subarray(s)),e.cpos=i)},b=(e,t)=>{p(e,t.byteLength),zt(e,t)},un=(e,t)=>{vi(e,t);let n=new DataView(e.cbuf.buffer,e.cpos,t);return e.cpos+=t,n},Mi=(e,t)=>un(e,4).setFloat32(0,t,!1),Ni=(e,t)=>un(e,8).setFloat64(0,t,!1),Bi=(e,t)=>un(e,8).setBigInt64(0,t,!1);var kr=new DataView(new ArrayBuffer(4)),Ri=e=>(kr.setFloat32(0,e),kr.getFloat32(0)===e),_t=(e,t)=>{switch(typeof t){case"string":C(e,119),X(e,t);break;case"number":pr(t)&&kt(t)<=2147483647?(C(e,125),be(e,t)):Ri(t)?(C(e,124),Mi(e,t)):(C(e,123),Ni(e,t));break;case"bigint":C(e,122),Bi(e,t);break;case"object":if(t===null)C(e,126);else if(on(t)){C(e,117),p(e,t.length);for(let n=0;n<t.length;n++)_t(e,t[n])}else if(t instanceof Uint8Array)C(e,116),b(e,t);else{C(e,118);let n=Object.keys(t);p(e,n.length);for(let r=0;r<n.length;r++){let s=n[r];X(e,s),_t(e,t[s])}}break;case"boolean":C(e,t?120:121);break;default:C(e,127)}},jt=class extends ht{constructor(t){super(),this.w=t,this.s=null,this.count=0}write(t){this.s===t?this.count++:(this.count>0&&p(this,this.count-1),this.count=1,this.w(this,t),this.s=t)}};var Sr=e=>{e.count>0&&(be(e.encoder,e.count===1?e.s:-e.s),e.count>1&&p(e.encoder,e.count-2))},dt=class{constructor(){this.encoder=new ht,this.s=0,this.count=0}write(t){this.s===t?this.count++:(Sr(this),this.count=1,this.s=t)}toUint8Array(){return Sr(this),k(this.encoder)}};var Ur=e=>{if(e.count>0){let t=e.diff*2+(e.count===1?0:1);be(e.encoder,t),e.count>1&&p(e.encoder,e.count-2)}},Ct=class{constructor(){this.encoder=new ht,this.s=0,this.count=0,this.diff=0}write(t){this.diff===t-this.s?(this.s=t,this.count++):(Ur(this),this.count=1,this.diff=t-this.s,this.s=t)}toUint8Array(){return Ur(this),k(this.encoder)}},ye=class{constructor(){this.sarr=[],this.s="",this.lensE=new dt}write(t){this.s+=t,this.s.length>19&&(this.sarr.push(this.s),this.s=""),this.lensE.write(t.length)}toUint8Array(){let t=new ht;return this.sarr.push(this.s),this.s="",X(t,this.sarr.join("")),zt(t,this.lensE.toUint8Array()),k(t)}};var Er=G("Unexpected end of array"),_r=G("Integer out of Range"),At=class{constructor(t){this.arr=t,this.pos=0}},M=e=>new At(e),Cr=e=>e.pos!==e.arr.length;var Fi=(e,t)=>{let n=new Uint8Array(e.arr.buffer,e.pos+e.arr.byteOffset,t);return e.pos+=t,n},S=e=>Fi(e,m(e));var ut=e=>e.arr[e.pos++];var m=e=>{let t=0,n=1,r=e.arr.length;for(;e.pos<r;){let s=e.arr[e.pos++];if(t=t+(s&127)*n,n*=128,s<128)return t;if(t>rn)throw _r}throw Er},Ue=e=>{let t=e.arr[e.pos++],n=t&63,r=64,s=(t&64)>0?-1:1;if(!(t&128))return s*n;let i=e.arr.length;for(;e.pos<i;){if(t=e.arr[e.pos++],n=n+(t&127)*r,r*=128,t<128)return s*n;if(n>rn)throw _r}throw Er};var ji=e=>{let t=m(e);if(t===0)return"";{let n=String.fromCodePoint(ut(e));if(--t<100)for(;t--;)n+=String.fromCodePoint(ut(e));else for(;t>0;){let r=t<1e4?t:1e4,s=e.arr.subarray(e.pos,e.pos+r);e.pos+=r,n+=String.fromCodePoint.apply(null,s),t-=r}return decodeURIComponent(escape(n))}},zi=e=>St.decode(S(e)),K=St?zi:ji;var fn=(e,t)=>{let n=new DataView(e.arr.buffer,e.arr.byteOffset+e.pos,t);return e.pos+=t,n},$i=e=>fn(e,4).getFloat32(0,!1),Pi=e=>fn(e,8).getFloat64(0,!1),Gi=e=>fn(e,8).getBigInt64(0,!1);var Ji=[e=>{},e=>null,Ue,$i,Pi,Gi,e=>!1,e=>!0,K,e=>{let t=m(e),n={};for(let r=0;r<t;r++){let s=K(e);n[s]=Dt(e)}return n},e=>{let t=m(e),n=[];for(let r=0;r<t;r++)n.push(Dt(e));return n},S],Dt=e=>Ji[127-ut(e)](e),$t=class extends At{constructor(t,n){super(t),this.reader=n,this.s=null,this.count=0}read(){return this.count===0&&(this.s=this.reader(this),Cr(this)?this.count=m(this)+1:this.count=-1),this.count--,this.s}};var ft=class extends At{constructor(t){super(t),this.s=0,this.count=0}read(){if(this.count===0){this.s=Ue(this);let t=me(this.s);this.count=1,t&&(this.s=-this.s,this.count=m(this)+2)}return this.count--,this.s}};var It=class extends At{constructor(t){super(t),this.s=0,this.count=0,this.diff=0}read(){if(this.count===0){let t=Ue(this),n=t&1;this.diff=V(t/2),this.count=1,n&&(this.count=m(this)+2)}return this.s+=this.diff,this.count--,this.s}},Se=class{constructor(t){this.decoder=new ft(t),this.str=K(this.decoder),this.spos=0}read(){let t=this.spos+this.decoder.read(),n=this.str.slice(this.spos,t);return this.spos=t,n}};var A=()=>new Map,_e=e=>{let t=A();return e.forEach((n,r)=>{t.set(r,n)}),t},z=(e,t,n)=>{let r=e.get(t);return r===void 0&&e.set(t,r=n()),r},Ar=(e,t)=>{let n=[];for(let[r,s]of e)n.push(t(s,r));return n},Dr=(e,t)=>{for(let[n,r]of e)if(t(r,n))return!0;return!1};var Ce=class{constructor(){this._observers=A()}on(t,n){return z(this._observers,t,P).add(n),n}once(t,n){let r=(...s)=>{this.off(t,r),n(...s)};this.on(t,r)}off(t,n){let r=this._observers.get(t);r!==void 0&&(r.delete(n),r.size===0&&this._observers.delete(t))}emit(t,n){return R((this._observers.get(t)||A()).values()).forEach(r=>r(...n))}destroy(){this._observers=A()}},Ae=class{constructor(){this._observers=A()}on(t,n){z(this._observers,t,P).add(n)}once(t,n){let r=(...s)=>{this.off(t,r),n(...s)};this.on(t,r)}off(t,n){let r=this._observers.get(t);r!==void 0&&(r.delete(n),r.size===0&&this._observers.delete(t))}emit(t,n){return R((this._observers.get(t)||A()).values()).forEach(r=>r(...n))}destroy(){this._observers=A()}};var Al=crypto.subtle,Ir=crypto.getRandomValues.bind(crypto);var gn=()=>Ir(new Uint32Array(1))[0];var Yi="10000000-1000-4000-8000"+-1e11,Tr=()=>Yi.replace(/[018]/g,e=>(e^gn()&15>>e/4).toString(16));var gt=Date.now;var pn=e=>new Promise(e);var Tl=Promise.all.bind(Promise);var mn=e=>e===void 0?null:e;var wn=class{constructor(){this.map=new Map}setItem(t,n){this.map.set(t,n)}getItem(t){return this.map.get(t)}},Vr=new wn,Xi=!0;try{typeof localStorage<"u"&&localStorage&&(Vr=localStorage,Xi=!1)}catch{}var Lr=Vr;var Mr=Object.assign,Nr=Object.keys,Br=(e,t)=>{for(let n in e)t(e[n],n)};var yn=e=>Nr(e).length,Or=e=>Nr(e).length;var Rr=e=>{for(let t in e)return!1;return!0},Zi=(e,t)=>{for(let n in e)if(!t(e[n],n))return!1;return!0},xn=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),bn=(e,t)=>e===t||Or(e)===Or(t)&&Zi(e,(n,r)=>(n!==void 0||xn(t,r))&&t[r]===n),Qi=Object.freeze,kn=e=>{for(let t in e){let n=e[t];(typeof n=="object"||typeof n=="function")&&kn(e[t])}return Qi(e)};var Gt=(e,t,n=0)=>{try{for(;n<e.length;n++)e[n](...t)}finally{n<e.length&&Gt(e,t,n+1)}};var jr=e=>e,to=(e,t)=>e===t;var Tt=(e,t)=>{if(e==null||t==null)return to(e,t);if(e.constructor!==t.constructor)return!1;if(e===t)return!0;switch(e.constructor){case ArrayBuffer:e=new Uint8Array(e),t=new Uint8Array(t);case Uint8Array:{if(e.byteLength!==t.byteLength)return!1;for(let n=0;n<e.length;n++)if(e[n]!==t[n])return!1;break}case Set:{if(e.size!==t.size)return!1;for(let n of e)if(!t.has(n))return!1;break}case Map:{if(e.size!==t.size)return!1;for(let n of e.keys())if(!t.has(n)||!Tt(e.get(n),t.get(n)))return!1;break}case Object:if(yn(e)!==yn(t))return!1;for(let n in e)if(!xn(e,n)||!Tt(e[n],t[n]))return!1;break;case Array:if(e.length!==t.length)return!1;for(let n=0;n<e.length;n++)if(!Tt(e[n],t[n]))return!1;break;default:return!1}return!0},zr=(e,t)=>t.includes(e);var Jt=typeof process<"u"&&process.release&&/node|io\.js/.test(process.release.name)&&Object.prototype.toString.call(typeof process<"u"?process:0)==="[object process]";var vl=typeof navigator<"u"?/Mac/.test(navigator.platform):!1,J,eo=[],no=()=>{if(J===void 0)if(Jt){J=A();let e=process.argv,t=null;for(let n=0;n<e.length;n++){let r=e[n];r[0]==="-"?(t!==null&&J.set(t,""),t=r):t!==null?(J.set(t,r),t=null):eo.push(r)}t!==null&&J.set(t,"")}else typeof location=="object"?(J=A(),(location.search||"?").slice(1).split("&").forEach(e=>{if(e.length!==0){let[t,n]=e.split("=");J.set(`--${ln(t,"-")}`,n),J.set(`-${ln(t,"-")}`,n)}})):J=A();return J},Un=e=>no().has(e);var Yt=e=>Jt?mn(process.env[e.toUpperCase().replaceAll("-","_")]):mn(Lr.getItem(e));var $r=e=>Un("--"+e)||Yt(e)!==null,Vl=$r("production"),ro=Jt&&zr(process.env.FORCE_COLOR,["true","1","2"]),Pr=ro||!Un("--no-colors")&&!$r("no-color")&&(!Jt||process.stdout.isTTY)&&(!Jt||Un("--color")||Yt("COLORTERM")!==null||(Yt("TERM")||"").includes("color"));var so=e=>new Uint8Array(e);var Jr=e=>{let t=so(e.byteLength);return t.set(e),t};var En=class{constructor(t,n){this.left=t,this.right=n}},Y=(e,t)=>new En(e,t);var pt=typeof document<"u"?document:{};var Ll=typeof DOMParser<"u"?new DOMParser:null;var Yr=e=>Ar(e,(t,n)=>`${n}:${t};`).join("");var Ol=pt.ELEMENT_NODE,Ml=pt.TEXT_NODE,Nl=pt.CDATA_SECTION_NODE,Bl=pt.COMMENT_NODE,Rl=pt.DOCUMENT_NODE,Fl=pt.DOCUMENT_TYPE_NODE,jl=pt.DOCUMENT_FRAGMENT_NODE;var H=Symbol;var Ht=H(),Wt=H(),_n=H(),Cn=H(),An=H(),qt=H(),Dn=H(),vt=H(),In=H(),Hr=e=>{e.length===1&&e[0]?.constructor===Function&&(e=e[0]());let t=[],n=[],r=0;for(;r<e.length;r++){let s=e[r];if(s===void 0)break;if(s.constructor===String||s.constructor===Number)t.push(s);else if(s.constructor===Object)break}for(r>0&&n.push(t.join(""));r<e.length;r++){let s=e[r];s instanceof Symbol||n.push(s)}return n};var zl=gt();var ho={[Ht]:Y("font-weight","bold"),[Wt]:Y("font-weight","normal"),[_n]:Y("color","blue"),[An]:Y("color","green"),[Cn]:Y("color","grey"),[qt]:Y("color","red"),[Dn]:Y("color","purple"),[vt]:Y("color","orange"),[In]:Y("color","black")},uo=e=>{e.length===1&&e[0]?.constructor===Function&&(e=e[0]());let t=[],n=[],r=A(),s=[],i=0;for(;i<e.length;i++){let o=e[i],c=ho[o];if(c!==void 0)r.set(c.left,c.right);else{if(o===void 0)break;if(o.constructor===String||o.constructor===Number){let l=Yr(r);i>0||l.length>0?(t.push("%c"+o),n.push(l)):t.push(o)}else break}}for(i>0&&(s=n,s.unshift(t.join("")));i<e.length;i++){let o=e[i];o instanceof Symbol||s.push(o)}return s},Wr=Pr?uo:Hr,qr=(...e)=>{console.log(...Wr(e)),Kr.forEach(t=>t.print(e))},Xr=(...e)=>{console.warn(...Wr(e)),e.unshift(vt),Kr.forEach(t=>t.print(e))};var Kr=P();var Zr=e=>({[Symbol.iterator](){return this},next:e}),Qr=(e,t)=>Zr(()=>{let n;do n=e.next();while(!n.done&&!t(n.value));return n}),De=(e,t)=>Zr(()=>{let{done:n,value:r}=e.next();return{done:n,value:n?void 0:t(r)}});var Kt=class{constructor(t,n){this.clock=t,this.len=n}},mt=class{constructor(){this.clients=new Map}},fs=(e,t,n)=>t.clients.forEach((r,s)=>{let i=e.doc.store.clients.get(s);for(let o=0;o<r.length;o++){let c=r[o];Ss(e,i,c.clock,c.len,n)}}),wo=(e,t)=>{let n=0,r=e.length-1;for(;n<=r;){let s=V((n+r)/2),i=e[s],o=i.clock;if(o<=t){if(t<o+i.len)return s;n=s+1}else r=s-1}return null},gs=(e,t)=>{let n=e.clients.get(t.client);return n!==void 0&&wo(n,t.clock)!==null},Hn=e=>{e.clients.forEach(t=>{t.sort((s,i)=>s.clock-i.clock);let n,r;for(n=1,r=1;n<t.length;n++){let s=t[r-1],i=t[n];s.clock+s.len>=i.clock?s.len=q(s.len,i.clock+i.len-s.clock):(r<n&&(t[r]=i),r++)}t.length=r})},yo=e=>{let t=new mt;for(let n=0;n<e.length;n++)e[n].clients.forEach((r,s)=>{if(!t.clients.has(s)){let i=r.slice();for(let o=n+1;o<e.length;o++)wr(i,e[o].clients.get(s)||[]);t.clients.set(s,i)}});return Hn(t),t},Oe=(e,t,n,r)=>{z(e.clients,t,()=>[]).push(new Kt(n,r))},ps=()=>new mt,xo=e=>{let t=ps();return e.clients.forEach((n,r)=>{let s=[];for(let i=0;i<n.length;i++){let o=n[i];if(o.deleted){let c=o.id.clock,l=o.length;if(i+1<n.length)for(let a=n[i+1];i+1<n.length&&a.deleted;a=n[++i+1])l+=a.length;s.push(new Kt(c,l))}}s.length>0&&t.clients.set(r,s)}),t},Nt=(e,t)=>{p(e.restEncoder,t.clients.size),R(t.clients.entries()).sort((n,r)=>r[0]-n[0]).forEach(([n,r])=>{e.resetDsCurVal(),p(e.restEncoder,n);let s=r.length;p(e.restEncoder,s);for(let i=0;i<s;i++){let o=r[i];e.writeDsClock(o.clock),e.writeDsLen(o.len)}})},Wn=e=>{let t=new mt,n=m(e.restDecoder);for(let r=0;r<n;r++){e.resetDsCurVal();let s=m(e.restDecoder),i=m(e.restDecoder);if(i>0){let o=z(t.clients,s,()=>[]);for(let c=0;c<i;c++)o.push(new Kt(e.readDsClock(),e.readDsLen()))}}return t},ns=(e,t,n)=>{let r=new mt,s=m(e.restDecoder);for(let i=0;i<s;i++){e.resetDsCurVal();let o=m(e.restDecoder),c=m(e.restDecoder),l=n.clients.get(o)||[],a=D(n,o);for(let h=0;h<c;h++){let d=e.readDsClock(),u=d+e.readDsLen();if(d<a){a<u&&Oe(r,o,a,u-a);let f=W(l,d),g=l[f];for(!g.deleted&&g.id.clock<d&&(l.splice(f+1,0,Je(t,g,d-g.id.clock)),f++);f<l.length&&(g=l[f++],g.id.clock<u);)g.deleted||(u<g.id.clock+g.length&&l.splice(f,0,Je(t,g,u-g.id.clock)),g.delete(t))}else Oe(r,o,d,u-d)}}if(r.clients.size>0){let i=new Z;return p(i.restEncoder,0),Nt(i,r),i.toUint8Array()}return null};var ms=gn,$=class e extends Ce{constructor({guid:t=Tr(),collectionid:n=null,gc:r=!0,gcFilter:s=()=>!0,meta:i=null,autoLoad:o=!1,shouldLoad:c=!0}={}){super(),this.gc=r,this.gcFilter=s,this.clientID=ms(),this.guid=t,this.collectionid=n,this.share=new Map,this.store=new Fe,this._transaction=null,this._transactionCleanups=[],this.subdocs=new Set,this._item=null,this.shouldLoad=c,this.autoLoad=o,this.meta=i,this.isLoaded=!1,this.isSynced=!1,this.isDestroyed=!1,this.whenLoaded=pn(a=>{this.on("load",()=>{this.isLoaded=!0,a(this)})});let l=()=>pn(a=>{let h=d=>{(d===void 0||d===!0)&&(this.off("sync",h),a())};this.on("sync",h)});this.on("sync",a=>{a===!1&&this.isSynced&&(this.whenSynced=l()),this.isSynced=a===void 0||a===!0,this.isSynced&&!this.isLoaded&&this.emit("load",[this])}),this.whenSynced=l()}load(){let t=this._item;t!==null&&!this.shouldLoad&&x(t.parent.doc,n=>{n.subdocsLoaded.add(this)},null,!0),this.shouldLoad=!0}getSubdocs(){return this.subdocs}getSubdocGuids(){return new Set(R(this.subdocs).map(t=>t.guid))}transact(t,n=null){return x(this,t,n)}get(t,n=E){let r=z(this.share,t,()=>{let i=new n;return i._integrate(this,null),i}),s=r.constructor;if(n!==E&&s!==n)if(s===E){let i=new n;i._map=r._map,r._map.forEach(o=>{for(;o!==null;o=o.left)o.parent=i}),i._start=r._start;for(let o=i._start;o!==null;o=o.right)o.parent=i;return i._length=r._length,this.share.set(t,i),i._integrate(this,null),i}else throw new Error(`Type with the name ${t} has already been defined with a different constructor`);return r}getArray(t=""){return this.get(t,Pe)}getText(t=""){return this.get(t,se)}getMap(t=""){return this.get(t,ne)}getXmlElement(t=""){return this.get(t,ie)}getXmlFragment(t=""){return this.get(t,Ot)}toJSON(){let t={};return this.share.forEach((n,r)=>{t[r]=n.toJSON()}),t}destroy(){this.isDestroyed=!0,R(this.subdocs).forEach(n=>n.destroy());let t=this._item;if(t!==null){this._item=null;let n=t.content;n.doc=new e({guid:this.guid,...n.opts,shouldLoad:!1}),n.doc._item=t,x(t.parent.doc,r=>{let s=n.doc;t.deleted||r.subdocsAdded.add(s),r.subdocsRemoved.add(this)},null,!0)}this.emit("destroyed",[!0]),this.emit("destroy",[this]),super.destroy()}},Me=class{constructor(t){this.restDecoder=t}resetDsCurVal(){}readDsClock(){return m(this.restDecoder)}readDsLen(){return m(this.restDecoder)}},Ne=class extends Me{readLeftID(){return y(m(this.restDecoder),m(this.restDecoder))}readRightID(){return y(m(this.restDecoder),m(this.restDecoder))}readClient(){return m(this.restDecoder)}readInfo(){return ut(this.restDecoder)}readString(){return K(this.restDecoder)}readParentInfo(){return m(this.restDecoder)===1}readTypeRef(){return m(this.restDecoder)}readLen(){return m(this.restDecoder)}readAny(){return Dt(this.restDecoder)}readBuf(){return Jr(S(this.restDecoder))}readJSON(){return JSON.parse(K(this.restDecoder))}readKey(){return K(this.restDecoder)}},Vn=class{constructor(t){this.dsCurrVal=0,this.restDecoder=t}resetDsCurVal(){this.dsCurrVal=0}readDsClock(){return this.dsCurrVal+=m(this.restDecoder),this.dsCurrVal}readDsLen(){let t=m(this.restDecoder)+1;return this.dsCurrVal+=t,t}},ct=class extends Vn{constructor(t){super(t),this.keys=[],m(t),this.keyClockDecoder=new It(S(t)),this.clientDecoder=new ft(S(t)),this.leftClockDecoder=new It(S(t)),this.rightClockDecoder=new It(S(t)),this.infoDecoder=new $t(S(t),ut),this.stringDecoder=new Se(S(t)),this.parentInfoDecoder=new $t(S(t),ut),this.typeRefDecoder=new ft(S(t)),this.lenDecoder=new ft(S(t))}readLeftID(){return new ot(this.clientDecoder.read(),this.leftClockDecoder.read())}readRightID(){return new ot(this.clientDecoder.read(),this.rightClockDecoder.read())}readClient(){return this.clientDecoder.read()}readInfo(){return this.infoDecoder.read()}readString(){return this.stringDecoder.read()}readParentInfo(){return this.parentInfoDecoder.read()===1}readTypeRef(){return this.typeRefDecoder.read()}readLen(){return this.lenDecoder.read()}readAny(){return Dt(this.restDecoder)}readBuf(){return S(this.restDecoder)}readJSON(){return Dt(this.restDecoder)}readKey(){let t=this.keyClockDecoder.read();if(t<this.keys.length)return this.keys[t];{let n=this.stringDecoder.read();return this.keys.push(n),n}}},Be=class{constructor(){this.restEncoder=v()}toUint8Array(){return k(this.restEncoder)}resetDsCurVal(){}writeDsClock(t){p(this.restEncoder,t)}writeDsLen(t){p(this.restEncoder,t)}},wt=class extends Be{writeLeftID(t){p(this.restEncoder,t.client),p(this.restEncoder,t.clock)}writeRightID(t){p(this.restEncoder,t.client),p(this.restEncoder,t.clock)}writeClient(t){p(this.restEncoder,t)}writeInfo(t){xe(this.restEncoder,t)}writeString(t){X(this.restEncoder,t)}writeParentInfo(t){p(this.restEncoder,t?1:0)}writeTypeRef(t){p(this.restEncoder,t)}writeLen(t){p(this.restEncoder,t)}writeAny(t){_t(this.restEncoder,t)}writeBuf(t){b(this.restEncoder,t)}writeJSON(t){X(this.restEncoder,JSON.stringify(t))}writeKey(t){X(this.restEncoder,t)}},Re=class{constructor(){this.restEncoder=v(),this.dsCurrVal=0}toUint8Array(){return k(this.restEncoder)}resetDsCurVal(){this.dsCurrVal=0}writeDsClock(t){let n=t-this.dsCurrVal;this.dsCurrVal=t,p(this.restEncoder,n)}writeDsLen(t){t===0&&j(),p(this.restEncoder,t-1),this.dsCurrVal+=t}},Z=class extends Re{constructor(){super(),this.keyMap=new Map,this.keyClock=0,this.keyClockEncoder=new Ct,this.clientEncoder=new dt,this.leftClockEncoder=new Ct,this.rightClockEncoder=new Ct,this.infoEncoder=new jt(xe),this.stringEncoder=new ye,this.parentInfoEncoder=new jt(xe),this.typeRefEncoder=new dt,this.lenEncoder=new dt}toUint8Array(){let t=v();return p(t,0),b(t,this.keyClockEncoder.toUint8Array()),b(t,this.clientEncoder.toUint8Array()),b(t,this.leftClockEncoder.toUint8Array()),b(t,this.rightClockEncoder.toUint8Array()),b(t,k(this.infoEncoder)),b(t,this.stringEncoder.toUint8Array()),b(t,k(this.parentInfoEncoder)),b(t,this.typeRefEncoder.toUint8Array()),b(t,this.lenEncoder.toUint8Array()),zt(t,k(this.restEncoder)),k(t)}writeLeftID(t){this.clientEncoder.write(t.client),this.leftClockEncoder.write(t.clock)}writeRightID(t){this.clientEncoder.write(t.client),this.rightClockEncoder.write(t.clock)}writeClient(t){this.clientEncoder.write(t)}writeInfo(t){this.infoEncoder.write(t)}writeString(t){this.stringEncoder.write(t)}writeParentInfo(t){this.parentInfoEncoder.write(t?1:0)}writeTypeRef(t){this.typeRefEncoder.write(t)}writeLen(t){this.lenEncoder.write(t)}writeAny(t){_t(this.restEncoder,t)}writeBuf(t){b(this.restEncoder,t)}writeJSON(t){_t(this.restEncoder,t)}writeKey(t){let n=this.keyMap.get(t);n===void 0?(this.keyClockEncoder.write(this.keyClock++),this.stringEncoder.write(t)):this.keyClockEncoder.write(n)}},bo=(e,t,n,r)=>{r=q(r,t[0].id.clock);let s=W(t,r);p(e.restEncoder,t.length-s),e.writeClient(n),p(e.restEncoder,r);let i=t[s];i.write(e,r-i.id.clock);for(let o=s+1;o<t.length;o++)t[o].write(e,0)},qn=(e,t,n)=>{let r=new Map;n.forEach((s,i)=>{D(t,i)>s&&r.set(i,s)}),Ye(t).forEach((s,i)=>{n.has(i)||r.set(i,0)}),p(e.restEncoder,r.size),R(r.entries()).sort((s,i)=>i[0]-s[0]).forEach(([s,i])=>{bo(e,t.clients.get(s),s,i)})},ko=(e,t)=>{let n=A(),r=m(e.restDecoder);for(let s=0;s<r;s++){let i=m(e.restDecoder),o=new Array(i),c=e.readClient(),l=m(e.restDecoder);n.set(c,{i:0,refs:o});for(let a=0;a<i;a++){let h=e.readInfo();switch(31&h){case 0:{let d=e.readLen();o[a]=new L(y(c,l),d),l+=d;break}case 10:{let d=m(e.restDecoder);o[a]=new O(y(c,l),d),l+=d;break}default:{let d=(h&192)===0,u=new I(y(c,l),null,(h&128)===128?e.readLeftID():null,null,(h&64)===64?e.readRightID():null,d?e.readParentInfo()?t.get(e.readString()):e.readLeftID():null,d&&(h&32)===32?e.readString():null,zs(e,h));o[a]=u,l+=u.length}}}}return n},So=(e,t,n)=>{let r=[],s=R(n.keys()).sort((f,g)=>f-g);if(s.length===0)return null;let i=()=>{if(s.length===0)return null;let f=n.get(s[s.length-1]);for(;f.refs.length===f.i;)if(s.pop(),s.length>0)f=n.get(s[s.length-1]);else return null;return f},o=i();if(o===null)return null;let c=new Fe,l=new Map,a=(f,g)=>{let w=l.get(f);(w==null||w>g)&&l.set(f,g)},h=o.refs[o.i++],d=new Map,u=()=>{for(let f of r){let g=f.id.client,w=n.get(g);w?(w.i--,c.clients.set(g,w.refs.slice(w.i)),n.delete(g),w.i=0,w.refs=[]):c.clients.set(g,[f]),s=s.filter(N=>N!==g)}r.length=0};for(;;){if(h.constructor!==O){let g=z(d,h.id.client,()=>D(t,h.id.client))-h.id.clock;if(g<0)r.push(h),a(h.id.client,h.id.clock-1),u();else{let w=h.getMissing(e,t);if(w!==null){r.push(h);let N=n.get(w)||{refs:[],i:0};if(N.refs.length===N.i)a(w,D(t,w)),u();else{h=N.refs[N.i++];continue}}else(g===0||g<h.length)&&(h.integrate(e,g),d.set(h.id.client,h.id.clock+h.length))}}if(r.length>0)h=r.pop();else if(o!==null&&o.i<o.refs.length)h=o.refs[o.i++];else{if(o=i(),o===null)break;h=o.refs[o.i++]}}if(c.clients.size>0){let f=new Z;return qn(f,c,new Map),p(f.restEncoder,0),{missing:l,update:f.toUint8Array()}}return null},Uo=(e,t)=>qn(e,t.doc.store,t.beforeState),Eo=(e,t,n,r=new ct(e))=>x(t,s=>{s.local=!1;let i=!1,o=s.doc,c=o.store,l=ko(r,o),a=So(s,c,l),h=c.pendingStructs;if(h){for(let[u,f]of h.missing)if(f<D(c,u)){i=!0;break}if(a){for(let[u,f]of a.missing){let g=h.missing.get(u);(g==null||g>f)&&h.missing.set(u,f)}h.update=je([h.update,a.update])}}else c.pendingStructs=a;let d=ns(r,s,c);if(c.pendingDs){let u=new ct(M(c.pendingDs));m(u.restDecoder);let f=ns(u,s,c);d&&f?c.pendingDs=je([d,f]):c.pendingDs=d||f}else c.pendingDs=d;if(i){let u=c.pendingStructs.update;c.pendingStructs=null,ws(s.doc,u)}},n,!1);var ws=(e,t,n,r=ct)=>{let s=M(t);Eo(s,e,n,new r(s))},et=(e,t,n)=>ws(e,t,n,Ne),_o=(e,t,n=new Map)=>{qn(e,t.store,n),Nt(e,xo(t.store))},Co=(e,t=new Uint8Array([0]),n=new Z)=>{let r=ys(t);_o(n,e,r);let s=[n.toUint8Array()];if(e.store.pendingDs&&s.push(e.store.pendingDs),e.store.pendingStructs&&s.push(Fo(e.store.pendingStructs.update,t)),s.length>1){if(n.constructor===wt)return Bo(s.map((i,o)=>o===0?i:zo(i)));if(n.constructor===Z)return je(s)}return s[0]},at=(e,t)=>Co(e,t,new wt),Ao=e=>{let t=new Map,n=m(e.restDecoder);for(let r=0;r<n;r++){let s=m(e.restDecoder),i=m(e.restDecoder);t.set(s,i)}return t},ys=e=>Ao(new Me(M(e))),xs=(e,t)=>(p(e.restEncoder,t.size),R(t.entries()).sort((n,r)=>r[0]-n[0]).forEach(([n,r])=>{p(e.restEncoder,n),p(e.restEncoder,r)}),e),Do=(e,t)=>xs(e,Ye(t.store)),Io=(e,t=new Re)=>(e instanceof Map?xs(t,e):Do(t,e),t.toUint8Array()),ae=e=>Io(e,new Be),Ln=class{constructor(){this.l=[]}},rs=()=>new Ln,ss=(e,t)=>e.l.push(t),is=(e,t)=>{let n=e.l,r=n.length;e.l=n.filter(s=>t!==s),r===e.l.length&&console.error("[yjs] Tried to remove event handler that doesn't exist.")},bs=(e,t,n)=>Gt(e.l,[t,n]),ot=class{constructor(t,n){this.client=t,this.clock=n}},Ie=(e,t)=>e===t||e!==null&&t!==null&&e.client===t.client&&e.clock===t.clock,y=(e,t)=>new ot(e,t);var To=e=>{for(let[t,n]of e.doc.share.entries())if(n===e)return t;throw j()};var On=class{constructor(t,n){this.ds=t,this.sv=n}};var vo=(e,t)=>new On(e,t),Ql=vo(ps(),new Map);var Vt=(e,t)=>t===void 0?!e.deleted:t.sv.has(e.id.client)&&(t.sv.get(e.id.client)||0)>e.id.clock&&!gs(t.ds,e.id),Mn=(e,t)=>{let n=z(e.meta,Mn,P),r=e.doc.store;n.has(t)||(t.sv.forEach((s,i)=>{s<D(r,i)&&lt(e,y(i,s))}),fs(e,t.ds,s=>{}),n.add(t))};var Fe=class{constructor(){this.clients=new Map,this.pendingStructs=null,this.pendingDs=null}},Ye=e=>{let t=new Map;return e.clients.forEach((n,r)=>{let s=n[n.length-1];t.set(r,s.id.clock+s.length)}),t},D=(e,t)=>{let n=e.clients.get(t);if(n===void 0)return 0;let r=n[n.length-1];return r.id.clock+r.length},ks=(e,t)=>{let n=e.clients.get(t.id.client);if(n===void 0)n=[],e.clients.set(t.id.client,n);else{let r=n[n.length-1];if(r.id.clock+r.length!==t.id.clock)throw j()}n.push(t)},W=(e,t)=>{let n=0,r=e.length-1,s=e[r],i=s.id.clock;if(i===t)return r;let o=V(t/(i+s.length-1)*r);for(;n<=r;){if(s=e[o],i=s.id.clock,i<=t){if(t<i+s.length)return o;n=o+1}else r=o-1;o=V((n+r)/2)}throw j()},Vo=(e,t)=>{let n=e.clients.get(t.client);return n[W(n,t.clock)]},Tn=Vo,Nn=(e,t,n)=>{let r=W(t,n),s=t[r];return s.id.clock<n&&s instanceof I?(t.splice(r+1,0,Je(e,s,n-s.id.clock)),r+1):r},lt=(e,t)=>{let n=e.doc.store.clients.get(t.client);return n[Nn(e,n,t.clock)]},os=(e,t,n)=>{let r=t.clients.get(n.client),s=W(r,n.clock),i=r[s];return n.clock!==i.id.clock+i.length-1&&i.constructor!==L&&r.splice(s+1,0,Je(e,i,n.clock-i.id.clock+1)),i},Lo=(e,t,n)=>{let r=e.clients.get(t.id.client);r[W(r,t.id.clock)]=n},Ss=(e,t,n,r,s)=>{if(r===0)return;let i=n+r,o=Nn(e,t,n),c;do c=t[o++],i<c.id.clock+c.length&&Nn(e,t,i),s(c);while(o<t.length&&t[o].id.clock<i)},Bn=class{constructor(t,n,r){this.doc=t,this.deleteSet=new mt,this.beforeState=Ye(t.store),this.afterState=new Map,this.changed=new Map,this.changedParentTypes=new Map,this._mergeStructs=[],this.origin=n,this.meta=new Map,this.local=r,this.subdocsAdded=new Set,this.subdocsRemoved=new Set,this.subdocsLoaded=new Set,this._needFormattingCleanup=!1}},cs=(e,t)=>t.deleteSet.clients.size===0&&!Dr(t.afterState,(n,r)=>t.beforeState.get(r)!==n)?!1:(Hn(t.deleteSet),Uo(e,t),Nt(e,t.deleteSet),!0),ls=(e,t,n)=>{let r=t._item;(r===null||r.id.clock<(e.beforeState.get(r.id.client)||0)&&!r.deleted)&&z(e.changed,t,P).add(n)},Ve=(e,t)=>{let n=e[t],r=e[t-1],s=t;for(;s>0;n=r,r=e[--s-1]){if(r.deleted===n.deleted&&r.constructor===n.constructor&&r.mergeWith(n)){n instanceof I&&n.parentSub!==null&&n.parent._map.get(n.parentSub)===n&&n.parent._map.set(n.parentSub,r);continue}break}let i=t-s;return i&&e.splice(t+1-i,i),i},Oo=(e,t,n)=>{for(let[r,s]of e.clients.entries()){let i=t.clients.get(r);for(let o=s.length-1;o>=0;o--){let c=s[o],l=c.clock+c.len;for(let a=W(i,c.clock),h=i[a];a<i.length&&h.id.clock<l;h=i[++a]){let d=i[a];if(c.clock+c.len<=d.id.clock)break;d instanceof I&&d.deleted&&!d.keep&&n(d)&&d.gc(t,!1)}}}},Mo=(e,t)=>{e.clients.forEach((n,r)=>{let s=t.clients.get(r);for(let i=n.length-1;i>=0;i--){let o=n[i],c=pe(s.length-1,1+W(s,o.clock+o.len-1));for(let l=c,a=s[l];l>0&&a.id.clock>=o.clock;a=s[l])l-=1+Ve(s,l)}})};var Us=(e,t)=>{if(t<e.length){let n=e[t],r=n.doc,s=r.store,i=n.deleteSet,o=n._mergeStructs;try{Hn(i),n.afterState=Ye(n.doc.store),r.emit("beforeObserverCalls",[n,r]);let c=[];n.changed.forEach((l,a)=>c.push(()=>{(a._item===null||!a._item.deleted)&&a._callObserver(n,l)})),c.push(()=>{n.changedParentTypes.forEach((l,a)=>{a._dEH.l.length>0&&(a._item===null||!a._item.deleted)&&(l=l.filter(h=>h.target._item===null||!h.target._item.deleted),l.forEach(h=>{h.currentTarget=a,h._path=null}),l.sort((h,d)=>h.path.length-d.path.length),bs(a._dEH,l,n))})}),c.push(()=>r.emit("afterTransaction",[n,r])),Gt(c,[]),n._needFormattingCleanup&&Zo(n)}finally{r.gc&&Oo(i,s,r.gcFilter),Mo(i,s),n.afterState.forEach((h,d)=>{let u=n.beforeState.get(d)||0;if(u!==h){let f=s.clients.get(d),g=q(W(f,u),1);for(let w=f.length-1;w>=g;)w-=1+Ve(f,w)}});for(let h=o.length-1;h>=0;h--){let{client:d,clock:u}=o[h].id,f=s.clients.get(d),g=W(f,u);g+1<f.length&&Ve(f,g+1)>1||g>0&&Ve(f,g)}if(!n.local&&n.afterState.get(r.clientID)!==n.beforeState.get(r.clientID)&&(qr(vt,Ht,"[yjs] ",Wt,qt,"Changed the client-id because another client seems to be using it."),r.clientID=ms()),r.emit("afterTransactionCleanup",[n,r]),r._observers.has("update")){let h=new wt;cs(h,n)&&r.emit("update",[h.toUint8Array(),n.origin,r,n])}if(r._observers.has("updateV2")){let h=new Z;cs(h,n)&&r.emit("updateV2",[h.toUint8Array(),n.origin,r,n])}let{subdocsAdded:c,subdocsLoaded:l,subdocsRemoved:a}=n;(c.size>0||a.size>0||l.size>0)&&(c.forEach(h=>{h.clientID=r.clientID,h.collectionid==null&&(h.collectionid=r.collectionid),r.subdocs.add(h)}),a.forEach(h=>r.subdocs.delete(h)),r.emit("subdocs",[{loaded:l,added:c,removed:a},r,n]),a.forEach(h=>h.destroy())),e.length<=t+1?(r._transactionCleanups=[],r.emit("afterAllTransactions",[r,e])):Us(e,t+1)}}},x=(e,t,n=null,r=!0)=>{let s=e._transactionCleanups,i=!1,o=null;e._transaction===null&&(i=!0,e._transaction=new Bn(e,n,r),s.push(e._transaction),s.length===1&&e.emit("beforeAllTransactions",[e]),e.emit("beforeTransaction",[e._transaction,e]));try{o=t(e._transaction)}finally{if(i){let c=e._transaction===s[0];e._transaction=null,c&&Us(s,0)}}return o};function*No(e){let t=m(e.restDecoder);for(let n=0;n<t;n++){let r=m(e.restDecoder),s=e.readClient(),i=m(e.restDecoder);for(let o=0;o<r;o++){let c=e.readInfo();if(c===10){let l=m(e.restDecoder);yield new O(y(s,i),l),i+=l}else if(31&c){let l=(c&192)===0,a=new I(y(s,i),null,(c&128)===128?e.readLeftID():null,null,(c&64)===64?e.readRightID():null,l?e.readParentInfo()?e.readString():e.readLeftID():null,l&&(c&32)===32?e.readString():null,zs(e,c));yield a,i+=a.length}else{let l=e.readLen();yield new L(y(s,i),l),i+=l}}}}var Zt=class{constructor(t,n){this.gen=No(t),this.curr=null,this.done=!1,this.filterSkips=n,this.next()}next(){do this.curr=this.gen.next().value||null;while(this.filterSkips&&this.curr!==null&&this.curr.constructor===O);return this.curr}};var Qt=class{constructor(t){this.currClient=0,this.startClock=0,this.written=0,this.encoder=t,this.clientStructs=[]}},Bo=e=>je(e,Ne,wt);var Ro=(e,t)=>{if(e.constructor===L){let{client:n,clock:r}=e.id;return new L(y(n,r+t),e.length-t)}else if(e.constructor===O){let{client:n,clock:r}=e.id;return new O(y(n,r+t),e.length-t)}else{let n=e,{client:r,clock:s}=n.id;return new I(y(r,s+t),null,y(r,s+t-1),null,n.rightOrigin,n.parent,n.parentSub,n.content.splice(t))}},je=(e,t=ct,n=Z)=>{if(e.length===1)return e[0];let r=e.map(h=>new t(M(h))),s=r.map(h=>new Zt(h,!0)),i=null,o=new n,c=new Qt(o);for(;s=s.filter(u=>u.curr!==null),s.sort((u,f)=>{if(u.curr.id.client===f.curr.id.client){let g=u.curr.id.clock-f.curr.id.clock;return g===0?u.curr.constructor===f.curr.constructor?0:u.curr.constructor===O?1:-1:g}else return f.curr.id.client-u.curr.id.client}),s.length!==0;){let h=s[0],d=h.curr.id.client;if(i!==null){let u=h.curr,f=!1;for(;u!==null&&u.id.clock+u.length<=i.struct.id.clock+i.struct.length&&u.id.client>=i.struct.id.client;)u=h.next(),f=!0;if(u===null||u.id.client!==d||f&&u.id.clock>i.struct.id.clock+i.struct.length)continue;if(d!==i.struct.id.client)st(c,i.struct,i.offset),i={struct:u,offset:0},h.next();else if(i.struct.id.clock+i.struct.length<u.id.clock)if(i.struct.constructor===O)i.struct.length=u.id.clock+u.length-i.struct.id.clock;else{st(c,i.struct,i.offset);let g=u.id.clock-i.struct.id.clock-i.struct.length;i={struct:new O(y(d,i.struct.id.clock+i.struct.length),g),offset:0}}else{let g=i.struct.id.clock+i.struct.length-u.id.clock;g>0&&(i.struct.constructor===O?i.struct.length-=g:u=Ro(u,g)),i.struct.mergeWith(u)||(st(c,i.struct,i.offset),i={struct:u,offset:0},h.next())}}else i={struct:h.curr,offset:0},h.next();for(let u=h.curr;u!==null&&u.id.client===d&&u.id.clock===i.struct.id.clock+i.struct.length&&u.constructor!==O;u=h.next())st(c,i.struct,i.offset),i={struct:u,offset:0}}i!==null&&(st(c,i.struct,i.offset),i=null),Xn(c);let l=r.map(h=>Wn(h)),a=yo(l);return Nt(o,a),o.toUint8Array()},Fo=(e,t,n=ct,r=Z)=>{let s=ys(t),i=new r,o=new Qt(i),c=new n(M(e)),l=new Zt(c,!1);for(;l.curr;){let h=l.curr,d=h.id.client,u=s.get(d)||0;if(l.curr.constructor===O){l.next();continue}if(h.id.clock+h.length>u)for(st(o,h,q(u-h.id.clock,0)),l.next();l.curr&&l.curr.id.client===d;)st(o,l.curr,0),l.next();else for(;l.curr&&l.curr.id.client===d&&l.curr.id.clock+l.curr.length<=u;)l.next()}Xn(o);let a=Wn(c);return Nt(i,a),i.toUint8Array()};var Es=e=>{e.written>0&&(e.clientStructs.push({written:e.written,restEncoder:k(e.encoder.restEncoder)}),e.encoder.restEncoder=v(),e.written=0)},st=(e,t,n)=>{e.written>0&&e.currClient!==t.id.client&&Es(e),e.written===0&&(e.currClient=t.id.client,e.encoder.writeClient(t.id.client),p(e.encoder.restEncoder,t.id.clock+n)),t.write(e.encoder,n),e.written++},Xn=e=>{Es(e);let t=e.encoder.restEncoder;p(t,e.clientStructs.length);for(let n=0;n<e.clientStructs.length;n++){let r=e.clientStructs[n];p(t,r.written),zt(t,r.restEncoder)}},jo=(e,t,n,r)=>{let s=new n(M(e)),i=new Zt(s,!1),o=new r,c=new Qt(o);for(let a=i.curr;a!==null;a=i.next())st(c,t(a),0);Xn(c);let l=Wn(s);return Nt(o,l),o.toUint8Array()};var zo=e=>jo(e,jr,ct,wt),as="You must not compute changes after the event-handler fired.",Lt=class{constructor(t,n){this.target=t,this.currentTarget=t,this.transaction=n,this._changes=null,this._keys=null,this._delta=null,this._path=null}get path(){return this._path||(this._path=$o(this.currentTarget,this.target))}deletes(t){return gs(this.transaction.deleteSet,t.id)}get keys(){if(this._keys===null){if(this.transaction.doc._transactionCleanups.length===0)throw G(as);let t=new Map,n=this.target;this.transaction.changed.get(n).forEach(s=>{if(s!==null){let i=n._map.get(s),o,c;if(this.adds(i)){let l=i.left;for(;l!==null&&this.adds(l);)l=l.left;if(this.deletes(i))if(l!==null&&this.deletes(l))o="delete",c=we(l.content.getContent());else return;else l!==null&&this.deletes(l)?(o="update",c=we(l.content.getContent())):(o="add",c=void 0)}else if(this.deletes(i))o="delete",c=we(i.content.getContent());else return;t.set(s,{action:o,oldValue:c})}}),this._keys=t}return this._keys}get delta(){return this.changes.delta}adds(t){return t.id.clock>=(this.transaction.beforeState.get(t.id.client)||0)}get changes(){let t=this._changes;if(t===null){if(this.transaction.doc._transactionCleanups.length===0)throw G(as);let n=this.target,r=P(),s=P(),i=[];if(t={added:r,deleted:s,delta:i,keys:this.keys},this.transaction.changed.get(n).has(null)){let c=null,l=()=>{c&&i.push(c)};for(let a=n._start;a!==null;a=a.right)a.deleted?this.deletes(a)&&!this.adds(a)&&((c===null||c.delete===void 0)&&(l(),c={delete:0}),c.delete+=a.length,s.add(a)):this.adds(a)?((c===null||c.insert===void 0)&&(l(),c={insert:[]}),c.insert=c.insert.concat(a.content.getContent()),r.add(a)):((c===null||c.retain===void 0)&&(l(),c={retain:0}),c.retain+=a.length);c!==null&&c.retain===void 0&&l()}this._changes=t}return t}},$o=(e,t)=>{let n=[];for(;t._item!==null&&t!==e;){if(t._item.parentSub!==null)n.unshift(t._item.parentSub);else{let r=0,s=t._item.parent._start;for(;s!==t._item&&s!==null;)!s.deleted&&s.countable&&(r+=s.length),s=s.right;n.unshift(r)}t=t._item.parent}return n},T=()=>{Xr("Invalid access: Add Yjs type to a document before reading data.")},_s=80,Kn=0,Rn=class{constructor(t,n){t.marker=!0,this.p=t,this.index=n,this.timestamp=Kn++}},Po=e=>{e.timestamp=Kn++},Cs=(e,t,n)=>{e.p.marker=!1,e.p=t,t.marker=!0,e.index=n,e.timestamp=Kn++},Go=(e,t,n)=>{if(e.length>=_s){let r=e.reduce((s,i)=>s.timestamp<i.timestamp?s:i);return Cs(r,t,n),r}else{let r=new Rn(t,n);return e.push(r),r}},He=(e,t)=>{if(e._start===null||t===0||e._searchMarker===null)return null;let n=e._searchMarker.length===0?null:e._searchMarker.reduce((i,o)=>kt(t-i.index)<kt(t-o.index)?i:o),r=e._start,s=0;for(n!==null&&(r=n.p,s=n.index,Po(n));r.right!==null&&s<t;){if(!r.deleted&&r.countable){if(t<s+r.length)break;s+=r.length}r=r.right}for(;r.left!==null&&s>t;)r=r.left,!r.deleted&&r.countable&&(s-=r.length);for(;r.left!==null&&r.left.id.client===r.id.client&&r.left.id.clock+r.left.length===r.id.clock;)r=r.left,!r.deleted&&r.countable&&(s-=r.length);return n!==null&&kt(n.index-s)<r.parent.length/_s?(Cs(n,r,s),n):Go(e._searchMarker,r,s)},te=(e,t,n)=>{for(let r=e.length-1;r>=0;r--){let s=e[r];if(n>0){let i=s.p;for(i.marker=!1;i&&(i.deleted||!i.countable);)i=i.left,i&&!i.deleted&&i.countable&&(s.index-=i.length);if(i===null||i.marker===!0){e.splice(r,1);continue}s.p=i,i.marker=!0}(t<s.index||n>0&&t===s.index)&&(s.index=q(t,s.index+n))}};var We=(e,t,n)=>{let r=e,s=t.changedParentTypes;for(;z(s,e,()=>[]).push(n),e._item!==null;)e=e._item.parent;bs(r._eH,n,t)},E=class{constructor(){this._item=null,this._map=new Map,this._start=null,this.doc=null,this._length=0,this._eH=rs(),this._dEH=rs(),this._searchMarker=null}get parent(){return this._item?this._item.parent:null}_integrate(t,n){this.doc=t,this._item=n}_copy(){throw F()}clone(){throw F()}_write(t){}get _first(){let t=this._start;for(;t!==null&&t.deleted;)t=t.right;return t}_callObserver(t,n){!t.local&&this._searchMarker&&(this._searchMarker.length=0)}observe(t){ss(this._eH,t)}observeDeep(t){ss(this._dEH,t)}unobserve(t){is(this._eH,t)}unobserveDeep(t){is(this._dEH,t)}toJSON(){}},As=(e,t,n)=>{e.doc??T(),t<0&&(t=e._length+t),n<0&&(n=e._length+n);let r=n-t,s=[],i=e._start;for(;i!==null&&r>0;){if(i.countable&&!i.deleted){let o=i.content.getContent();if(o.length<=t)t-=o.length;else{for(let c=t;c<o.length&&r>0;c++)s.push(o[c]),r--;t=0}}i=i.right}return s},Ds=e=>{e.doc??T();let t=[],n=e._start;for(;n!==null;){if(n.countable&&!n.deleted){let r=n.content.getContent();for(let s=0;s<r.length;s++)t.push(r[s])}n=n.right}return t};var ee=(e,t)=>{let n=0,r=e._start;for(e.doc??T();r!==null;){if(r.countable&&!r.deleted){let s=r.content.getContent();for(let i=0;i<s.length;i++)t(s[i],n++,e)}r=r.right}},Is=(e,t)=>{let n=[];return ee(e,(r,s)=>{n.push(t(r,s,e))}),n},Jo=e=>{let t=e._start,n=null,r=0;return{[Symbol.iterator](){return this},next:()=>{if(n===null){for(;t!==null&&t.deleted;)t=t.right;if(t===null)return{done:!0,value:void 0};n=t.content.getContent(),r=0,t=t.right}let s=n[r++];return n.length<=r&&(n=null),{done:!1,value:s}}}},Ts=(e,t)=>{e.doc??T();let n=He(e,t),r=e._start;for(n!==null&&(r=n.p,t-=n.index);r!==null;r=r.right)if(!r.deleted&&r.countable){if(t<r.length)return r.content.getContent()[t];t-=r.length}},ze=(e,t,n,r)=>{let s=n,i=e.doc,o=i.clientID,c=i.store,l=n===null?t._start:n.right,a=[],h=()=>{a.length>0&&(s=new I(y(o,D(c,o)),s,s&&s.lastId,l,l&&l.id,t,null,new Mt(a)),s.integrate(e,0),a=[])};r.forEach(d=>{if(d===null)a.push(d);else switch(d.constructor){case Number:case Object:case Boolean:case Array:case String:a.push(d);break;default:switch(h(),d.constructor){case Uint8Array:case ArrayBuffer:s=new I(y(o,D(c,o)),s,s&&s.lastId,l,l&&l.id,t,null,new ce(new Uint8Array(d))),s.integrate(e,0);break;case $:s=new I(y(o,D(c,o)),s,s&&s.lastId,l,l&&l.id,t,null,new le(d)),s.integrate(e,0);break;default:if(d instanceof E)s=new I(y(o,D(c,o)),s,s&&s.lastId,l,l&&l.id,t,null,new tt(d)),s.integrate(e,0);else throw new Error("Unexpected content type in insert operation")}}}),h()},vs=()=>G("Length exceeded!"),Vs=(e,t,n,r)=>{if(n>t._length)throw vs();if(n===0)return t._searchMarker&&te(t._searchMarker,n,r.length),ze(e,t,null,r);let s=n,i=He(t,n),o=t._start;for(i!==null&&(o=i.p,n-=i.index,n===0&&(o=o.prev,n+=o&&o.countable&&!o.deleted?o.length:0));o!==null;o=o.right)if(!o.deleted&&o.countable){if(n<=o.length){n<o.length&&lt(e,y(o.id.client,o.id.clock+n));break}n-=o.length}return t._searchMarker&&te(t._searchMarker,s,r.length),ze(e,t,o,r)},Yo=(e,t,n)=>{let s=(t._searchMarker||[]).reduce((i,o)=>o.index>i.index?o:i,{index:0,p:t._start}).p;if(s)for(;s.right;)s=s.right;return ze(e,t,s,n)},Ls=(e,t,n,r)=>{if(r===0)return;let s=n,i=r,o=He(t,n),c=t._start;for(o!==null&&(c=o.p,n-=o.index);c!==null&&n>0;c=c.right)!c.deleted&&c.countable&&(n<c.length&&lt(e,y(c.id.client,c.id.clock+n)),n-=c.length);for(;r>0&&c!==null;)c.deleted||(r<c.length&&lt(e,y(c.id.client,c.id.clock+r)),c.delete(e),r-=c.length),c=c.right;if(r>0)throw vs();t._searchMarker&&te(t._searchMarker,s,-i+r)},$e=(e,t,n)=>{let r=t._map.get(n);r!==void 0&&r.delete(e)},Zn=(e,t,n,r)=>{let s=t._map.get(n)||null,i=e.doc,o=i.clientID,c;if(r==null)c=new Mt([r]);else switch(r.constructor){case Number:case Object:case Boolean:case Array:case String:c=new Mt([r]);break;case Uint8Array:c=new ce(r);break;case $:c=new le(r);break;default:if(r instanceof E)c=new tt(r);else throw new Error("Unexpected content type")}new I(y(o,D(i.store,o)),s,s&&s.lastId,null,null,t,n,c).integrate(e,0)},Qn=(e,t)=>{e.doc??T();let n=e._map.get(t);return n!==void 0&&!n.deleted?n.content.getContent()[n.length-1]:void 0},Os=e=>{let t={};return e.doc??T(),e._map.forEach((n,r)=>{n.deleted||(t[r]=n.content.getContent()[n.length-1])}),t},Ms=(e,t)=>{e.doc??T();let n=e._map.get(t);return n!==void 0&&!n.deleted};var Ho=(e,t)=>{let n={};return e._map.forEach((r,s)=>{let i=r;for(;i!==null&&(!t.sv.has(i.id.client)||i.id.clock>=(t.sv.get(i.id.client)||0));)i=i.left;i!==null&&Vt(i,t)&&(n[s]=i.content.getContent()[i.length-1])}),n},Te=e=>(e.doc??T(),Qr(e._map.entries(),t=>!t[1].deleted)),Fn=class extends Lt{},Pe=class e extends E{constructor(){super(),this._prelimContent=[],this._searchMarker=[]}static from(t){let n=new e;return n.push(t),n}_integrate(t,n){super._integrate(t,n),this.insert(0,this._prelimContent),this._prelimContent=null}_copy(){return new e}clone(){let t=new e;return t.insert(0,this.toArray().map(n=>n instanceof E?n.clone():n)),t}get length(){return this.doc??T(),this._length}_callObserver(t,n){super._callObserver(t,n),We(this,t,new Fn(this,t))}insert(t,n){this.doc!==null?x(this.doc,r=>{Vs(r,this,t,n)}):this._prelimContent.splice(t,0,...n)}push(t){this.doc!==null?x(this.doc,n=>{Yo(n,this,t)}):this._prelimContent.push(...t)}unshift(t){this.insert(0,t)}delete(t,n=1){this.doc!==null?x(this.doc,r=>{Ls(r,this,t,n)}):this._prelimContent.splice(t,n)}get(t){return Ts(this,t)}toArray(){return Ds(this)}slice(t=0,n=this.length){return As(this,t,n)}toJSON(){return this.map(t=>t instanceof E?t.toJSON():t)}map(t){return Is(this,t)}forEach(t){ee(this,t)}[Symbol.iterator](){return Jo(this)}_write(t){t.writeTypeRef(pc)}},Wo=e=>new Pe,jn=class extends Lt{constructor(t,n,r){super(t,n),this.keysChanged=r}},ne=class e extends E{constructor(t){super(),this._prelimContent=null,t===void 0?this._prelimContent=new Map:this._prelimContent=new Map(t)}_integrate(t,n){super._integrate(t,n),this._prelimContent.forEach((r,s)=>{this.set(s,r)}),this._prelimContent=null}_copy(){return new e}clone(){let t=new e;return this.forEach((n,r)=>{t.set(r,n instanceof E?n.clone():n)}),t}_callObserver(t,n){We(this,t,new jn(this,t,n))}toJSON(){this.doc??T();let t={};return this._map.forEach((n,r)=>{if(!n.deleted){let s=n.content.getContent()[n.length-1];t[r]=s instanceof E?s.toJSON():s}}),t}get size(){return[...Te(this)].length}keys(){return De(Te(this),t=>t[0])}values(){return De(Te(this),t=>t[1].content.getContent()[t[1].length-1])}entries(){return De(Te(this),t=>[t[0],t[1].content.getContent()[t[1].length-1]])}forEach(t){this.doc??T(),this._map.forEach((n,r)=>{n.deleted||t(n.content.getContent()[n.length-1],r,this)})}[Symbol.iterator](){return this.entries()}delete(t){this.doc!==null?x(this.doc,n=>{$e(n,this,t)}):this._prelimContent.delete(t)}set(t,n){return this.doc!==null?x(this.doc,r=>{Zn(r,this,t,n)}):this._prelimContent.set(t,n),n}get(t){return Qn(this,t)}has(t){return Ms(this,t)}clear(){this.doc!==null?x(this.doc,t=>{this.forEach(function(n,r,s){$e(t,s,r)})}):this._prelimContent.clear()}_write(t){t.writeTypeRef(mc)}},qo=e=>new ne,it=(e,t)=>e===t||typeof e=="object"&&typeof t=="object"&&e&&t&&bn(e,t),re=class{constructor(t,n,r,s){this.left=t,this.right=n,this.index=r,this.currentAttributes=s}forward(){switch(this.right===null&&j(),this.right.content.constructor){case _:this.right.deleted||Bt(this.currentAttributes,this.right.content);break;default:this.right.deleted||(this.index+=this.right.length);break}this.left=this.right,this.right=this.right.right}},hs=(e,t,n)=>{for(;t.right!==null&&n>0;){switch(t.right.content.constructor){case _:t.right.deleted||Bt(t.currentAttributes,t.right.content);break;default:t.right.deleted||(n<t.right.length&&lt(e,y(t.right.id.client,t.right.id.clock+n)),t.index+=t.right.length,n-=t.right.length);break}t.left=t.right,t.right=t.right.right}return t},ve=(e,t,n,r)=>{let s=new Map,i=r?He(t,n):null;if(i){let o=new re(i.p.left,i.p,i.index,s);return hs(e,o,n-i.index)}else{let o=new re(null,t._start,0,s);return hs(e,o,n)}},Ns=(e,t,n,r)=>{for(;n.right!==null&&(n.right.deleted===!0||n.right.content.constructor===_&&it(r.get(n.right.content.key),n.right.content.value));)n.right.deleted||r.delete(n.right.content.key),n.forward();let s=e.doc,i=s.clientID;r.forEach((o,c)=>{let l=n.left,a=n.right,h=new I(y(i,D(s.store,i)),l,l&&l.lastId,a,a&&a.id,t,null,new _(c,o));h.integrate(e,0),n.right=h,n.forward()})},Bt=(e,t)=>{let{key:n,value:r}=t;r===null?e.delete(n):e.set(n,r)},Bs=(e,t)=>{for(;e.right!==null;){if(!(e.right.deleted||e.right.content.constructor===_&&it(t[e.right.content.key]??null,e.right.content.value)))break;e.forward()}},Rs=(e,t,n,r)=>{let s=e.doc,i=s.clientID,o=new Map;for(let c in r){let l=r[c],a=n.currentAttributes.get(c)??null;if(!it(a,l)){o.set(c,a);let{left:h,right:d}=n;n.right=new I(y(i,D(s.store,i)),h,h&&h.lastId,d,d&&d.id,t,null,new _(c,l)),n.right.integrate(e,0),n.forward()}}return o},vn=(e,t,n,r,s)=>{n.currentAttributes.forEach((u,f)=>{s[f]===void 0&&(s[f]=null)});let i=e.doc,o=i.clientID;Bs(n,s);let c=Rs(e,t,n,s),l=r.constructor===String?new Q(r):r instanceof E?new tt(r):new yt(r),{left:a,right:h,index:d}=n;t._searchMarker&&te(t._searchMarker,n.index,l.getLength()),h=new I(y(o,D(i.store,o)),a,a&&a.lastId,h,h&&h.id,t,null,l),h.integrate(e,0),n.right=h,n.index=d,n.forward(),Ns(e,t,n,c)},ds=(e,t,n,r,s)=>{let i=e.doc,o=i.clientID;Bs(n,s);let c=Rs(e,t,n,s);t:for(;n.right!==null&&(r>0||c.size>0&&(n.right.deleted||n.right.content.constructor===_));){if(!n.right.deleted)switch(n.right.content.constructor){case _:{let{key:l,value:a}=n.right.content,h=s[l];if(h!==void 0){if(it(h,a))c.delete(l);else{if(r===0)break t;c.set(l,a)}n.right.delete(e)}else n.currentAttributes.set(l,a);break}default:r<n.right.length&&lt(e,y(n.right.id.client,n.right.id.clock+r)),r-=n.right.length;break}n.forward()}if(r>0){let l="";for(;r>0;r--)l+=`
-`;n.right=new I(y(o,D(i.store,o)),n.left,n.left&&n.left.lastId,n.right,n.right&&n.right.id,t,null,new Q(l)),n.right.integrate(e,0),n.forward()}Ns(e,t,n,c)},Fs=(e,t,n,r,s)=>{let i=t,o=A();for(;i&&(!i.countable||i.deleted);){if(!i.deleted&&i.content.constructor===_){let a=i.content;o.set(a.key,a)}i=i.right}let c=0,l=!1;for(;t!==i;){if(n===t&&(l=!0),!t.deleted){let a=t.content;switch(a.constructor){case _:{let{key:h,value:d}=a,u=r.get(h)??null;(o.get(h)!==a||u===d)&&(t.delete(e),c++,!l&&(s.get(h)??null)===d&&u!==d&&(u===null?s.delete(h):s.set(h,u))),!l&&!t.deleted&&Bt(s,a);break}}}t=t.right}return c},Xo=(e,t)=>{for(;t&&t.right&&(t.right.deleted||!t.right.countable);)t=t.right;let n=new Set;for(;t&&(t.deleted||!t.countable);){if(!t.deleted&&t.content.constructor===_){let r=t.content.key;n.has(r)?t.delete(e):n.add(r)}t=t.left}},Ko=e=>{let t=0;return x(e.doc,n=>{let r=e._start,s=e._start,i=A(),o=_e(i);for(;s;){if(s.deleted===!1)switch(s.content.constructor){case _:Bt(o,s.content);break;default:t+=Fs(n,r,s,i,o),i=_e(o),r=s;break}s=s.right}}),t},Zo=e=>{let t=new Set,n=e.doc;for(let[r,s]of e.afterState.entries()){let i=e.beforeState.get(r)||0;s!==i&&Ss(e,n.store.clients.get(r),i,s,o=>{!o.deleted&&o.content.constructor===_&&o.constructor!==L&&t.add(o.parent)})}x(n,r=>{fs(e,e.deleteSet,s=>{if(s instanceof L||!s.parent._hasFormatting||t.has(s.parent))return;let i=s.parent;s.content.constructor===_?t.add(i):Xo(r,s)});for(let s of t)Ko(s)})},us=(e,t,n)=>{let r=n,s=_e(t.currentAttributes),i=t.right;for(;n>0&&t.right!==null;){if(t.right.deleted===!1)switch(t.right.content.constructor){case tt:case yt:case Q:n<t.right.length&&lt(e,y(t.right.id.client,t.right.id.clock+n)),n-=t.right.length,t.right.delete(e);break}t.forward()}i&&Fs(e,i,t.right,s,t.currentAttributes);let o=(t.left||t.right).parent;return o._searchMarker&&te(o._searchMarker,t.index,-r+n),t},zn=class extends Lt{constructor(t,n,r){super(t,n),this.childListChanged=!1,this.keysChanged=new Set,r.forEach(s=>{s===null?this.childListChanged=!0:this.keysChanged.add(s)})}get changes(){if(this._changes===null){let t={keys:this.keys,delta:this.delta,added:new Set,deleted:new Set};this._changes=t}return this._changes}get delta(){if(this._delta===null){let t=this.target.doc,n=[];x(t,r=>{let s=new Map,i=new Map,o=this.target._start,c=null,l={},a="",h=0,d=0,u=()=>{if(c!==null){let f=null;switch(c){case"delete":d>0&&(f={delete:d}),d=0;break;case"insert":(typeof a=="object"||a.length>0)&&(f={insert:a},s.size>0&&(f.attributes={},s.forEach((g,w)=>{g!==null&&(f.attributes[w]=g)}))),a="";break;case"retain":h>0&&(f={retain:h},Rr(l)||(f.attributes=Mr({},l))),h=0;break}f&&n.push(f),c=null}};for(;o!==null;){switch(o.content.constructor){case tt:case yt:this.adds(o)?this.deletes(o)||(u(),c="insert",a=o.content.getContent()[0],u()):this.deletes(o)?(c!=="delete"&&(u(),c="delete"),d+=1):o.deleted||(c!=="retain"&&(u(),c="retain"),h+=1);break;case Q:this.adds(o)?this.deletes(o)||(c!=="insert"&&(u(),c="insert"),a+=o.content.str):this.deletes(o)?(c!=="delete"&&(u(),c="delete"),d+=o.length):o.deleted||(c!=="retain"&&(u(),c="retain"),h+=o.length);break;case _:{let{key:f,value:g}=o.content;if(this.adds(o)){if(!this.deletes(o)){let w=s.get(f)??null;it(w,g)?g!==null&&o.delete(r):(c==="retain"&&u(),it(g,i.get(f)??null)?delete l[f]:l[f]=g)}}else if(this.deletes(o)){i.set(f,g);let w=s.get(f)??null;it(w,g)||(c==="retain"&&u(),l[f]=w)}else if(!o.deleted){i.set(f,g);let w=l[f];w!==void 0&&(it(w,g)?w!==null&&o.delete(r):(c==="retain"&&u(),g===null?delete l[f]:l[f]=g))}o.deleted||(c==="insert"&&u(),Bt(s,o.content));break}}o=o.right}for(u();n.length>0;){let f=n[n.length-1];if(f.retain!==void 0&&f.attributes===void 0)n.pop();else break}}),this._delta=n}return this._delta}},se=class e extends E{constructor(t){super(),this._pending=t!==void 0?[()=>this.insert(0,t)]:[],this._searchMarker=[],this._hasFormatting=!1}get length(){return this.doc??T(),this._length}_integrate(t,n){super._integrate(t,n);try{this._pending.forEach(r=>r())}catch(r){console.error(r)}this._pending=null}_copy(){return new e}clone(){let t=new e;return t.applyDelta(this.toDelta()),t}_callObserver(t,n){super._callObserver(t,n);let r=new zn(this,t,n);We(this,t,r),!t.local&&this._hasFormatting&&(t._needFormattingCleanup=!0)}toString(){this.doc??T();let t="",n=this._start;for(;n!==null;)!n.deleted&&n.countable&&n.content.constructor===Q&&(t+=n.content.str),n=n.right;return t}toJSON(){return this.toString()}applyDelta(t,{sanitize:n=!0}={}){this.doc!==null?x(this.doc,r=>{let s=new re(null,this._start,0,new Map);for(let i=0;i<t.length;i++){let o=t[i];if(o.insert!==void 0){let c=!n&&typeof o.insert=="string"&&i===t.length-1&&s.right===null&&o.insert.slice(-1)===`
-`?o.insert.slice(0,-1):o.insert;(typeof c!="string"||c.length>0)&&vn(r,this,s,c,o.attributes||{})}else o.retain!==void 0?ds(r,this,s,o.retain,o.attributes||{}):o.delete!==void 0&&us(r,s,o.delete)}}):this._pending.push(()=>this.applyDelta(t))}toDelta(t,n,r){this.doc??T();let s=[],i=new Map,o=this.doc,c="",l=this._start;function a(){if(c.length>0){let d={},u=!1;i.forEach((g,w)=>{u=!0,d[w]=g});let f={insert:c};u&&(f.attributes=d),s.push(f),c=""}}let h=()=>{for(;l!==null;){if(Vt(l,t)||n!==void 0&&Vt(l,n))switch(l.content.constructor){case Q:{let d=i.get("ychange");t!==void 0&&!Vt(l,t)?(d===void 0||d.user!==l.id.client||d.type!=="removed")&&(a(),i.set("ychange",r?r("removed",l.id):{type:"removed"})):n!==void 0&&!Vt(l,n)?(d===void 0||d.user!==l.id.client||d.type!=="added")&&(a(),i.set("ychange",r?r("added",l.id):{type:"added"})):d!==void 0&&(a(),i.delete("ychange")),c+=l.content.str;break}case tt:case yt:{a();let d={insert:l.content.getContent()[0]};if(i.size>0){let u={};d.attributes=u,i.forEach((f,g)=>{u[g]=f})}s.push(d);break}case _:Vt(l,t)&&(a(),Bt(i,l.content));break}l=l.right}a()};return t||n?x(o,d=>{t&&Mn(d,t),n&&Mn(d,n),h()},"cleanup"):h(),s}insert(t,n,r){if(n.length<=0)return;let s=this.doc;s!==null?x(s,i=>{let o=ve(i,this,t,!r);r||(r={},o.currentAttributes.forEach((c,l)=>{r[l]=c})),vn(i,this,o,n,r)}):this._pending.push(()=>this.insert(t,n,r))}insertEmbed(t,n,r){let s=this.doc;s!==null?x(s,i=>{let o=ve(i,this,t,!r);vn(i,this,o,n,r||{})}):this._pending.push(()=>this.insertEmbed(t,n,r||{}))}delete(t,n){if(n===0)return;let r=this.doc;r!==null?x(r,s=>{us(s,ve(s,this,t,!0),n)}):this._pending.push(()=>this.delete(t,n))}format(t,n,r){if(n===0)return;let s=this.doc;s!==null?x(s,i=>{let o=ve(i,this,t,!1);o.right!==null&&ds(i,this,o,n,r)}):this._pending.push(()=>this.format(t,n,r))}removeAttribute(t){this.doc!==null?x(this.doc,n=>{$e(n,this,t)}):this._pending.push(()=>this.removeAttribute(t))}setAttribute(t,n){this.doc!==null?x(this.doc,r=>{Zn(r,this,t,n)}):this._pending.push(()=>this.setAttribute(t,n))}getAttribute(t){return Qn(this,t)}getAttributes(){return Os(this)}_write(t){t.writeTypeRef(wc)}},Qo=e=>new se,Xt=class{constructor(t,n=()=>!0){this._filter=n,this._root=t,this._currentNode=t._start,this._firstCall=!0,t.doc??T()}[Symbol.iterator](){return this}next(){let t=this._currentNode,n=t&&t.content&&t.content.type;if(t!==null&&(!this._firstCall||t.deleted||!this._filter(n)))do if(n=t.content.type,!t.deleted&&(n.constructor===ie||n.constructor===Ot)&&n._start!==null)t=n._start;else for(;t!==null;){let r=t.next;if(r!==null){t=r;break}else t.parent===this._root?t=null:t=t.parent._item}while(t!==null&&(t.deleted||!this._filter(t.content.type)));return this._firstCall=!1,t===null?{value:void 0,done:!0}:(this._currentNode=t,{value:t.content.type,done:!1})}},Ot=class e extends E{constructor(){super(),this._prelimContent=[]}get firstChild(){let t=this._first;return t?t.content.getContent()[0]:null}_integrate(t,n){super._integrate(t,n),this.insert(0,this._prelimContent),this._prelimContent=null}_copy(){return new e}clone(){let t=new e;return t.insert(0,this.toArray().map(n=>n instanceof E?n.clone():n)),t}get length(){return this.doc??T(),this._prelimContent===null?this._length:this._prelimContent.length}createTreeWalker(t){return new Xt(this,t)}querySelector(t){t=t.toUpperCase();let r=new Xt(this,s=>s.nodeName&&s.nodeName.toUpperCase()===t).next();return r.done?null:r.value}querySelectorAll(t){return t=t.toUpperCase(),R(new Xt(this,n=>n.nodeName&&n.nodeName.toUpperCase()===t))}_callObserver(t,n){We(this,t,new $n(this,n,t))}toString(){return Is(this,t=>t.toString()).join("")}toJSON(){return this.toString()}toDOM(t=document,n={},r){let s=t.createDocumentFragment();return r!==void 0&&r._createAssociation(s,this),ee(this,i=>{s.insertBefore(i.toDOM(t,n,r),null)}),s}insert(t,n){this.doc!==null?x(this.doc,r=>{Vs(r,this,t,n)}):this._prelimContent.splice(t,0,...n)}insertAfter(t,n){if(this.doc!==null)x(this.doc,r=>{let s=t&&t instanceof E?t._item:t;ze(r,this,s,n)});else{let r=this._prelimContent,s=t===null?0:r.findIndex(i=>i===t)+1;if(s===0&&t!==null)throw G("Reference item not found");r.splice(s,0,...n)}}delete(t,n=1){this.doc!==null?x(this.doc,r=>{Ls(r,this,t,n)}):this._prelimContent.splice(t,n)}toArray(){return Ds(this)}push(t){this.insert(this.length,t)}unshift(t){this.insert(0,t)}get(t){return Ts(this,t)}slice(t=0,n=this.length){return As(this,t,n)}forEach(t){ee(this,t)}_write(t){t.writeTypeRef(xc)}},tc=e=>new Ot,ie=class e extends Ot{constructor(t="UNDEFINED"){super(),this.nodeName=t,this._prelimAttrs=new Map}get nextSibling(){let t=this._item?this._item.next:null;return t?t.content.type:null}get prevSibling(){let t=this._item?this._item.prev:null;return t?t.content.type:null}_integrate(t,n){super._integrate(t,n),this._prelimAttrs.forEach((r,s)=>{this.setAttribute(s,r)}),this._prelimAttrs=null}_copy(){return new e(this.nodeName)}clone(){let t=new e(this.nodeName),n=this.getAttributes();return Br(n,(r,s)=>{typeof r=="string"&&t.setAttribute(s,r)}),t.insert(0,this.toArray().map(r=>r instanceof E?r.clone():r)),t}toString(){let t=this.getAttributes(),n=[],r=[];for(let c in t)r.push(c);r.sort();let s=r.length;for(let c=0;c<s;c++){let l=r[c];n.push(l+'="'+t[l]+'"')}let i=this.nodeName.toLocaleLowerCase(),o=n.length>0?" "+n.join(" "):"";return`<${i}${o}>${super.toString()}</${i}>`}removeAttribute(t){this.doc!==null?x(this.doc,n=>{$e(n,this,t)}):this._prelimAttrs.delete(t)}setAttribute(t,n){this.doc!==null?x(this.doc,r=>{Zn(r,this,t,n)}):this._prelimAttrs.set(t,n)}getAttribute(t){return Qn(this,t)}hasAttribute(t){return Ms(this,t)}getAttributes(t){return t?Ho(this,t):Os(this)}toDOM(t=document,n={},r){let s=t.createElement(this.nodeName),i=this.getAttributes();for(let o in i){let c=i[o];typeof c=="string"&&s.setAttribute(o,c)}return ee(this,o=>{s.appendChild(o.toDOM(t,n,r))}),r!==void 0&&r._createAssociation(s,this),s}_write(t){t.writeTypeRef(yc),t.writeKey(this.nodeName)}},ec=e=>new ie(e.readKey()),$n=class extends Lt{constructor(t,n,r){super(t,r),this.childListChanged=!1,this.attributesChanged=new Set,n.forEach(s=>{s===null?this.childListChanged=!0:this.attributesChanged.add(s)})}},Pn=class e extends ne{constructor(t){super(),this.hookName=t}_copy(){return new e(this.hookName)}clone(){let t=new e(this.hookName);return this.forEach((n,r)=>{t.set(r,n)}),t}toDOM(t=document,n={},r){let s=n[this.hookName],i;return s!==void 0?i=s.createDom(this):i=document.createElement(this.hookName),i.setAttribute("data-yjs-hook",this.hookName),r!==void 0&&r._createAssociation(i,this),i}_write(t){t.writeTypeRef(bc),t.writeKey(this.hookName)}},nc=e=>new Pn(e.readKey()),Gn=class e extends se{get nextSibling(){let t=this._item?this._item.next:null;return t?t.content.type:null}get prevSibling(){let t=this._item?this._item.prev:null;return t?t.content.type:null}_copy(){return new e}clone(){let t=new e;return t.applyDelta(this.toDelta()),t}toDOM(t=document,n,r){let s=t.createTextNode(this.toString());return r!==void 0&&r._createAssociation(s,this),s}toString(){return this.toDelta().map(t=>{let n=[];for(let s in t.attributes){let i=[];for(let o in t.attributes[s])i.push({key:o,value:t.attributes[s][o]});i.sort((o,c)=>o.key<c.key?-1:1),n.push({nodeName:s,attrs:i})}n.sort((s,i)=>s.nodeName<i.nodeName?-1:1);let r="";for(let s=0;s<n.length;s++){let i=n[s];r+=`<${i.nodeName}`;for(let o=0;o<i.attrs.length;o++){let c=i.attrs[o];r+=` ${c.key}="${c.value}"`}r+=">"}r+=t.insert;for(let s=n.length-1;s>=0;s--)r+=`</${n[s].nodeName}>`;return r}).join("")}toJSON(){return this.toString()}_write(t){t.writeTypeRef(kc)}},rc=e=>new Gn,oe=class{constructor(t,n){this.id=t,this.length=n}get deleted(){throw F()}mergeWith(t){return!1}write(t,n,r){throw F()}integrate(t,n){throw F()}},sc=0,L=class extends oe{get deleted(){return!0}delete(){}mergeWith(t){return this.constructor!==t.constructor?!1:(this.length+=t.length,!0)}integrate(t,n){n>0&&(this.id.clock+=n,this.length-=n),ks(t.doc.store,this)}write(t,n){t.writeInfo(sc),t.writeLen(this.length-n)}getMissing(t,n){return null}},ce=class e{constructor(t){this.content=t}getLength(){return 1}getContent(){return[this.content]}isCountable(){return!0}copy(){return new e(this.content)}splice(t){throw F()}mergeWith(t){return!1}integrate(t,n){}delete(t){}gc(t){}write(t,n){t.writeBuf(this.content)}getRef(){return 3}},ic=e=>new ce(e.readBuf()),Ge=class e{constructor(t){this.len=t}getLength(){return this.len}getContent(){return[]}isCountable(){return!1}copy(){return new e(this.len)}splice(t){let n=new e(this.len-t);return this.len=t,n}mergeWith(t){return this.len+=t.len,!0}integrate(t,n){Oe(t.deleteSet,n.id.client,n.id.clock,this.len),n.markDeleted()}delete(t){}gc(t){}write(t,n){t.writeLen(this.len-n)}getRef(){return 1}},oc=e=>new Ge(e.readLen()),js=(e,t)=>new $({guid:e,...t,shouldLoad:t.shouldLoad||t.autoLoad||!1}),le=class e{constructor(t){t._item&&console.error("This document was already integrated as a sub-document. You should create a second instance instead with the same guid."),this.doc=t;let n={};this.opts=n,t.gc||(n.gc=!1),t.autoLoad&&(n.autoLoad=!0),t.meta!==null&&(n.meta=t.meta)}getLength(){return 1}getContent(){return[this.doc]}isCountable(){return!0}copy(){return new e(js(this.doc.guid,this.opts))}splice(t){throw F()}mergeWith(t){return!1}integrate(t,n){this.doc._item=n,t.subdocsAdded.add(this.doc),this.doc.shouldLoad&&t.subdocsLoaded.add(this.doc)}delete(t){t.subdocsAdded.has(this.doc)?t.subdocsAdded.delete(this.doc):t.subdocsRemoved.add(this.doc)}gc(t){}write(t,n){t.writeString(this.doc.guid),t.writeAny(this.opts)}getRef(){return 9}},cc=e=>new le(js(e.readString(),e.readAny())),yt=class e{constructor(t){this.embed=t}getLength(){return 1}getContent(){return[this.embed]}isCountable(){return!0}copy(){return new e(this.embed)}splice(t){throw F()}mergeWith(t){return!1}integrate(t,n){}delete(t){}gc(t){}write(t,n){t.writeJSON(this.embed)}getRef(){return 5}},lc=e=>new yt(e.readJSON()),_=class e{constructor(t,n){this.key=t,this.value=n}getLength(){return 1}getContent(){return[]}isCountable(){return!1}copy(){return new e(this.key,this.value)}splice(t){throw F()}mergeWith(t){return!1}integrate(t,n){let r=n.parent;r._searchMarker=null,r._hasFormatting=!0}delete(t){}gc(t){}write(t,n){t.writeKey(this.key),t.writeJSON(this.value)}getRef(){return 6}},ac=e=>new _(e.readKey(),e.readJSON()),Jn=class e{constructor(t){this.arr=t}getLength(){return this.arr.length}getContent(){return this.arr}isCountable(){return!0}copy(){return new e(this.arr)}splice(t){let n=new e(this.arr.slice(t));return this.arr=this.arr.slice(0,t),n}mergeWith(t){return this.arr=this.arr.concat(t.arr),!0}integrate(t,n){}delete(t){}gc(t){}write(t,n){let r=this.arr.length;t.writeLen(r-n);for(let s=n;s<r;s++){let i=this.arr[s];t.writeString(i===void 0?"undefined":JSON.stringify(i))}}getRef(){return 2}},hc=e=>{let t=e.readLen(),n=[];for(let r=0;r<t;r++){let s=e.readString();s==="undefined"?n.push(void 0):n.push(JSON.parse(s))}return new Jn(n)},dc=Yt("node_env")==="development",Mt=class e{constructor(t){this.arr=t,dc&&kn(t)}getLength(){return this.arr.length}getContent(){return this.arr}isCountable(){return!0}copy(){return new e(this.arr)}splice(t){let n=new e(this.arr.slice(t));return this.arr=this.arr.slice(0,t),n}mergeWith(t){return this.arr=this.arr.concat(t.arr),!0}integrate(t,n){}delete(t){}gc(t){}write(t,n){let r=this.arr.length;t.writeLen(r-n);for(let s=n;s<r;s++){let i=this.arr[s];t.writeAny(i)}}getRef(){return 8}},uc=e=>{let t=e.readLen(),n=[];for(let r=0;r<t;r++)n.push(e.readAny());return new Mt(n)},Q=class e{constructor(t){this.str=t}getLength(){return this.str.length}getContent(){return this.str.split("")}isCountable(){return!0}copy(){return new e(this.str)}splice(t){let n=new e(this.str.slice(t));this.str=this.str.slice(0,t);let r=this.str.charCodeAt(t-1);return r>=55296&&r<=56319&&(this.str=this.str.slice(0,t-1)+"\uFFFD",n.str="\uFFFD"+n.str.slice(1)),n}mergeWith(t){return this.str+=t.str,!0}integrate(t,n){}delete(t){}gc(t){}write(t,n){t.writeString(n===0?this.str:this.str.slice(n))}getRef(){return 4}},fc=e=>new Q(e.readString()),gc=[Wo,qo,Qo,ec,tc,nc,rc],pc=0,mc=1,wc=2,yc=3,xc=4,bc=5,kc=6,tt=class e{constructor(t){this.type=t}getLength(){return 1}getContent(){return[this.type]}isCountable(){return!0}copy(){return new e(this.type._copy())}splice(t){throw F()}mergeWith(t){return!1}integrate(t,n){this.type._integrate(t.doc,n)}delete(t){let n=this.type._start;for(;n!==null;)n.deleted?n.id.clock<(t.beforeState.get(n.id.client)||0)&&t._mergeStructs.push(n):n.delete(t),n=n.right;this.type._map.forEach(r=>{r.deleted?r.id.clock<(t.beforeState.get(r.id.client)||0)&&t._mergeStructs.push(r):r.delete(t)}),t.changed.delete(this.type)}gc(t){let n=this.type._start;for(;n!==null;)n.gc(t,!0),n=n.right;this.type._start=null,this.type._map.forEach(r=>{for(;r!==null;)r.gc(t,!0),r=r.left}),this.type._map=new Map}write(t,n){this.type._write(t)}getRef(){return 7}},Sc=e=>new tt(gc[e.readTypeRef()](e));var Je=(e,t,n)=>{let{client:r,clock:s}=t.id,i=new I(y(r,s+n),t,y(r,s+n-1),t.right,t.rightOrigin,t.parent,t.parentSub,t.content.splice(n));return t.deleted&&i.markDeleted(),t.keep&&(i.keep=!0),t.redone!==null&&(i.redone=y(t.redone.client,t.redone.clock+n)),t.right=i,i.right!==null&&(i.right.left=i),e._mergeStructs.push(i),i.parentSub!==null&&i.right===null&&i.parent._map.set(i.parentSub,i),t.length=n,i};var I=class e extends oe{constructor(t,n,r,s,i,o,c,l){super(t,l.getLength()),this.origin=r,this.left=n,this.right=s,this.rightOrigin=i,this.parent=o,this.parentSub=c,this.redone=null,this.content=l,this.info=this.content.isCountable()?2:0}set marker(t){(this.info&8)>0!==t&&(this.info^=8)}get marker(){return(this.info&8)>0}get keep(){return(this.info&1)>0}set keep(t){this.keep!==t&&(this.info^=1)}get countable(){return(this.info&2)>0}get deleted(){return(this.info&4)>0}set deleted(t){this.deleted!==t&&(this.info^=4)}markDeleted(){this.info|=4}getMissing(t,n){if(this.origin&&this.origin.client!==this.id.client&&this.origin.clock>=D(n,this.origin.client))return this.origin.client;if(this.rightOrigin&&this.rightOrigin.client!==this.id.client&&this.rightOrigin.clock>=D(n,this.rightOrigin.client))return this.rightOrigin.client;if(this.parent&&this.parent.constructor===ot&&this.id.client!==this.parent.client&&this.parent.clock>=D(n,this.parent.client))return this.parent.client;if(this.origin&&(this.left=os(t,n,this.origin),this.origin=this.left.lastId),this.rightOrigin&&(this.right=lt(t,this.rightOrigin),this.rightOrigin=this.right.id),this.left&&this.left.constructor===L||this.right&&this.right.constructor===L)this.parent=null;else if(!this.parent)this.left&&this.left.constructor===e?(this.parent=this.left.parent,this.parentSub=this.left.parentSub):this.right&&this.right.constructor===e&&(this.parent=this.right.parent,this.parentSub=this.right.parentSub);else if(this.parent.constructor===ot){let r=Tn(n,this.parent);r.constructor===L?this.parent=null:this.parent=r.content.type}return null}integrate(t,n){if(n>0&&(this.id.clock+=n,this.left=os(t,t.doc.store,y(this.id.client,this.id.clock-1)),this.origin=this.left.lastId,this.content=this.content.splice(n),this.length-=n),this.parent){if(!this.left&&(!this.right||this.right.left!==null)||this.left&&this.left.right!==this.right){let r=this.left,s;if(r!==null)s=r.right;else if(this.parentSub!==null)for(s=this.parent._map.get(this.parentSub)||null;s!==null&&s.left!==null;)s=s.left;else s=this.parent._start;let i=new Set,o=new Set;for(;s!==null&&s!==this.right;){if(o.add(s),i.add(s),Ie(this.origin,s.origin)){if(s.id.client<this.id.client)r=s,i.clear();else if(Ie(this.rightOrigin,s.rightOrigin))break}else if(s.origin!==null&&o.has(Tn(t.doc.store,s.origin)))i.has(Tn(t.doc.store,s.origin))||(r=s,i.clear());else break;s=s.right}this.left=r}if(this.left!==null){let r=this.left.right;this.right=r,this.left.right=this}else{let r;if(this.parentSub!==null)for(r=this.parent._map.get(this.parentSub)||null;r!==null&&r.left!==null;)r=r.left;else r=this.parent._start,this.parent._start=this;this.right=r}this.right!==null?this.right.left=this:this.parentSub!==null&&(this.parent._map.set(this.parentSub,this),this.left!==null&&this.left.delete(t)),this.parentSub===null&&this.countable&&!this.deleted&&(this.parent._length+=this.length),ks(t.doc.store,this),this.content.integrate(t,this),ls(t,this.parent,this.parentSub),(this.parent._item!==null&&this.parent._item.deleted||this.parentSub!==null&&this.right!==null)&&this.delete(t)}else new L(this.id,this.length).integrate(t,0)}get next(){let t=this.right;for(;t!==null&&t.deleted;)t=t.right;return t}get prev(){let t=this.left;for(;t!==null&&t.deleted;)t=t.left;return t}get lastId(){return this.length===1?this.id:y(this.id.client,this.id.clock+this.length-1)}mergeWith(t){if(this.constructor===t.constructor&&Ie(t.origin,this.lastId)&&this.right===t&&Ie(this.rightOrigin,t.rightOrigin)&&this.id.client===t.id.client&&this.id.clock+this.length===t.id.clock&&this.deleted===t.deleted&&this.redone===null&&t.redone===null&&this.content.constructor===t.content.constructor&&this.content.mergeWith(t.content)){let n=this.parent._searchMarker;return n&&n.forEach(r=>{r.p===t&&(r.p=this,!this.deleted&&this.countable&&(r.index-=this.length))}),t.keep&&(this.keep=!0),this.right=t.right,this.right!==null&&(this.right.left=this),this.length+=t.length,!0}return!1}delete(t){if(!this.deleted){let n=this.parent;this.countable&&this.parentSub===null&&(n._length-=this.length),this.markDeleted(),Oe(t.deleteSet,this.id.client,this.id.clock,this.length),ls(t,n,this.parentSub),this.content.delete(t)}}gc(t,n){if(!this.deleted)throw j();this.content.gc(t),n?Lo(t,this,new L(this.id,this.length)):this.content=new Ge(this.length)}write(t,n){let r=n>0?y(this.id.client,this.id.clock+n-1):this.origin,s=this.rightOrigin,i=this.parentSub,o=this.content.getRef()&31|(r===null?0:128)|(s===null?0:64)|(i===null?0:32);if(t.writeInfo(o),r!==null&&t.writeLeftID(r),s!==null&&t.writeRightID(s),r===null&&s===null){let c=this.parent;if(c._item!==void 0){let l=c._item;if(l===null){let a=To(c);t.writeParentInfo(!0),t.writeString(a)}else t.writeParentInfo(!1),t.writeLeftID(l.id)}else c.constructor===String?(t.writeParentInfo(!0),t.writeString(c)):c.constructor===ot?(t.writeParentInfo(!1),t.writeLeftID(c)):j();i!==null&&t.writeString(i)}this.content.write(t,n)}},zs=(e,t)=>Uc[t&31](e),Uc=[()=>{j()},oc,hc,ic,fc,lc,ac,Sc,uc,cc,()=>{j()}],Ec=10,O=class extends oe{get deleted(){return!0}delete(){}mergeWith(t){return this.constructor!==t.constructor?!1:(this.length+=t.length,!0)}integrate(t,n){j()}write(t,n){t.writeInfo(Ec),p(t.restEncoder,this.length-n)}getMissing(t,n){return null}},$s=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:{},Ps="__ $YJS$ __";$s[Ps]===!0&&console.error("Yjs was already imported. This breaks constructor checks and will lead to issues! - https://github.com/yjs/yjs/issues/438");$s[Ps]=!0;var Cc=4294967295,Ac=!1,xt=(...e)=>Ac&&console.log(...e),bt={encode(e){let t=[];for(let n of e)t.push(typeof n=="string"?`"${n}"`:`${n}`.padStart(9,"0"));return t.join("#")},decode(e){return e.split("#").map(t=>t.startsWith('"')?JSON.parse(t):parseInt(t,10))}};async function Dc(e,t){let n=bt.encode(t),r=await e.list({start:n,end:`${n}#zzzzz`});if(r.size===0)return null;let s=Array.from(r.values()).reduce((c,l)=>c+l.length,0),i=new Uint8Array(s),o=0;for(let c of r.values())i.set(c,o),o+=c.length;return i}async function Ys(e,t,n){let r=[];for(let i=0;i<n.length;i+=128*1024)r.push(n.slice(i,i+128*1024));let s=bt.encode(t);for(let i=0;i<r.length;i++)await e.put(`${s}#${i.toString().padStart(3,"0")}`,r[i])}function Ic(e,t){let n=new Map;for(let r of e){let s=t(r);n.has(s)||n.set(s,[]),n.get(s).push(r)}return n}function Tc(e,t){let n=[];for(let r=0;r<e.length;r+=t)n.push(e.slice(r,r+t));return n}async function vc(e,t){let n=await e.list({start:bt.encode(t.gte),end:bt.encode(t.lt),reverse:t.reverse,limit:t.limit}),r=Ic(Array.from(n.entries()),([i])=>i.split("#").slice(0,-1).join("#")),s=[];for(let[i,o]of r.entries()){let c=o.reduce((h,d)=>h+d[1].length,0),l=new Uint8Array(c),a=0;for(let[,h]of o)l.set(h,a),a+=h.length;s.push({key:bt.decode(i),value:l})}return s}async function Vc(e,t){return[...(await e.list({start:bt.encode(t.gte),end:bt.encode(t.lt),reverse:t.reverse,limit:t.limit})).keys()]}async function qe(e,t,n={values:!0,keys:!1}){return vc(e,{gte:he(t,0),lt:he(t,Cc),...n})}async function Hs(e,t){return qe(e,t,{keys:!0,values:!1,reverse:!0,limit:1}).then(n=>{if(n.length===0)return-1;{let r=n[0].key[3];if(typeof r!="number")throw new Error("Expected number, got "+typeof r);return r}})}async function Lc(e,t,n){let r=await Vc(e,{gte:t,lt:n});await e.transaction(()=>Promise.all(Tc(r,128).map(s=>e.delete(s))))}async function Oc(e,t,n,r){return Lc(e,he(t,n),he(t,r))}function he(e,t){return["v1",e,"update",t]}function Ws(e){return["v1_sv",e]}function Gs(e){let t=new $;return t.transact(()=>{for(let n=0;n<e.length;n++)et(t,e[n])}),{update:at(t),sv:ae(t)}}async function qs(e,t,n,r){let s=v();p(s,r),b(s,n),await Ys(e,Ws(t),k(s))}function Mc(e){let t=M(e),n=m(t);return{sv:S(t),clock:n}}async function Nc(e,t){let n=await Dc(e,Ws(t));return n===null?{sv:null,clock:-1}:Mc(n)}async function Js(e,t,n,r){let s=await Xs(e,t,n);return await qs(e,t,r,s),Oc(e,t,0,s),s}async function Xs(e,t,n){let r=await Hs(e,t);if(r===-1){let s=new $;et(s,n);let i=ae(s);await qs(e,t,i,0)}return await Ys(e,he(t,r+1),n),r+1}var Ks=class{db;tr;_transact(e){throw Error("implement _transact")}constructor(e){let t=this.db=e;this.tr=Promise.resolve(),this._transact=n=>{let r=this.tr;return this.tr=(async()=>{await r;let s=null;try{s=await n(t)}catch(i){console.warn("Error during y-partykit-storage transaction",i)}return s})(),this.tr}}async compactUpdateLog(e,t,n){return this._transact(async r=>{let s=await qe(r,e),i=async()=>{xt("[compactUpdateLog]","Compacting document update log!");let{update:c,sv:l}=Gs(s.map(a=>a.value));await Js(r,e,c,l)};if(xt("[compactUpdateLog]",{docName:e,maxUpdates:t,maxBytes:n}),xt("[compactUpdateLog]","Current update count:",s.length),s.length>t)return xt("[compactUpdateLog]",`Update count exceeds maximum allowed: ${s.length} > ${t}`),i();let o=s.reduce((c,l)=>c+l.value.byteLength,0);return xt("[compactUpdateLog]","Current update size:",o),o>n&&s.length>1?(xt("[compactUpdateLog]",`Update total size exceeds maximum allowed: ${o} > ${n}`),i()):(xt("[compactUpdateLog]","Skipping compacting update log..."),Promise.resolve())})}async getYDoc(e){return this._transact(async t=>{let n=await qe(t,e),r=new $;return r.transact(()=>{for(let s=0;s<n.length;s++)et(r,n[s].value)}),r})}async getStateVector(e){return this._transact(async t=>{let{clock:n,sv:r}=await Nc(t,e),s=-1;if(r!==null&&(s=await Hs(t,e)),r!==null&&n===s)return r;{let i=await qe(t,e),{update:o,sv:c}=Gs(i.map(l=>l.value));return await Js(t,e,o,c),c}})}async storeUpdate(e,t){return this._transact(n=>Xs(n,e,t))}};var Zs="y-pk-batch",Bc=!1,Rc=(...e)=>Bc&&console.log(...e);var Qs=e=>{let t,n;return r=>{if(typeof r!="string")if(Fc(r.data)){let s=jc(r.data);if(s.type==="start"&&(t=[],n=s),s.type==="end"&&t)try{de(n?.id,s.id,"client id"),de(n?.count,s.count,"client counts"),de(n?.size,s.size,"client size");let i=t.reduce((l,a)=>l+a.byteLength,0),o=new Uint8Array(i),c=0;for(let l of t)o.set(new Uint8Array(l),c),c+=l.byteLength;de(s.count,t.length,"received batch count"),de(s.size,c,"client size"),e(o)}catch(i){throw console.error(i),i}finally{t=void 0,n=void 0}}else t?t.push(r.data):e(new Uint8Array(r.data))}};function de(e,t,n){if(e!==t)throw new Error(`Mismatching ${n}! Expected ${e}, got ${t}`);Rc(`Matching ${n}: ${e}`)}function Fc(e){return typeof e=="string"&&e.startsWith(Zs)}function jc(e){let[t,n]=e.split("#",2);if(t!==Zs)throw new Error("Unexpected batch marker: "+e);let r=JSON.parse(n);if(r.type!=="start"&&r.type!=="end")throw new Error("Unexpected batch data: "+e);return r}var hi=Ui(ri(),1);var nr=3e4,Xe=class extends Ae{constructor(t){super(),this.doc=t,this.clientID=t.clientID,this.states=new Map,this.meta=new Map,this._checkInterval=setInterval(()=>{let n=gt();this.getLocalState()!==null&&nr/2<=n-this.meta.get(this.clientID).lastUpdated&&this.setLocalState(this.getLocalState());let r=[];this.meta.forEach((s,i)=>{i!==this.clientID&&nr<=n-s.lastUpdated&&this.states.has(i)&&r.push(i)}),r.length>0&&rr(this,r,"timeout")},V(nr/10)),t.on("destroy",()=>{this.destroy()}),this.setLocalState({})}destroy(){this.emit("destroy",[this]),this.setLocalState(null),super.destroy(),clearInterval(this._checkInterval)}getLocalState(){return this.states.get(this.clientID)||null}setLocalState(t){let n=this.clientID,r=this.meta.get(n),s=r===void 0?0:r.clock+1,i=this.states.get(n);t===null?this.states.delete(n):this.states.set(n,t),this.meta.set(n,{clock:s,lastUpdated:gt()});let o=[],c=[],l=[],a=[];t===null?a.push(n):i==null?t!=null&&o.push(n):(c.push(n),Tt(i,t)||l.push(n)),(o.length>0||l.length>0||a.length>0)&&this.emit("change",[{added:o,updated:l,removed:a},"local"]),this.emit("update",[{added:o,updated:c,removed:a},"local"])}setLocalStateField(t,n){let r=this.getLocalState();r!==null&&this.setLocalState({...r,[t]:n})}getStates(){return this.states}},rr=(e,t,n)=>{let r=[];for(let s=0;s<t.length;s++){let i=t[s];if(e.states.has(i)){if(e.states.delete(i),i===e.clientID){let o=e.meta.get(i);e.meta.set(i,{clock:o.clock+1,lastUpdated:gt()})}r.push(i)}}r.length>0&&(e.emit("change",[{added:[],updated:[],removed:r},n]),e.emit("update",[{added:[],updated:[],removed:r},n]))},sr=(e,t,n=e.states)=>{let r=t.length,s=v();p(s,r);for(let i=0;i<r;i++){let o=t[i],c=n.get(o)||null,l=e.meta.get(o).clock;p(s,o),p(s,l),X(s,JSON.stringify(c))}return k(s)};var si=(e,t,n)=>{let r=M(t),s=gt(),i=[],o=[],c=[],l=[],a=m(r);for(let h=0;h<a;h++){let d=m(r),u=m(r),f=JSON.parse(K(r)),g=e.meta.get(d),w=e.states.get(d),N=g===void 0?0:g.clock;(N<u||N===u&&f===null&&e.states.has(d))&&(f===null?d===e.clientID&&e.getLocalState()!=null?u++:e.states.delete(d):e.states.set(d,f),e.meta.set(d,{clock:u,lastUpdated:s}),g===void 0&&f!==null?i.push(d):g!==void 0&&f===null?l.push(d):f!==null&&(Tt(f,w)||c.push(d),o.push(d)))}(i.length>0||c.length>0||l.length>0)&&e.emit("change",[{added:i,updated:c,removed:l},n]),(i.length>0||o.length>0||l.length>0)&&e.emit("update",[{added:i,updated:o,removed:l},n])};var ir=0,or=1,cr=2,ii=(e,t)=>{p(e,ir);let n=ae(t);b(e,n)},il=(e,t,n)=>{p(e,or),b(e,at(t,n))},oi=(e,t,n)=>il(t,n,S(e)),lr=(e,t,n)=>{try{et(t,S(e),n)}catch(r){console.error("Caught error while handling a Yjs update",r)}},ci=(e,t)=>{p(e,cr),b(e,t)},li=lr;function Ke(e,t){if(!e)throw new Error(t)}var ue=1e7,Ze=Number.MAX_SAFE_INTEGER,cl=0,ll=1,ar=new Map,di=new WeakMap,ui=e=>JSON.stringify(e,(t,n)=>typeof n=="function"?"function() {}":n),ai=!1,al=(e,t)=>{if(ai)return;let n=di.get(e),r=ui(t);n!==r&&(ai=!0,console.warn("Document was previously initialized with different options. Provided options are ignored."),console.log("Previous options:",n),console.log("Provided options:",r))},en=0,dr=1;function hl(e,t,n){let r=v();p(r,en),ci(r,e);let s=k(r);n.conns.forEach((i,o)=>fe(n,o,s))}var dl=class extends ${name;conns;awareness;storage;persist;persistMaxBytes=ue;persistMaxUpdates=Ze;gc;constructor(e,t){if(super({gc:t.gc??!t.persist}),this.gc=t.gc??!t.persist,this.name=e.id,t.persist)if(t.persist===!0)console.warn("y-partykit: Using deprecated option `persist: true`. Choose an explicit persistence strategy instead. See: https://docs.partykit.io/reference/y-partykit-api/#persistence"),this.persist={mode:"history",maxBytes:ue,maxUpdates:Ze};else if(t.persist?.mode==="history"){(t.persist.maxBytes??0)>ue&&console.warn("y-partykit: `persist.maxBytes` exceeds maximum allowed value 10_000_000 (10MB). Using default value instead. See: https://docs.partykit.io/reference/y-partykit-api/#persistence");let{maxBytes:r,maxUpdates:s}=t.persist;this.persist={mode:"history",maxBytes:Math.min(ue,r||ue),maxUpdates:Math.min(Ze,s||Ze)}}else this.persist=t.persist;t.persist&&(this.storage=new Ks(e.storage)),this.conns=new Map,this.awareness=new Xe(this),this.awareness.setLocalState(null);let n=({added:r,updated:s,removed:i},o)=>{let c=r.concat(s,i);if(o!==null){let h=this.conns.get(o);h!==void 0&&(r.forEach(d=>{h.add(d)}),i.forEach(d=>{h.delete(d)}))}let l=v();p(l,dr),b(l,sr(this.awareness,c));let a=k(l);this.conns.forEach((h,d)=>{fe(this,d,a)})};this.awareness.on("update",n),this.on("update",hl)}async bindState(){Ke(this.storage,"Storage not set");let e=await this.storage.getYDoc(this.name);et(this,at(e)),this.on("update",t=>{Ke(this.storage,"Storage not set"),this.storage.storeUpdate(this.name,t).catch(n=>{console.error("Error storing update",n)})})}async writeState(){Ke(this.storage,"Storage not set");let e=at(this);await this.storage.storeUpdate(this.name,e)}async compactUpdateLog(){Ke(this.storage,"Storage not set"),await this.storage.compactUpdateLog(this.name,this.persist?.mode==="history"&&this.persist.maxUpdates||0,this.persist?.mode==="history"&&this.persist.maxBytes||0)}},Qe={debounceWait:2e3,debounceMaxWait:1e4,timeout:5e3,objects:{}};function ul(e,t,n){switch(t){case"Array":return n.getArray(e);case"Map":return n.getMap(e);case"Text":return n.getText(e);case"XmlFragment":return n.getXmlFragment(e);case"XmlElement":return n.getXmlElement(e);default:return{toJSON(){throw new Error(`Unknown shared object type: ${t}`)}}}}var tn=new Map;async function fl(e,t){let n=ar.get(e.id);if(n)return al(n,t),n;let r=ui(t);if(t.gc&&t.persist)throw new Error("Cannot use gc and persist at the same time");t.gc===void 0&&(t.persist===void 0||t.persist===!1)&&(t.gc=!0,t.persist=!1),t.gc===void 0&&t.persist&&(t.gc=!1),n=new dl(e,t);let{callback:s,load:i}=t;if(i){let o=await i();if(o!=null){let c=at(o);et(n,c)}}return s!==void 0&&n.on("update",(0,hi.default)(async(o,c,l)=>{if(s.url){let a={room:l.name,data:{}},h=s.objects||Qe.objects;Object.keys(h).forEach(u=>{let f=h[u];a.data[u]={type:f,content:ul(u,f,l).toJSON()}});try{let u=await fetch(s.url,{method:"POST",headers:{"Content-Type":"application/json",...s.headers&&Object.fromEntries(s.headers)},body:JSON.stringify(a),signal:AbortSignal.timeout(s.timeout||Qe.timeout)});u.ok||console.error("failed to persist:",await u.text())}catch(u){console.error("failed to persist:",u)}}if(s.handler)try{await s.handler(l)}catch(a){console.error("failed to persist:",a)}},s.debounceWait||Qe.debounceWait,{maxWait:s.debounceMaxWait||Qe.debounceMaxWait})),n.persist&&await n.bindState(),ar.set(e.id,n),di.set(n,r),n}function gl(e,t,n,r,s=!1){let i=m(e);switch(i){case ir:oi(e,t,n);break;case or:s||lr(e,n,r);break;case cr:s||li(e,n,r);break;default:throw new Error("Unknown message type")}return i}function pl(e,t,n,r){try{let s=v(),i=M(n);switch(m(i)){case en:p(s,en),gl(i,s,t,e,r),dn(s)>1&&fe(t,e,k(s));break;case dr:{si(t.awareness,S(i),e);break}}}catch(s){console.error(s),t.emit("error",[s])}}function hr(e,t){if(e.conns.has(t)){let n=e.conns.get(t);e.conns.delete(t),rr(e.awareness,Array.from(n),null),e.conns.size===0&&e.persist&&(e.compactUpdateLog().then(()=>{e.destroy()},r=>{e.emit("error",[r])}),ar.delete(e.name))}try{t.close()}catch(n){console.warn("failed to close connection",n)}}function fe(e,t,n){t.readyState!==void 0&&t.readyState!==cl&&t.readyState!==ll&&hr(e,t);try{t.send(n)}catch{hr(e,t)}}async function fi(e,t,n={}){let r={...n};tn.has(t.id)||tn.set(t.id,fl(t,r));let s=await tn.get(t.id);tn.delete(t.id),s.conns.set(e,new Set),e.addEventListener("message",Qs(i=>{if(typeof i!="string")return pl(e,s,new Uint8Array(i),r.readOnly??!1)})),e.addEventListener("close",()=>{hr(s,e)});{let i=v();p(i,en),ii(i,s),fe(s,e,k(i));let o=s.awareness.getStates();if(o.size>0){let c=v();p(c,dr),b(c,sr(s.awareness,Array.from(o.keys()))),fe(s,e,k(c))}}}var ga={onConnect(e,t){return fi(e,t)}};export{ga as default};
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __copyProps = (to, from2, except, desc) => {
+  if (from2 && typeof from2 === "object" || typeof from2 === "function") {
+    for (let key of __getOwnPropNames(from2))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from2[key], enumerable: !(desc = __getOwnPropDesc(from2, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// node_modules/lodash.debounce/index.js
+var require_lodash = __commonJS({
+  "node_modules/lodash.debounce/index.js"(exports, module) {
+    var FUNC_ERROR_TEXT = "Expected a function";
+    var NAN = 0 / 0;
+    var symbolTag = "[object Symbol]";
+    var reTrim = /^\s+|\s+$/g;
+    var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+    var reIsBinary = /^0b[01]+$/i;
+    var reIsOctal = /^0o[0-7]+$/i;
+    var freeParseInt = parseInt;
+    var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+    var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+    var root = freeGlobal || freeSelf || Function("return this")();
+    var objectProto = Object.prototype;
+    var objectToString = objectProto.toString;
+    var nativeMax = Math.max;
+    var nativeMin = Math.min;
+    var now = function() {
+      return root.Date.now();
+    };
+    function debounce2(func, wait, options) {
+      var lastArgs, lastThis, maxWait, result, timerId, lastCallTime, lastInvokeTime = 0, leading = false, maxing = false, trailing = true;
+      if (typeof func != "function") {
+        throw new TypeError(FUNC_ERROR_TEXT);
+      }
+      wait = toNumber(wait) || 0;
+      if (isObject(options)) {
+        leading = !!options.leading;
+        maxing = "maxWait" in options;
+        maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+        trailing = "trailing" in options ? !!options.trailing : trailing;
+      }
+      function invokeFunc(time) {
+        var args2 = lastArgs, thisArg = lastThis;
+        lastArgs = lastThis = void 0;
+        lastInvokeTime = time;
+        result = func.apply(thisArg, args2);
+        return result;
+      }
+      function leadingEdge(time) {
+        lastInvokeTime = time;
+        timerId = setTimeout(timerExpired, wait);
+        return leading ? invokeFunc(time) : result;
+      }
+      function remainingWait(time) {
+        var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, result2 = wait - timeSinceLastCall;
+        return maxing ? nativeMin(result2, maxWait - timeSinceLastInvoke) : result2;
+      }
+      function shouldInvoke(time) {
+        var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime;
+        return lastCallTime === void 0 || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+      }
+      function timerExpired() {
+        var time = now();
+        if (shouldInvoke(time)) {
+          return trailingEdge(time);
+        }
+        timerId = setTimeout(timerExpired, remainingWait(time));
+      }
+      function trailingEdge(time) {
+        timerId = void 0;
+        if (trailing && lastArgs) {
+          return invokeFunc(time);
+        }
+        lastArgs = lastThis = void 0;
+        return result;
+      }
+      function cancel() {
+        if (timerId !== void 0) {
+          clearTimeout(timerId);
+        }
+        lastInvokeTime = 0;
+        lastArgs = lastCallTime = lastThis = timerId = void 0;
+      }
+      function flush() {
+        return timerId === void 0 ? result : trailingEdge(now());
+      }
+      function debounced() {
+        var time = now(), isInvoking = shouldInvoke(time);
+        lastArgs = arguments;
+        lastThis = this;
+        lastCallTime = time;
+        if (isInvoking) {
+          if (timerId === void 0) {
+            return leadingEdge(lastCallTime);
+          }
+          if (maxing) {
+            timerId = setTimeout(timerExpired, wait);
+            return invokeFunc(lastCallTime);
+          }
+        }
+        if (timerId === void 0) {
+          timerId = setTimeout(timerExpired, wait);
+        }
+        return result;
+      }
+      debounced.cancel = cancel;
+      debounced.flush = flush;
+      return debounced;
+    }
+    function isObject(value) {
+      var type = typeof value;
+      return !!value && (type == "object" || type == "function");
+    }
+    function isObjectLike(value) {
+      return !!value && typeof value == "object";
+    }
+    function isSymbol(value) {
+      return typeof value == "symbol" || isObjectLike(value) && objectToString.call(value) == symbolTag;
+    }
+    function toNumber(value) {
+      if (typeof value == "number") {
+        return value;
+      }
+      if (isSymbol(value)) {
+        return NAN;
+      }
+      if (isObject(value)) {
+        var other = typeof value.valueOf == "function" ? value.valueOf() : value;
+        value = isObject(other) ? other + "" : other;
+      }
+      if (typeof value != "string") {
+        return value === 0 ? value : +value;
+      }
+      value = value.replace(reTrim, "");
+      var isBinary = reIsBinary.test(value);
+      return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+    }
+    module.exports = debounce2;
+  }
+});
+
+// node_modules/lib0/binary.js
+var BIT1 = 1;
+var BIT2 = 2;
+var BIT3 = 4;
+var BIT4 = 8;
+var BIT6 = 32;
+var BIT7 = 64;
+var BIT8 = 128;
+var BIT18 = 1 << 17;
+var BIT19 = 1 << 18;
+var BIT20 = 1 << 19;
+var BIT21 = 1 << 20;
+var BIT22 = 1 << 21;
+var BIT23 = 1 << 22;
+var BIT24 = 1 << 23;
+var BIT25 = 1 << 24;
+var BIT26 = 1 << 25;
+var BIT27 = 1 << 26;
+var BIT28 = 1 << 27;
+var BIT29 = 1 << 28;
+var BIT30 = 1 << 29;
+var BIT31 = 1 << 30;
+var BIT32 = 1 << 31;
+var BITS5 = 31;
+var BITS6 = 63;
+var BITS7 = 127;
+var BITS17 = BIT18 - 1;
+var BITS18 = BIT19 - 1;
+var BITS19 = BIT20 - 1;
+var BITS20 = BIT21 - 1;
+var BITS21 = BIT22 - 1;
+var BITS22 = BIT23 - 1;
+var BITS23 = BIT24 - 1;
+var BITS24 = BIT25 - 1;
+var BITS25 = BIT26 - 1;
+var BITS26 = BIT27 - 1;
+var BITS27 = BIT28 - 1;
+var BITS28 = BIT29 - 1;
+var BITS29 = BIT30 - 1;
+var BITS30 = BIT31 - 1;
+var BITS31 = 2147483647;
+
+// node_modules/lib0/math.js
+var floor = Math.floor;
+var abs = Math.abs;
+var min = (a, b) => a < b ? a : b;
+var max = (a, b) => a > b ? a : b;
+var isNaN = Number.isNaN;
+var isNegativeZero = (n) => n !== 0 ? n < 0 : 1 / n < 0;
+
+// node_modules/lib0/number.js
+var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER;
+var MIN_SAFE_INTEGER = Number.MIN_SAFE_INTEGER;
+var LOWEST_INT32 = 1 << 31;
+var isInteger = Number.isInteger || ((num) => typeof num === "number" && isFinite(num) && floor(num) === num);
+var isNaN2 = Number.isNaN;
+var parseInt2 = Number.parseInt;
+
+// node_modules/lib0/set.js
+var create = () => /* @__PURE__ */ new Set();
+
+// node_modules/lib0/array.js
+var last = (arr) => arr[arr.length - 1];
+var appendTo = (dest, src) => {
+  for (let i = 0; i < src.length; i++) {
+    dest.push(src[i]);
+  }
+};
+var from = Array.from;
+var isArray = Array.isArray;
+
+// node_modules/lib0/string.js
+var fromCharCode = String.fromCharCode;
+var fromCodePoint = String.fromCodePoint;
+var MAX_UTF16_CHARACTER = fromCharCode(65535);
+var toLowerCase = (s) => s.toLowerCase();
+var trimLeftRegex = /^\s*/g;
+var trimLeft = (s) => s.replace(trimLeftRegex, "");
+var fromCamelCaseRegex = /([A-Z])/g;
+var fromCamelCase = (s, separator) => trimLeft(s.replace(fromCamelCaseRegex, (match) => `${separator}${toLowerCase(match)}`));
+var _encodeUtf8Polyfill = (str) => {
+  const encodedString = unescape(encodeURIComponent(str));
+  const len = encodedString.length;
+  const buf = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    buf[i] = /** @type {number} */
+    encodedString.codePointAt(i);
+  }
+  return buf;
+};
+var utf8TextEncoder = (
+  /** @type {TextEncoder} */
+  typeof TextEncoder !== "undefined" ? new TextEncoder() : null
+);
+var _encodeUtf8Native = (str) => utf8TextEncoder.encode(str);
+var encodeUtf8 = utf8TextEncoder ? _encodeUtf8Native : _encodeUtf8Polyfill;
+var utf8TextDecoder = typeof TextDecoder === "undefined" ? null : new TextDecoder("utf-8", { fatal: true, ignoreBOM: true });
+if (utf8TextDecoder && utf8TextDecoder.decode(new Uint8Array()).length === 1) {
+  utf8TextDecoder = null;
+}
+
+// node_modules/lib0/error.js
+var create2 = (s) => new Error(s);
+var methodUnimplemented = () => {
+  throw create2("Method unimplemented");
+};
+var unexpectedCase = () => {
+  throw create2("Unexpected case");
+};
+
+// node_modules/lib0/encoding.js
+var Encoder = class {
+  constructor() {
+    this.cpos = 0;
+    this.cbuf = new Uint8Array(100);
+    this.bufs = [];
+  }
+};
+var createEncoder = () => new Encoder();
+var length = (encoder) => {
+  let len = encoder.cpos;
+  for (let i = 0; i < encoder.bufs.length; i++) {
+    len += encoder.bufs[i].length;
+  }
+  return len;
+};
+var toUint8Array = (encoder) => {
+  const uint8arr = new Uint8Array(length(encoder));
+  let curPos = 0;
+  for (let i = 0; i < encoder.bufs.length; i++) {
+    const d = encoder.bufs[i];
+    uint8arr.set(d, curPos);
+    curPos += d.length;
+  }
+  uint8arr.set(new Uint8Array(encoder.cbuf.buffer, 0, encoder.cpos), curPos);
+  return uint8arr;
+};
+var verifyLen = (encoder, len) => {
+  const bufferLen = encoder.cbuf.length;
+  if (bufferLen - encoder.cpos < len) {
+    encoder.bufs.push(new Uint8Array(encoder.cbuf.buffer, 0, encoder.cpos));
+    encoder.cbuf = new Uint8Array(max(bufferLen, len) * 2);
+    encoder.cpos = 0;
+  }
+};
+var write = (encoder, num) => {
+  const bufferLen = encoder.cbuf.length;
+  if (encoder.cpos === bufferLen) {
+    encoder.bufs.push(encoder.cbuf);
+    encoder.cbuf = new Uint8Array(bufferLen * 2);
+    encoder.cpos = 0;
+  }
+  encoder.cbuf[encoder.cpos++] = num;
+};
+var writeUint8 = write;
+var writeVarUint = (encoder, num) => {
+  while (num > BITS7) {
+    write(encoder, BIT8 | BITS7 & num);
+    num = floor(num / 128);
+  }
+  write(encoder, BITS7 & num);
+};
+var writeVarInt = (encoder, num) => {
+  const isNegative = isNegativeZero(num);
+  if (isNegative) {
+    num = -num;
+  }
+  write(encoder, (num > BITS6 ? BIT8 : 0) | (isNegative ? BIT7 : 0) | BITS6 & num);
+  num = floor(num / 64);
+  while (num > 0) {
+    write(encoder, (num > BITS7 ? BIT8 : 0) | BITS7 & num);
+    num = floor(num / 128);
+  }
+};
+var _strBuffer = new Uint8Array(3e4);
+var _maxStrBSize = _strBuffer.length / 3;
+var _writeVarStringNative = (encoder, str) => {
+  if (str.length < _maxStrBSize) {
+    const written = utf8TextEncoder.encodeInto(str, _strBuffer).written || 0;
+    writeVarUint(encoder, written);
+    for (let i = 0; i < written; i++) {
+      write(encoder, _strBuffer[i]);
+    }
+  } else {
+    writeVarUint8Array(encoder, encodeUtf8(str));
+  }
+};
+var _writeVarStringPolyfill = (encoder, str) => {
+  const encodedString = unescape(encodeURIComponent(str));
+  const len = encodedString.length;
+  writeVarUint(encoder, len);
+  for (let i = 0; i < len; i++) {
+    write(
+      encoder,
+      /** @type {number} */
+      encodedString.codePointAt(i)
+    );
+  }
+};
+var writeVarString = utf8TextEncoder && /** @type {any} */
+utf8TextEncoder.encodeInto ? _writeVarStringNative : _writeVarStringPolyfill;
+var writeUint8Array = (encoder, uint8Array) => {
+  const bufferLen = encoder.cbuf.length;
+  const cpos = encoder.cpos;
+  const leftCopyLen = min(bufferLen - cpos, uint8Array.length);
+  const rightCopyLen = uint8Array.length - leftCopyLen;
+  encoder.cbuf.set(uint8Array.subarray(0, leftCopyLen), cpos);
+  encoder.cpos += leftCopyLen;
+  if (rightCopyLen > 0) {
+    encoder.bufs.push(encoder.cbuf);
+    encoder.cbuf = new Uint8Array(max(bufferLen * 2, rightCopyLen));
+    encoder.cbuf.set(uint8Array.subarray(leftCopyLen));
+    encoder.cpos = rightCopyLen;
+  }
+};
+var writeVarUint8Array = (encoder, uint8Array) => {
+  writeVarUint(encoder, uint8Array.byteLength);
+  writeUint8Array(encoder, uint8Array);
+};
+var writeOnDataView = (encoder, len) => {
+  verifyLen(encoder, len);
+  const dview = new DataView(encoder.cbuf.buffer, encoder.cpos, len);
+  encoder.cpos += len;
+  return dview;
+};
+var writeFloat32 = (encoder, num) => writeOnDataView(encoder, 4).setFloat32(0, num, false);
+var writeFloat64 = (encoder, num) => writeOnDataView(encoder, 8).setFloat64(0, num, false);
+var writeBigInt64 = (encoder, num) => (
+  /** @type {any} */
+  writeOnDataView(encoder, 8).setBigInt64(0, num, false)
+);
+var floatTestBed = new DataView(new ArrayBuffer(4));
+var isFloat32 = (num) => {
+  floatTestBed.setFloat32(0, num);
+  return floatTestBed.getFloat32(0) === num;
+};
+var writeAny = (encoder, data) => {
+  switch (typeof data) {
+    case "string":
+      write(encoder, 119);
+      writeVarString(encoder, data);
+      break;
+    case "number":
+      if (isInteger(data) && abs(data) <= BITS31) {
+        write(encoder, 125);
+        writeVarInt(encoder, data);
+      } else if (isFloat32(data)) {
+        write(encoder, 124);
+        writeFloat32(encoder, data);
+      } else {
+        write(encoder, 123);
+        writeFloat64(encoder, data);
+      }
+      break;
+    case "bigint":
+      write(encoder, 122);
+      writeBigInt64(encoder, data);
+      break;
+    case "object":
+      if (data === null) {
+        write(encoder, 126);
+      } else if (isArray(data)) {
+        write(encoder, 117);
+        writeVarUint(encoder, data.length);
+        for (let i = 0; i < data.length; i++) {
+          writeAny(encoder, data[i]);
+        }
+      } else if (data instanceof Uint8Array) {
+        write(encoder, 116);
+        writeVarUint8Array(encoder, data);
+      } else {
+        write(encoder, 118);
+        const keys2 = Object.keys(data);
+        writeVarUint(encoder, keys2.length);
+        for (let i = 0; i < keys2.length; i++) {
+          const key = keys2[i];
+          writeVarString(encoder, key);
+          writeAny(encoder, data[key]);
+        }
+      }
+      break;
+    case "boolean":
+      write(encoder, data ? 120 : 121);
+      break;
+    default:
+      write(encoder, 127);
+  }
+};
+var RleEncoder = class extends Encoder {
+  /**
+   * @param {function(Encoder, T):void} writer
+   */
+  constructor(writer) {
+    super();
+    this.w = writer;
+    this.s = null;
+    this.count = 0;
+  }
+  /**
+   * @param {T} v
+   */
+  write(v) {
+    if (this.s === v) {
+      this.count++;
+    } else {
+      if (this.count > 0) {
+        writeVarUint(this, this.count - 1);
+      }
+      this.count = 1;
+      this.w(this, v);
+      this.s = v;
+    }
+  }
+};
+var flushUintOptRleEncoder = (encoder) => {
+  if (encoder.count > 0) {
+    writeVarInt(encoder.encoder, encoder.count === 1 ? encoder.s : -encoder.s);
+    if (encoder.count > 1) {
+      writeVarUint(encoder.encoder, encoder.count - 2);
+    }
+  }
+};
+var UintOptRleEncoder = class {
+  constructor() {
+    this.encoder = new Encoder();
+    this.s = 0;
+    this.count = 0;
+  }
+  /**
+   * @param {number} v
+   */
+  write(v) {
+    if (this.s === v) {
+      this.count++;
+    } else {
+      flushUintOptRleEncoder(this);
+      this.count = 1;
+      this.s = v;
+    }
+  }
+  /**
+   * Flush the encoded state and transform this to a Uint8Array.
+   *
+   * Note that this should only be called once.
+   */
+  toUint8Array() {
+    flushUintOptRleEncoder(this);
+    return toUint8Array(this.encoder);
+  }
+};
+var flushIntDiffOptRleEncoder = (encoder) => {
+  if (encoder.count > 0) {
+    const encodedDiff = encoder.diff * 2 + (encoder.count === 1 ? 0 : 1);
+    writeVarInt(encoder.encoder, encodedDiff);
+    if (encoder.count > 1) {
+      writeVarUint(encoder.encoder, encoder.count - 2);
+    }
+  }
+};
+var IntDiffOptRleEncoder = class {
+  constructor() {
+    this.encoder = new Encoder();
+    this.s = 0;
+    this.count = 0;
+    this.diff = 0;
+  }
+  /**
+   * @param {number} v
+   */
+  write(v) {
+    if (this.diff === v - this.s) {
+      this.s = v;
+      this.count++;
+    } else {
+      flushIntDiffOptRleEncoder(this);
+      this.count = 1;
+      this.diff = v - this.s;
+      this.s = v;
+    }
+  }
+  /**
+   * Flush the encoded state and transform this to a Uint8Array.
+   *
+   * Note that this should only be called once.
+   */
+  toUint8Array() {
+    flushIntDiffOptRleEncoder(this);
+    return toUint8Array(this.encoder);
+  }
+};
+var StringEncoder = class {
+  constructor() {
+    this.sarr = [];
+    this.s = "";
+    this.lensE = new UintOptRleEncoder();
+  }
+  /**
+   * @param {string} string
+   */
+  write(string) {
+    this.s += string;
+    if (this.s.length > 19) {
+      this.sarr.push(this.s);
+      this.s = "";
+    }
+    this.lensE.write(string.length);
+  }
+  toUint8Array() {
+    const encoder = new Encoder();
+    this.sarr.push(this.s);
+    this.s = "";
+    writeVarString(encoder, this.sarr.join(""));
+    writeUint8Array(encoder, this.lensE.toUint8Array());
+    return toUint8Array(encoder);
+  }
+};
+
+// node_modules/lib0/decoding.js
+var errorUnexpectedEndOfArray = create2("Unexpected end of array");
+var errorIntegerOutOfRange = create2("Integer out of Range");
+var Decoder = class {
+  /**
+   * @param {Uint8Array} uint8Array Binary data to decode
+   */
+  constructor(uint8Array) {
+    this.arr = uint8Array;
+    this.pos = 0;
+  }
+};
+var createDecoder = (uint8Array) => new Decoder(uint8Array);
+var hasContent = (decoder) => decoder.pos !== decoder.arr.length;
+var readUint8Array = (decoder, len) => {
+  const view = new Uint8Array(decoder.arr.buffer, decoder.pos + decoder.arr.byteOffset, len);
+  decoder.pos += len;
+  return view;
+};
+var readVarUint8Array = (decoder) => readUint8Array(decoder, readVarUint(decoder));
+var readUint8 = (decoder) => decoder.arr[decoder.pos++];
+var readVarUint = (decoder) => {
+  let num = 0;
+  let mult = 1;
+  const len = decoder.arr.length;
+  while (decoder.pos < len) {
+    const r = decoder.arr[decoder.pos++];
+    num = num + (r & BITS7) * mult;
+    mult *= 128;
+    if (r < BIT8) {
+      return num;
+    }
+    if (num > MAX_SAFE_INTEGER) {
+      throw errorIntegerOutOfRange;
+    }
+  }
+  throw errorUnexpectedEndOfArray;
+};
+var readVarInt = (decoder) => {
+  let r = decoder.arr[decoder.pos++];
+  let num = r & BITS6;
+  let mult = 64;
+  const sign = (r & BIT7) > 0 ? -1 : 1;
+  if ((r & BIT8) === 0) {
+    return sign * num;
+  }
+  const len = decoder.arr.length;
+  while (decoder.pos < len) {
+    r = decoder.arr[decoder.pos++];
+    num = num + (r & BITS7) * mult;
+    mult *= 128;
+    if (r < BIT8) {
+      return sign * num;
+    }
+    if (num > MAX_SAFE_INTEGER) {
+      throw errorIntegerOutOfRange;
+    }
+  }
+  throw errorUnexpectedEndOfArray;
+};
+var _readVarStringPolyfill = (decoder) => {
+  let remainingLen = readVarUint(decoder);
+  if (remainingLen === 0) {
+    return "";
+  } else {
+    let encodedString = String.fromCodePoint(readUint8(decoder));
+    if (--remainingLen < 100) {
+      while (remainingLen--) {
+        encodedString += String.fromCodePoint(readUint8(decoder));
+      }
+    } else {
+      while (remainingLen > 0) {
+        const nextLen = remainingLen < 1e4 ? remainingLen : 1e4;
+        const bytes = decoder.arr.subarray(decoder.pos, decoder.pos + nextLen);
+        decoder.pos += nextLen;
+        encodedString += String.fromCodePoint.apply(
+          null,
+          /** @type {any} */
+          bytes
+        );
+        remainingLen -= nextLen;
+      }
+    }
+    return decodeURIComponent(escape(encodedString));
+  }
+};
+var _readVarStringNative = (decoder) => (
+  /** @type any */
+  utf8TextDecoder.decode(readVarUint8Array(decoder))
+);
+var readVarString = utf8TextDecoder ? _readVarStringNative : _readVarStringPolyfill;
+var readFromDataView = (decoder, len) => {
+  const dv = new DataView(decoder.arr.buffer, decoder.arr.byteOffset + decoder.pos, len);
+  decoder.pos += len;
+  return dv;
+};
+var readFloat32 = (decoder) => readFromDataView(decoder, 4).getFloat32(0, false);
+var readFloat64 = (decoder) => readFromDataView(decoder, 8).getFloat64(0, false);
+var readBigInt64 = (decoder) => (
+  /** @type {any} */
+  readFromDataView(decoder, 8).getBigInt64(0, false)
+);
+var readAnyLookupTable = [
+  (decoder) => void 0,
+  // CASE 127: undefined
+  (decoder) => null,
+  // CASE 126: null
+  readVarInt,
+  // CASE 125: integer
+  readFloat32,
+  // CASE 124: float32
+  readFloat64,
+  // CASE 123: float64
+  readBigInt64,
+  // CASE 122: bigint
+  (decoder) => false,
+  // CASE 121: boolean (false)
+  (decoder) => true,
+  // CASE 120: boolean (true)
+  readVarString,
+  // CASE 119: string
+  (decoder) => {
+    const len = readVarUint(decoder);
+    const obj = {};
+    for (let i = 0; i < len; i++) {
+      const key = readVarString(decoder);
+      obj[key] = readAny(decoder);
+    }
+    return obj;
+  },
+  (decoder) => {
+    const len = readVarUint(decoder);
+    const arr = [];
+    for (let i = 0; i < len; i++) {
+      arr.push(readAny(decoder));
+    }
+    return arr;
+  },
+  readVarUint8Array
+  // CASE 116: Uint8Array
+];
+var readAny = (decoder) => readAnyLookupTable[127 - readUint8(decoder)](decoder);
+var RleDecoder = class extends Decoder {
+  /**
+   * @param {Uint8Array} uint8Array
+   * @param {function(Decoder):T} reader
+   */
+  constructor(uint8Array, reader) {
+    super(uint8Array);
+    this.reader = reader;
+    this.s = null;
+    this.count = 0;
+  }
+  read() {
+    if (this.count === 0) {
+      this.s = this.reader(this);
+      if (hasContent(this)) {
+        this.count = readVarUint(this) + 1;
+      } else {
+        this.count = -1;
+      }
+    }
+    this.count--;
+    return (
+      /** @type {T} */
+      this.s
+    );
+  }
+};
+var UintOptRleDecoder = class extends Decoder {
+  /**
+   * @param {Uint8Array} uint8Array
+   */
+  constructor(uint8Array) {
+    super(uint8Array);
+    this.s = 0;
+    this.count = 0;
+  }
+  read() {
+    if (this.count === 0) {
+      this.s = readVarInt(this);
+      const isNegative = isNegativeZero(this.s);
+      this.count = 1;
+      if (isNegative) {
+        this.s = -this.s;
+        this.count = readVarUint(this) + 2;
+      }
+    }
+    this.count--;
+    return (
+      /** @type {number} */
+      this.s
+    );
+  }
+};
+var IntDiffOptRleDecoder = class extends Decoder {
+  /**
+   * @param {Uint8Array} uint8Array
+   */
+  constructor(uint8Array) {
+    super(uint8Array);
+    this.s = 0;
+    this.count = 0;
+    this.diff = 0;
+  }
+  /**
+   * @return {number}
+   */
+  read() {
+    if (this.count === 0) {
+      const diff = readVarInt(this);
+      const hasCount = diff & 1;
+      this.diff = floor(diff / 2);
+      this.count = 1;
+      if (hasCount) {
+        this.count = readVarUint(this) + 2;
+      }
+    }
+    this.s += this.diff;
+    this.count--;
+    return this.s;
+  }
+};
+var StringDecoder = class {
+  /**
+   * @param {Uint8Array} uint8Array
+   */
+  constructor(uint8Array) {
+    this.decoder = new UintOptRleDecoder(uint8Array);
+    this.str = readVarString(this.decoder);
+    this.spos = 0;
+  }
+  /**
+   * @return {string}
+   */
+  read() {
+    const end = this.spos + this.decoder.read();
+    const res = this.str.slice(this.spos, end);
+    this.spos = end;
+    return res;
+  }
+};
+
+// node_modules/lib0/map.js
+var create3 = () => /* @__PURE__ */ new Map();
+var copy = (m) => {
+  const r = create3();
+  m.forEach((v, k) => {
+    r.set(k, v);
+  });
+  return r;
+};
+var setIfUndefined = (map2, key, createT) => {
+  let set = map2.get(key);
+  if (set === void 0) {
+    map2.set(key, set = createT());
+  }
+  return set;
+};
+var map = (m, f) => {
+  const res = [];
+  for (const [key, value] of m) {
+    res.push(f(value, key));
+  }
+  return res;
+};
+var any = (m, f) => {
+  for (const [key, value] of m) {
+    if (f(value, key)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+// node_modules/lib0/observable.js
+var ObservableV2 = class {
+  constructor() {
+    this._observers = create3();
+  }
+  /**
+   * @template {keyof EVENTS & string} NAME
+   * @param {NAME} name
+   * @param {EVENTS[NAME]} f
+   */
+  on(name, f) {
+    setIfUndefined(
+      this._observers,
+      /** @type {string} */
+      name,
+      create
+    ).add(f);
+    return f;
+  }
+  /**
+   * @template {keyof EVENTS & string} NAME
+   * @param {NAME} name
+   * @param {EVENTS[NAME]} f
+   */
+  once(name, f) {
+    const _f = (...args2) => {
+      this.off(
+        name,
+        /** @type {any} */
+        _f
+      );
+      f(...args2);
+    };
+    this.on(
+      name,
+      /** @type {any} */
+      _f
+    );
+  }
+  /**
+   * @template {keyof EVENTS & string} NAME
+   * @param {NAME} name
+   * @param {EVENTS[NAME]} f
+   */
+  off(name, f) {
+    const observers = this._observers.get(name);
+    if (observers !== void 0) {
+      observers.delete(f);
+      if (observers.size === 0) {
+        this._observers.delete(name);
+      }
+    }
+  }
+  /**
+   * Emit a named event. All registered event listeners that listen to the
+   * specified name will receive the event.
+   *
+   * @todo This should catch exceptions
+   *
+   * @template {keyof EVENTS & string} NAME
+   * @param {NAME} name The event name.
+   * @param {Parameters<EVENTS[NAME]>} args The arguments that are applied to the event listener.
+   */
+  emit(name, args2) {
+    return from((this._observers.get(name) || create3()).values()).forEach((f) => f(...args2));
+  }
+  destroy() {
+    this._observers = create3();
+  }
+};
+var Observable = class {
+  constructor() {
+    this._observers = create3();
+  }
+  /**
+   * @param {N} name
+   * @param {function} f
+   */
+  on(name, f) {
+    setIfUndefined(this._observers, name, create).add(f);
+  }
+  /**
+   * @param {N} name
+   * @param {function} f
+   */
+  once(name, f) {
+    const _f = (...args2) => {
+      this.off(name, _f);
+      f(...args2);
+    };
+    this.on(name, _f);
+  }
+  /**
+   * @param {N} name
+   * @param {function} f
+   */
+  off(name, f) {
+    const observers = this._observers.get(name);
+    if (observers !== void 0) {
+      observers.delete(f);
+      if (observers.size === 0) {
+        this._observers.delete(name);
+      }
+    }
+  }
+  /**
+   * Emit a named event. All registered event listeners that listen to the
+   * specified name will receive the event.
+   *
+   * @todo This should catch exceptions
+   *
+   * @param {N} name The event name.
+   * @param {Array<any>} args The arguments that are applied to the event listener.
+   */
+  emit(name, args2) {
+    return from((this._observers.get(name) || create3()).values()).forEach((f) => f(...args2));
+  }
+  destroy() {
+    this._observers = create3();
+  }
+};
+
+// node_modules/lib0/webcrypto.js
+var subtle = crypto.subtle;
+var getRandomValues = crypto.getRandomValues.bind(crypto);
+
+// node_modules/lib0/random.js
+var uint32 = () => getRandomValues(new Uint32Array(1))[0];
+var uuidv4Template = "10000000-1000-4000-8000" + -1e11;
+var uuidv4 = () => uuidv4Template.replace(
+  /[018]/g,
+  /** @param {number} c */
+  (c) => (c ^ uint32() & 15 >> c / 4).toString(16)
+);
+
+// node_modules/lib0/time.js
+var getUnixTime = Date.now;
+
+// node_modules/lib0/promise.js
+var create4 = (f) => (
+  /** @type {Promise<T>} */
+  new Promise(f)
+);
+var all = Promise.all.bind(Promise);
+
+// node_modules/lib0/conditions.js
+var undefinedToNull = (v) => v === void 0 ? null : v;
+
+// node_modules/lib0/storage.js
+var VarStoragePolyfill = class {
+  constructor() {
+    this.map = /* @__PURE__ */ new Map();
+  }
+  /**
+   * @param {string} key
+   * @param {any} newValue
+   */
+  setItem(key, newValue) {
+    this.map.set(key, newValue);
+  }
+  /**
+   * @param {string} key
+   */
+  getItem(key) {
+    return this.map.get(key);
+  }
+};
+var _localStorage = new VarStoragePolyfill();
+var usePolyfill = true;
+try {
+  if (typeof localStorage !== "undefined" && localStorage) {
+    _localStorage = localStorage;
+    usePolyfill = false;
+  }
+} catch (e) {
+}
+var varStorage = _localStorage;
+
+// node_modules/lib0/object.js
+var assign = Object.assign;
+var keys = Object.keys;
+var forEach = (obj, f) => {
+  for (const key in obj) {
+    f(obj[key], key);
+  }
+};
+var length2 = (obj) => keys(obj).length;
+var size = (obj) => keys(obj).length;
+var isEmpty = (obj) => {
+  for (const _k in obj) {
+    return false;
+  }
+  return true;
+};
+var every = (obj, f) => {
+  for (const key in obj) {
+    if (!f(obj[key], key)) {
+      return false;
+    }
+  }
+  return true;
+};
+var hasProperty = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+var equalFlat = (a, b) => a === b || size(a) === size(b) && every(a, (val, key) => (val !== void 0 || hasProperty(b, key)) && b[key] === val);
+var freeze = Object.freeze;
+var deepFreeze = (o) => {
+  for (const key in o) {
+    const c = o[key];
+    if (typeof c === "object" || typeof c === "function") {
+      deepFreeze(o[key]);
+    }
+  }
+  return freeze(o);
+};
+
+// node_modules/lib0/function.js
+var callAll = (fs, args2, i = 0) => {
+  try {
+    for (; i < fs.length; i++) {
+      fs[i](...args2);
+    }
+  } finally {
+    if (i < fs.length) {
+      callAll(fs, args2, i + 1);
+    }
+  }
+};
+var id = (a) => a;
+var equalityStrict = (a, b) => a === b;
+var equalityDeep = (a, b) => {
+  if (a == null || b == null) {
+    return equalityStrict(a, b);
+  }
+  if (a.constructor !== b.constructor) {
+    return false;
+  }
+  if (a === b) {
+    return true;
+  }
+  switch (a.constructor) {
+    case ArrayBuffer:
+      a = new Uint8Array(a);
+      b = new Uint8Array(b);
+    case Uint8Array: {
+      if (a.byteLength !== b.byteLength) {
+        return false;
+      }
+      for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) {
+          return false;
+        }
+      }
+      break;
+    }
+    case Set: {
+      if (a.size !== b.size) {
+        return false;
+      }
+      for (const value of a) {
+        if (!b.has(value)) {
+          return false;
+        }
+      }
+      break;
+    }
+    case Map: {
+      if (a.size !== b.size) {
+        return false;
+      }
+      for (const key of a.keys()) {
+        if (!b.has(key) || !equalityDeep(a.get(key), b.get(key))) {
+          return false;
+        }
+      }
+      break;
+    }
+    case Object:
+      if (length2(a) !== length2(b)) {
+        return false;
+      }
+      for (const key in a) {
+        if (!hasProperty(a, key) || !equalityDeep(a[key], b[key])) {
+          return false;
+        }
+      }
+      break;
+    case Array:
+      if (a.length !== b.length) {
+        return false;
+      }
+      for (let i = 0; i < a.length; i++) {
+        if (!equalityDeep(a[i], b[i])) {
+          return false;
+        }
+      }
+      break;
+    default:
+      return false;
+  }
+  return true;
+};
+var isOneOf = (value, options) => options.includes(value);
+
+// node_modules/lib0/environment.js
+var isNode = typeof process !== "undefined" && process.release && /node|io\.js/.test(process.release.name) && Object.prototype.toString.call(typeof process !== "undefined" ? process : 0) === "[object process]";
+var isMac = typeof navigator !== "undefined" ? /Mac/.test(navigator.platform) : false;
+var params;
+var args = [];
+var computeParams = () => {
+  if (params === void 0) {
+    if (isNode) {
+      params = create3();
+      const pargs = process.argv;
+      let currParamName = null;
+      for (let i = 0; i < pargs.length; i++) {
+        const parg = pargs[i];
+        if (parg[0] === "-") {
+          if (currParamName !== null) {
+            params.set(currParamName, "");
+          }
+          currParamName = parg;
+        } else {
+          if (currParamName !== null) {
+            params.set(currParamName, parg);
+            currParamName = null;
+          } else {
+            args.push(parg);
+          }
+        }
+      }
+      if (currParamName !== null) {
+        params.set(currParamName, "");
+      }
+    } else if (typeof location === "object") {
+      params = create3();
+      (location.search || "?").slice(1).split("&").forEach((kv) => {
+        if (kv.length !== 0) {
+          const [key, value] = kv.split("=");
+          params.set(`--${fromCamelCase(key, "-")}`, value);
+          params.set(`-${fromCamelCase(key, "-")}`, value);
+        }
+      });
+    } else {
+      params = create3();
+    }
+  }
+  return params;
+};
+var hasParam = (name) => computeParams().has(name);
+var getVariable = (name) => isNode ? undefinedToNull(process.env[name.toUpperCase().replaceAll("-", "_")]) : undefinedToNull(varStorage.getItem(name));
+var hasConf = (name) => hasParam("--" + name) || getVariable(name) !== null;
+var production = hasConf("production");
+var forceColor = isNode && isOneOf(process.env.FORCE_COLOR, ["true", "1", "2"]);
+var supportsColor = forceColor || !hasParam("--no-colors") && // @todo deprecate --no-colors
+!hasConf("no-color") && (!isNode || process.stdout.isTTY) && (!isNode || hasParam("--color") || getVariable("COLORTERM") !== null || (getVariable("TERM") || "").includes("color"));
+
+// node_modules/lib0/buffer.js
+var createUint8ArrayFromLen = (len) => new Uint8Array(len);
+var copyUint8Array = (uint8Array) => {
+  const newBuf = createUint8ArrayFromLen(uint8Array.byteLength);
+  newBuf.set(uint8Array);
+  return newBuf;
+};
+
+// node_modules/lib0/pair.js
+var Pair = class {
+  /**
+   * @param {L} left
+   * @param {R} right
+   */
+  constructor(left, right) {
+    this.left = left;
+    this.right = right;
+  }
+};
+var create5 = (left, right) => new Pair(left, right);
+
+// node_modules/lib0/dom.js
+var doc = (
+  /** @type {Document} */
+  typeof document !== "undefined" ? document : {}
+);
+var domParser = (
+  /** @type {DOMParser} */
+  typeof DOMParser !== "undefined" ? new DOMParser() : null
+);
+var mapToStyleString = (m) => map(m, (value, key) => `${key}:${value};`).join("");
+var ELEMENT_NODE = doc.ELEMENT_NODE;
+var TEXT_NODE = doc.TEXT_NODE;
+var CDATA_SECTION_NODE = doc.CDATA_SECTION_NODE;
+var COMMENT_NODE = doc.COMMENT_NODE;
+var DOCUMENT_NODE = doc.DOCUMENT_NODE;
+var DOCUMENT_TYPE_NODE = doc.DOCUMENT_TYPE_NODE;
+var DOCUMENT_FRAGMENT_NODE = doc.DOCUMENT_FRAGMENT_NODE;
+
+// node_modules/lib0/symbol.js
+var create6 = Symbol;
+
+// node_modules/lib0/logging.common.js
+var BOLD = create6();
+var UNBOLD = create6();
+var BLUE = create6();
+var GREY = create6();
+var GREEN = create6();
+var RED = create6();
+var PURPLE = create6();
+var ORANGE = create6();
+var UNCOLOR = create6();
+var computeNoColorLoggingArgs = (args2) => {
+  if (args2.length === 1 && args2[0]?.constructor === Function) {
+    args2 = /** @type {Array<string|Symbol|Object|number>} */
+    /** @type {[function]} */
+    args2[0]();
+  }
+  const strBuilder = [];
+  const logArgs = [];
+  let i = 0;
+  for (; i < args2.length; i++) {
+    const arg = args2[i];
+    if (arg === void 0) {
+      break;
+    } else if (arg.constructor === String || arg.constructor === Number) {
+      strBuilder.push(arg);
+    } else if (arg.constructor === Object) {
+      break;
+    }
+  }
+  if (i > 0) {
+    logArgs.push(strBuilder.join(""));
+  }
+  for (; i < args2.length; i++) {
+    const arg = args2[i];
+    if (!(arg instanceof Symbol)) {
+      logArgs.push(arg);
+    }
+  }
+  return logArgs;
+};
+var lastLoggingTime = getUnixTime();
+
+// node_modules/lib0/logging.js
+var _browserStyleMap = {
+  [BOLD]: create5("font-weight", "bold"),
+  [UNBOLD]: create5("font-weight", "normal"),
+  [BLUE]: create5("color", "blue"),
+  [GREEN]: create5("color", "green"),
+  [GREY]: create5("color", "grey"),
+  [RED]: create5("color", "red"),
+  [PURPLE]: create5("color", "purple"),
+  [ORANGE]: create5("color", "orange"),
+  // not well supported in chrome when debugging node with inspector - TODO: deprecate
+  [UNCOLOR]: create5("color", "black")
+};
+var computeBrowserLoggingArgs = (args2) => {
+  if (args2.length === 1 && args2[0]?.constructor === Function) {
+    args2 = /** @type {Array<string|Symbol|Object|number>} */
+    /** @type {[function]} */
+    args2[0]();
+  }
+  const strBuilder = [];
+  const styles = [];
+  const currentStyle = create3();
+  let logArgs = [];
+  let i = 0;
+  for (; i < args2.length; i++) {
+    const arg = args2[i];
+    const style = _browserStyleMap[arg];
+    if (style !== void 0) {
+      currentStyle.set(style.left, style.right);
+    } else {
+      if (arg === void 0) {
+        break;
+      }
+      if (arg.constructor === String || arg.constructor === Number) {
+        const style2 = mapToStyleString(currentStyle);
+        if (i > 0 || style2.length > 0) {
+          strBuilder.push("%c" + arg);
+          styles.push(style2);
+        } else {
+          strBuilder.push(arg);
+        }
+      } else {
+        break;
+      }
+    }
+  }
+  if (i > 0) {
+    logArgs = styles;
+    logArgs.unshift(strBuilder.join(""));
+  }
+  for (; i < args2.length; i++) {
+    const arg = args2[i];
+    if (!(arg instanceof Symbol)) {
+      logArgs.push(arg);
+    }
+  }
+  return logArgs;
+};
+var computeLoggingArgs = supportsColor ? computeBrowserLoggingArgs : computeNoColorLoggingArgs;
+var print = (...args2) => {
+  console.log(...computeLoggingArgs(args2));
+  vconsoles.forEach((vc) => vc.print(args2));
+};
+var warn = (...args2) => {
+  console.warn(...computeLoggingArgs(args2));
+  args2.unshift(ORANGE);
+  vconsoles.forEach((vc) => vc.print(args2));
+};
+var vconsoles = create();
+
+// node_modules/lib0/iterator.js
+var createIterator = (next) => ({
+  /**
+   * @return {IterableIterator<T>}
+   */
+  [Symbol.iterator]() {
+    return this;
+  },
+  // @ts-ignore
+  next
+});
+var iteratorFilter = (iterator, filter) => createIterator(() => {
+  let res;
+  do {
+    res = iterator.next();
+  } while (!res.done && !filter(res.value));
+  return res;
+});
+var iteratorMap = (iterator, fmap) => createIterator(() => {
+  const { done, value } = iterator.next();
+  return { done, value: done ? void 0 : fmap(value) };
+});
+
+// node_modules/yjs/dist/yjs.mjs
+var DeleteItem = class {
+  /**
+   * @param {number} clock
+   * @param {number} len
+   */
+  constructor(clock, len) {
+    this.clock = clock;
+    this.len = len;
+  }
+};
+var DeleteSet = class {
+  constructor() {
+    this.clients = /* @__PURE__ */ new Map();
+  }
+};
+var iterateDeletedStructs = (transaction, ds, f) => ds.clients.forEach((deletes, clientid) => {
+  const structs = (
+    /** @type {Array<GC|Item>} */
+    transaction.doc.store.clients.get(clientid)
+  );
+  for (let i = 0; i < deletes.length; i++) {
+    const del = deletes[i];
+    iterateStructs(transaction, structs, del.clock, del.len, f);
+  }
+});
+var findIndexDS = (dis, clock) => {
+  let left = 0;
+  let right = dis.length - 1;
+  while (left <= right) {
+    const midindex = floor((left + right) / 2);
+    const mid = dis[midindex];
+    const midclock = mid.clock;
+    if (midclock <= clock) {
+      if (clock < midclock + mid.len) {
+        return midindex;
+      }
+      left = midindex + 1;
+    } else {
+      right = midindex - 1;
+    }
+  }
+  return null;
+};
+var isDeleted = (ds, id2) => {
+  const dis = ds.clients.get(id2.client);
+  return dis !== void 0 && findIndexDS(dis, id2.clock) !== null;
+};
+var sortAndMergeDeleteSet = (ds) => {
+  ds.clients.forEach((dels) => {
+    dels.sort((a, b) => a.clock - b.clock);
+    let i, j;
+    for (i = 1, j = 1; i < dels.length; i++) {
+      const left = dels[j - 1];
+      const right = dels[i];
+      if (left.clock + left.len >= right.clock) {
+        left.len = max(left.len, right.clock + right.len - left.clock);
+      } else {
+        if (j < i) {
+          dels[j] = right;
+        }
+        j++;
+      }
+    }
+    dels.length = j;
+  });
+};
+var mergeDeleteSets = (dss) => {
+  const merged = new DeleteSet();
+  for (let dssI = 0; dssI < dss.length; dssI++) {
+    dss[dssI].clients.forEach((delsLeft, client) => {
+      if (!merged.clients.has(client)) {
+        const dels = delsLeft.slice();
+        for (let i = dssI + 1; i < dss.length; i++) {
+          appendTo(dels, dss[i].clients.get(client) || []);
+        }
+        merged.clients.set(client, dels);
+      }
+    });
+  }
+  sortAndMergeDeleteSet(merged);
+  return merged;
+};
+var addToDeleteSet = (ds, client, clock, length3) => {
+  setIfUndefined(ds.clients, client, () => (
+    /** @type {Array<DeleteItem>} */
+    []
+  )).push(new DeleteItem(clock, length3));
+};
+var createDeleteSet = () => new DeleteSet();
+var createDeleteSetFromStructStore = (ss) => {
+  const ds = createDeleteSet();
+  ss.clients.forEach((structs, client) => {
+    const dsitems = [];
+    for (let i = 0; i < structs.length; i++) {
+      const struct = structs[i];
+      if (struct.deleted) {
+        const clock = struct.id.clock;
+        let len = struct.length;
+        if (i + 1 < structs.length) {
+          for (let next = structs[i + 1]; i + 1 < structs.length && next.deleted; next = structs[++i + 1]) {
+            len += next.length;
+          }
+        }
+        dsitems.push(new DeleteItem(clock, len));
+      }
+    }
+    if (dsitems.length > 0) {
+      ds.clients.set(client, dsitems);
+    }
+  });
+  return ds;
+};
+var writeDeleteSet = (encoder, ds) => {
+  writeVarUint(encoder.restEncoder, ds.clients.size);
+  from(ds.clients.entries()).sort((a, b) => b[0] - a[0]).forEach(([client, dsitems]) => {
+    encoder.resetDsCurVal();
+    writeVarUint(encoder.restEncoder, client);
+    const len = dsitems.length;
+    writeVarUint(encoder.restEncoder, len);
+    for (let i = 0; i < len; i++) {
+      const item = dsitems[i];
+      encoder.writeDsClock(item.clock);
+      encoder.writeDsLen(item.len);
+    }
+  });
+};
+var readDeleteSet = (decoder) => {
+  const ds = new DeleteSet();
+  const numClients = readVarUint(decoder.restDecoder);
+  for (let i = 0; i < numClients; i++) {
+    decoder.resetDsCurVal();
+    const client = readVarUint(decoder.restDecoder);
+    const numberOfDeletes = readVarUint(decoder.restDecoder);
+    if (numberOfDeletes > 0) {
+      const dsField = setIfUndefined(ds.clients, client, () => (
+        /** @type {Array<DeleteItem>} */
+        []
+      ));
+      for (let i2 = 0; i2 < numberOfDeletes; i2++) {
+        dsField.push(new DeleteItem(decoder.readDsClock(), decoder.readDsLen()));
+      }
+    }
+  }
+  return ds;
+};
+var readAndApplyDeleteSet = (decoder, transaction, store) => {
+  const unappliedDS = new DeleteSet();
+  const numClients = readVarUint(decoder.restDecoder);
+  for (let i = 0; i < numClients; i++) {
+    decoder.resetDsCurVal();
+    const client = readVarUint(decoder.restDecoder);
+    const numberOfDeletes = readVarUint(decoder.restDecoder);
+    const structs = store.clients.get(client) || [];
+    const state = getState(store, client);
+    for (let i2 = 0; i2 < numberOfDeletes; i2++) {
+      const clock = decoder.readDsClock();
+      const clockEnd = clock + decoder.readDsLen();
+      if (clock < state) {
+        if (state < clockEnd) {
+          addToDeleteSet(unappliedDS, client, state, clockEnd - state);
+        }
+        let index = findIndexSS(structs, clock);
+        let struct = structs[index];
+        if (!struct.deleted && struct.id.clock < clock) {
+          structs.splice(index + 1, 0, splitItem(transaction, struct, clock - struct.id.clock));
+          index++;
+        }
+        while (index < structs.length) {
+          struct = structs[index++];
+          if (struct.id.clock < clockEnd) {
+            if (!struct.deleted) {
+              if (clockEnd < struct.id.clock + struct.length) {
+                structs.splice(index, 0, splitItem(transaction, struct, clockEnd - struct.id.clock));
+              }
+              struct.delete(transaction);
+            }
+          } else {
+            break;
+          }
+        }
+      } else {
+        addToDeleteSet(unappliedDS, client, clock, clockEnd - clock);
+      }
+    }
+  }
+  if (unappliedDS.clients.size > 0) {
+    const ds = new UpdateEncoderV2();
+    writeVarUint(ds.restEncoder, 0);
+    writeDeleteSet(ds, unappliedDS);
+    return ds.toUint8Array();
+  }
+  return null;
+};
+var generateNewClientId = uint32;
+var Doc = class _Doc extends ObservableV2 {
+  /**
+   * @param {DocOpts} opts configuration
+   */
+  constructor({ guid = uuidv4(), collectionid = null, gc = true, gcFilter = () => true, meta = null, autoLoad = false, shouldLoad = true } = {}) {
+    super();
+    this.gc = gc;
+    this.gcFilter = gcFilter;
+    this.clientID = generateNewClientId();
+    this.guid = guid;
+    this.collectionid = collectionid;
+    this.share = /* @__PURE__ */ new Map();
+    this.store = new StructStore();
+    this._transaction = null;
+    this._transactionCleanups = [];
+    this.subdocs = /* @__PURE__ */ new Set();
+    this._item = null;
+    this.shouldLoad = shouldLoad;
+    this.autoLoad = autoLoad;
+    this.meta = meta;
+    this.isLoaded = false;
+    this.isSynced = false;
+    this.isDestroyed = false;
+    this.whenLoaded = create4((resolve) => {
+      this.on("load", () => {
+        this.isLoaded = true;
+        resolve(this);
+      });
+    });
+    const provideSyncedPromise = () => create4((resolve) => {
+      const eventHandler = (isSynced) => {
+        if (isSynced === void 0 || isSynced === true) {
+          this.off("sync", eventHandler);
+          resolve();
+        }
+      };
+      this.on("sync", eventHandler);
+    });
+    this.on("sync", (isSynced) => {
+      if (isSynced === false && this.isSynced) {
+        this.whenSynced = provideSyncedPromise();
+      }
+      this.isSynced = isSynced === void 0 || isSynced === true;
+      if (this.isSynced && !this.isLoaded) {
+        this.emit("load", [this]);
+      }
+    });
+    this.whenSynced = provideSyncedPromise();
+  }
+  /**
+   * Notify the parent document that you request to load data into this subdocument (if it is a subdocument).
+   *
+   * `load()` might be used in the future to request any provider to load the most current data.
+   *
+   * It is safe to call `load()` multiple times.
+   */
+  load() {
+    const item = this._item;
+    if (item !== null && !this.shouldLoad) {
+      transact(
+        /** @type {any} */
+        item.parent.doc,
+        (transaction) => {
+          transaction.subdocsLoaded.add(this);
+        },
+        null,
+        true
+      );
+    }
+    this.shouldLoad = true;
+  }
+  getSubdocs() {
+    return this.subdocs;
+  }
+  getSubdocGuids() {
+    return new Set(from(this.subdocs).map((doc2) => doc2.guid));
+  }
+  /**
+   * Changes that happen inside of a transaction are bundled. This means that
+   * the observer fires _after_ the transaction is finished and that all changes
+   * that happened inside of the transaction are sent as one message to the
+   * other peers.
+   *
+   * @template T
+   * @param {function(Transaction):T} f The function that should be executed as a transaction
+   * @param {any} [origin] Origin of who started the transaction. Will be stored on transaction.origin
+   * @return T
+   *
+   * @public
+   */
+  transact(f, origin = null) {
+    return transact(this, f, origin);
+  }
+  /**
+   * Define a shared data type.
+   *
+   * Multiple calls of `ydoc.get(name, TypeConstructor)` yield the same result
+   * and do not overwrite each other. I.e.
+   * `ydoc.get(name, Y.Array) === ydoc.get(name, Y.Array)`
+   *
+   * After this method is called, the type is also available on `ydoc.share.get(name)`.
+   *
+   * *Best Practices:*
+   * Define all types right after the Y.Doc instance is created and store them in a separate object.
+   * Also use the typed methods `getText(name)`, `getArray(name)`, ..
+   *
+   * @template {typeof AbstractType<any>} Type
+   * @example
+   *   const ydoc = new Y.Doc(..)
+   *   const appState = {
+   *     document: ydoc.getText('document')
+   *     comments: ydoc.getArray('comments')
+   *   }
+   *
+   * @param {string} name
+   * @param {Type} TypeConstructor The constructor of the type definition. E.g. Y.Text, Y.Array, Y.Map, ...
+   * @return {InstanceType<Type>} The created type. Constructed with TypeConstructor
+   *
+   * @public
+   */
+  get(name, TypeConstructor = (
+    /** @type {any} */
+    AbstractType
+  )) {
+    const type = setIfUndefined(this.share, name, () => {
+      const t = new TypeConstructor();
+      t._integrate(this, null);
+      return t;
+    });
+    const Constr = type.constructor;
+    if (TypeConstructor !== AbstractType && Constr !== TypeConstructor) {
+      if (Constr === AbstractType) {
+        const t = new TypeConstructor();
+        t._map = type._map;
+        type._map.forEach(
+          /** @param {Item?} n */
+          (n) => {
+            for (; n !== null; n = n.left) {
+              n.parent = t;
+            }
+          }
+        );
+        t._start = type._start;
+        for (let n = t._start; n !== null; n = n.right) {
+          n.parent = t;
+        }
+        t._length = type._length;
+        this.share.set(name, t);
+        t._integrate(this, null);
+        return (
+          /** @type {InstanceType<Type>} */
+          t
+        );
+      } else {
+        throw new Error(`Type with the name ${name} has already been defined with a different constructor`);
+      }
+    }
+    return (
+      /** @type {InstanceType<Type>} */
+      type
+    );
+  }
+  /**
+   * @template T
+   * @param {string} [name]
+   * @return {YArray<T>}
+   *
+   * @public
+   */
+  getArray(name = "") {
+    return (
+      /** @type {YArray<T>} */
+      this.get(name, YArray)
+    );
+  }
+  /**
+   * @param {string} [name]
+   * @return {YText}
+   *
+   * @public
+   */
+  getText(name = "") {
+    return this.get(name, YText);
+  }
+  /**
+   * @template T
+   * @param {string} [name]
+   * @return {YMap<T>}
+   *
+   * @public
+   */
+  getMap(name = "") {
+    return (
+      /** @type {YMap<T>} */
+      this.get(name, YMap)
+    );
+  }
+  /**
+   * @param {string} [name]
+   * @return {YXmlElement}
+   *
+   * @public
+   */
+  getXmlElement(name = "") {
+    return (
+      /** @type {YXmlElement<{[key:string]:string}>} */
+      this.get(name, YXmlElement)
+    );
+  }
+  /**
+   * @param {string} [name]
+   * @return {YXmlFragment}
+   *
+   * @public
+   */
+  getXmlFragment(name = "") {
+    return this.get(name, YXmlFragment);
+  }
+  /**
+   * Converts the entire document into a js object, recursively traversing each yjs type
+   * Doesn't log types that have not been defined (using ydoc.getType(..)).
+   *
+   * @deprecated Do not use this method and rather call toJSON directly on the shared types.
+   *
+   * @return {Object<string, any>}
+   */
+  toJSON() {
+    const doc2 = {};
+    this.share.forEach((value, key) => {
+      doc2[key] = value.toJSON();
+    });
+    return doc2;
+  }
+  /**
+   * Emit `destroy` event and unregister all event handlers.
+   */
+  destroy() {
+    this.isDestroyed = true;
+    from(this.subdocs).forEach((subdoc) => subdoc.destroy());
+    const item = this._item;
+    if (item !== null) {
+      this._item = null;
+      const content = (
+        /** @type {ContentDoc} */
+        item.content
+      );
+      content.doc = new _Doc({ guid: this.guid, ...content.opts, shouldLoad: false });
+      content.doc._item = item;
+      transact(
+        /** @type {any} */
+        item.parent.doc,
+        (transaction) => {
+          const doc2 = content.doc;
+          if (!item.deleted) {
+            transaction.subdocsAdded.add(doc2);
+          }
+          transaction.subdocsRemoved.add(this);
+        },
+        null,
+        true
+      );
+    }
+    this.emit("destroyed", [true]);
+    this.emit("destroy", [this]);
+    super.destroy();
+  }
+};
+var DSDecoderV1 = class {
+  /**
+   * @param {decoding.Decoder} decoder
+   */
+  constructor(decoder) {
+    this.restDecoder = decoder;
+  }
+  resetDsCurVal() {
+  }
+  /**
+   * @return {number}
+   */
+  readDsClock() {
+    return readVarUint(this.restDecoder);
+  }
+  /**
+   * @return {number}
+   */
+  readDsLen() {
+    return readVarUint(this.restDecoder);
+  }
+};
+var UpdateDecoderV1 = class extends DSDecoderV1 {
+  /**
+   * @return {ID}
+   */
+  readLeftID() {
+    return createID(readVarUint(this.restDecoder), readVarUint(this.restDecoder));
+  }
+  /**
+   * @return {ID}
+   */
+  readRightID() {
+    return createID(readVarUint(this.restDecoder), readVarUint(this.restDecoder));
+  }
+  /**
+   * Read the next client id.
+   * Use this in favor of readID whenever possible to reduce the number of objects created.
+   */
+  readClient() {
+    return readVarUint(this.restDecoder);
+  }
+  /**
+   * @return {number} info An unsigned 8-bit integer
+   */
+  readInfo() {
+    return readUint8(this.restDecoder);
+  }
+  /**
+   * @return {string}
+   */
+  readString() {
+    return readVarString(this.restDecoder);
+  }
+  /**
+   * @return {boolean} isKey
+   */
+  readParentInfo() {
+    return readVarUint(this.restDecoder) === 1;
+  }
+  /**
+   * @return {number} info An unsigned 8-bit integer
+   */
+  readTypeRef() {
+    return readVarUint(this.restDecoder);
+  }
+  /**
+   * Write len of a struct - well suited for Opt RLE encoder.
+   *
+   * @return {number} len
+   */
+  readLen() {
+    return readVarUint(this.restDecoder);
+  }
+  /**
+   * @return {any}
+   */
+  readAny() {
+    return readAny(this.restDecoder);
+  }
+  /**
+   * @return {Uint8Array}
+   */
+  readBuf() {
+    return copyUint8Array(readVarUint8Array(this.restDecoder));
+  }
+  /**
+   * Legacy implementation uses JSON parse. We use any-decoding in v2.
+   *
+   * @return {any}
+   */
+  readJSON() {
+    return JSON.parse(readVarString(this.restDecoder));
+  }
+  /**
+   * @return {string}
+   */
+  readKey() {
+    return readVarString(this.restDecoder);
+  }
+};
+var DSDecoderV2 = class {
+  /**
+   * @param {decoding.Decoder} decoder
+   */
+  constructor(decoder) {
+    this.dsCurrVal = 0;
+    this.restDecoder = decoder;
+  }
+  resetDsCurVal() {
+    this.dsCurrVal = 0;
+  }
+  /**
+   * @return {number}
+   */
+  readDsClock() {
+    this.dsCurrVal += readVarUint(this.restDecoder);
+    return this.dsCurrVal;
+  }
+  /**
+   * @return {number}
+   */
+  readDsLen() {
+    const diff = readVarUint(this.restDecoder) + 1;
+    this.dsCurrVal += diff;
+    return diff;
+  }
+};
+var UpdateDecoderV2 = class extends DSDecoderV2 {
+  /**
+   * @param {decoding.Decoder} decoder
+   */
+  constructor(decoder) {
+    super(decoder);
+    this.keys = [];
+    readVarUint(decoder);
+    this.keyClockDecoder = new IntDiffOptRleDecoder(readVarUint8Array(decoder));
+    this.clientDecoder = new UintOptRleDecoder(readVarUint8Array(decoder));
+    this.leftClockDecoder = new IntDiffOptRleDecoder(readVarUint8Array(decoder));
+    this.rightClockDecoder = new IntDiffOptRleDecoder(readVarUint8Array(decoder));
+    this.infoDecoder = new RleDecoder(readVarUint8Array(decoder), readUint8);
+    this.stringDecoder = new StringDecoder(readVarUint8Array(decoder));
+    this.parentInfoDecoder = new RleDecoder(readVarUint8Array(decoder), readUint8);
+    this.typeRefDecoder = new UintOptRleDecoder(readVarUint8Array(decoder));
+    this.lenDecoder = new UintOptRleDecoder(readVarUint8Array(decoder));
+  }
+  /**
+   * @return {ID}
+   */
+  readLeftID() {
+    return new ID(this.clientDecoder.read(), this.leftClockDecoder.read());
+  }
+  /**
+   * @return {ID}
+   */
+  readRightID() {
+    return new ID(this.clientDecoder.read(), this.rightClockDecoder.read());
+  }
+  /**
+   * Read the next client id.
+   * Use this in favor of readID whenever possible to reduce the number of objects created.
+   */
+  readClient() {
+    return this.clientDecoder.read();
+  }
+  /**
+   * @return {number} info An unsigned 8-bit integer
+   */
+  readInfo() {
+    return (
+      /** @type {number} */
+      this.infoDecoder.read()
+    );
+  }
+  /**
+   * @return {string}
+   */
+  readString() {
+    return this.stringDecoder.read();
+  }
+  /**
+   * @return {boolean}
+   */
+  readParentInfo() {
+    return this.parentInfoDecoder.read() === 1;
+  }
+  /**
+   * @return {number} An unsigned 8-bit integer
+   */
+  readTypeRef() {
+    return this.typeRefDecoder.read();
+  }
+  /**
+   * Write len of a struct - well suited for Opt RLE encoder.
+   *
+   * @return {number}
+   */
+  readLen() {
+    return this.lenDecoder.read();
+  }
+  /**
+   * @return {any}
+   */
+  readAny() {
+    return readAny(this.restDecoder);
+  }
+  /**
+   * @return {Uint8Array}
+   */
+  readBuf() {
+    return readVarUint8Array(this.restDecoder);
+  }
+  /**
+   * This is mainly here for legacy purposes.
+   *
+   * Initial we incoded objects using JSON. Now we use the much faster lib0/any-encoder. This method mainly exists for legacy purposes for the v1 encoder.
+   *
+   * @return {any}
+   */
+  readJSON() {
+    return readAny(this.restDecoder);
+  }
+  /**
+   * @return {string}
+   */
+  readKey() {
+    const keyClock = this.keyClockDecoder.read();
+    if (keyClock < this.keys.length) {
+      return this.keys[keyClock];
+    } else {
+      const key = this.stringDecoder.read();
+      this.keys.push(key);
+      return key;
+    }
+  }
+};
+var DSEncoderV1 = class {
+  constructor() {
+    this.restEncoder = createEncoder();
+  }
+  toUint8Array() {
+    return toUint8Array(this.restEncoder);
+  }
+  resetDsCurVal() {
+  }
+  /**
+   * @param {number} clock
+   */
+  writeDsClock(clock) {
+    writeVarUint(this.restEncoder, clock);
+  }
+  /**
+   * @param {number} len
+   */
+  writeDsLen(len) {
+    writeVarUint(this.restEncoder, len);
+  }
+};
+var UpdateEncoderV1 = class extends DSEncoderV1 {
+  /**
+   * @param {ID} id
+   */
+  writeLeftID(id2) {
+    writeVarUint(this.restEncoder, id2.client);
+    writeVarUint(this.restEncoder, id2.clock);
+  }
+  /**
+   * @param {ID} id
+   */
+  writeRightID(id2) {
+    writeVarUint(this.restEncoder, id2.client);
+    writeVarUint(this.restEncoder, id2.clock);
+  }
+  /**
+   * Use writeClient and writeClock instead of writeID if possible.
+   * @param {number} client
+   */
+  writeClient(client) {
+    writeVarUint(this.restEncoder, client);
+  }
+  /**
+   * @param {number} info An unsigned 8-bit integer
+   */
+  writeInfo(info) {
+    writeUint8(this.restEncoder, info);
+  }
+  /**
+   * @param {string} s
+   */
+  writeString(s) {
+    writeVarString(this.restEncoder, s);
+  }
+  /**
+   * @param {boolean} isYKey
+   */
+  writeParentInfo(isYKey) {
+    writeVarUint(this.restEncoder, isYKey ? 1 : 0);
+  }
+  /**
+   * @param {number} info An unsigned 8-bit integer
+   */
+  writeTypeRef(info) {
+    writeVarUint(this.restEncoder, info);
+  }
+  /**
+   * Write len of a struct - well suited for Opt RLE encoder.
+   *
+   * @param {number} len
+   */
+  writeLen(len) {
+    writeVarUint(this.restEncoder, len);
+  }
+  /**
+   * @param {any} any
+   */
+  writeAny(any2) {
+    writeAny(this.restEncoder, any2);
+  }
+  /**
+   * @param {Uint8Array} buf
+   */
+  writeBuf(buf) {
+    writeVarUint8Array(this.restEncoder, buf);
+  }
+  /**
+   * @param {any} embed
+   */
+  writeJSON(embed) {
+    writeVarString(this.restEncoder, JSON.stringify(embed));
+  }
+  /**
+   * @param {string} key
+   */
+  writeKey(key) {
+    writeVarString(this.restEncoder, key);
+  }
+};
+var DSEncoderV2 = class {
+  constructor() {
+    this.restEncoder = createEncoder();
+    this.dsCurrVal = 0;
+  }
+  toUint8Array() {
+    return toUint8Array(this.restEncoder);
+  }
+  resetDsCurVal() {
+    this.dsCurrVal = 0;
+  }
+  /**
+   * @param {number} clock
+   */
+  writeDsClock(clock) {
+    const diff = clock - this.dsCurrVal;
+    this.dsCurrVal = clock;
+    writeVarUint(this.restEncoder, diff);
+  }
+  /**
+   * @param {number} len
+   */
+  writeDsLen(len) {
+    if (len === 0) {
+      unexpectedCase();
+    }
+    writeVarUint(this.restEncoder, len - 1);
+    this.dsCurrVal += len;
+  }
+};
+var UpdateEncoderV2 = class extends DSEncoderV2 {
+  constructor() {
+    super();
+    this.keyMap = /* @__PURE__ */ new Map();
+    this.keyClock = 0;
+    this.keyClockEncoder = new IntDiffOptRleEncoder();
+    this.clientEncoder = new UintOptRleEncoder();
+    this.leftClockEncoder = new IntDiffOptRleEncoder();
+    this.rightClockEncoder = new IntDiffOptRleEncoder();
+    this.infoEncoder = new RleEncoder(writeUint8);
+    this.stringEncoder = new StringEncoder();
+    this.parentInfoEncoder = new RleEncoder(writeUint8);
+    this.typeRefEncoder = new UintOptRleEncoder();
+    this.lenEncoder = new UintOptRleEncoder();
+  }
+  toUint8Array() {
+    const encoder = createEncoder();
+    writeVarUint(encoder, 0);
+    writeVarUint8Array(encoder, this.keyClockEncoder.toUint8Array());
+    writeVarUint8Array(encoder, this.clientEncoder.toUint8Array());
+    writeVarUint8Array(encoder, this.leftClockEncoder.toUint8Array());
+    writeVarUint8Array(encoder, this.rightClockEncoder.toUint8Array());
+    writeVarUint8Array(encoder, toUint8Array(this.infoEncoder));
+    writeVarUint8Array(encoder, this.stringEncoder.toUint8Array());
+    writeVarUint8Array(encoder, toUint8Array(this.parentInfoEncoder));
+    writeVarUint8Array(encoder, this.typeRefEncoder.toUint8Array());
+    writeVarUint8Array(encoder, this.lenEncoder.toUint8Array());
+    writeUint8Array(encoder, toUint8Array(this.restEncoder));
+    return toUint8Array(encoder);
+  }
+  /**
+   * @param {ID} id
+   */
+  writeLeftID(id2) {
+    this.clientEncoder.write(id2.client);
+    this.leftClockEncoder.write(id2.clock);
+  }
+  /**
+   * @param {ID} id
+   */
+  writeRightID(id2) {
+    this.clientEncoder.write(id2.client);
+    this.rightClockEncoder.write(id2.clock);
+  }
+  /**
+   * @param {number} client
+   */
+  writeClient(client) {
+    this.clientEncoder.write(client);
+  }
+  /**
+   * @param {number} info An unsigned 8-bit integer
+   */
+  writeInfo(info) {
+    this.infoEncoder.write(info);
+  }
+  /**
+   * @param {string} s
+   */
+  writeString(s) {
+    this.stringEncoder.write(s);
+  }
+  /**
+   * @param {boolean} isYKey
+   */
+  writeParentInfo(isYKey) {
+    this.parentInfoEncoder.write(isYKey ? 1 : 0);
+  }
+  /**
+   * @param {number} info An unsigned 8-bit integer
+   */
+  writeTypeRef(info) {
+    this.typeRefEncoder.write(info);
+  }
+  /**
+   * Write len of a struct - well suited for Opt RLE encoder.
+   *
+   * @param {number} len
+   */
+  writeLen(len) {
+    this.lenEncoder.write(len);
+  }
+  /**
+   * @param {any} any
+   */
+  writeAny(any2) {
+    writeAny(this.restEncoder, any2);
+  }
+  /**
+   * @param {Uint8Array} buf
+   */
+  writeBuf(buf) {
+    writeVarUint8Array(this.restEncoder, buf);
+  }
+  /**
+   * This is mainly here for legacy purposes.
+   *
+   * Initial we incoded objects using JSON. Now we use the much faster lib0/any-encoder. This method mainly exists for legacy purposes for the v1 encoder.
+   *
+   * @param {any} embed
+   */
+  writeJSON(embed) {
+    writeAny(this.restEncoder, embed);
+  }
+  /**
+   * Property keys are often reused. For example, in y-prosemirror the key `bold` might
+   * occur very often. For a 3d application, the key `position` might occur very often.
+   *
+   * We cache these keys in a Map and refer to them via a unique number.
+   *
+   * @param {string} key
+   */
+  writeKey(key) {
+    const clock = this.keyMap.get(key);
+    if (clock === void 0) {
+      this.keyClockEncoder.write(this.keyClock++);
+      this.stringEncoder.write(key);
+    } else {
+      this.keyClockEncoder.write(clock);
+    }
+  }
+};
+var writeStructs = (encoder, structs, client, clock) => {
+  clock = max(clock, structs[0].id.clock);
+  const startNewStructs = findIndexSS(structs, clock);
+  writeVarUint(encoder.restEncoder, structs.length - startNewStructs);
+  encoder.writeClient(client);
+  writeVarUint(encoder.restEncoder, clock);
+  const firstStruct = structs[startNewStructs];
+  firstStruct.write(encoder, clock - firstStruct.id.clock);
+  for (let i = startNewStructs + 1; i < structs.length; i++) {
+    structs[i].write(encoder, 0);
+  }
+};
+var writeClientsStructs = (encoder, store, _sm) => {
+  const sm = /* @__PURE__ */ new Map();
+  _sm.forEach((clock, client) => {
+    if (getState(store, client) > clock) {
+      sm.set(client, clock);
+    }
+  });
+  getStateVector(store).forEach((_clock, client) => {
+    if (!_sm.has(client)) {
+      sm.set(client, 0);
+    }
+  });
+  writeVarUint(encoder.restEncoder, sm.size);
+  from(sm.entries()).sort((a, b) => b[0] - a[0]).forEach(([client, clock]) => {
+    writeStructs(
+      encoder,
+      /** @type {Array<GC|Item>} */
+      store.clients.get(client),
+      client,
+      clock
+    );
+  });
+};
+var readClientsStructRefs = (decoder, doc2) => {
+  const clientRefs = create3();
+  const numOfStateUpdates = readVarUint(decoder.restDecoder);
+  for (let i = 0; i < numOfStateUpdates; i++) {
+    const numberOfStructs = readVarUint(decoder.restDecoder);
+    const refs = new Array(numberOfStructs);
+    const client = decoder.readClient();
+    let clock = readVarUint(decoder.restDecoder);
+    clientRefs.set(client, { i: 0, refs });
+    for (let i2 = 0; i2 < numberOfStructs; i2++) {
+      const info = decoder.readInfo();
+      switch (BITS5 & info) {
+        case 0: {
+          const len = decoder.readLen();
+          refs[i2] = new GC(createID(client, clock), len);
+          clock += len;
+          break;
+        }
+        case 10: {
+          const len = readVarUint(decoder.restDecoder);
+          refs[i2] = new Skip(createID(client, clock), len);
+          clock += len;
+          break;
+        }
+        default: {
+          const cantCopyParentInfo = (info & (BIT7 | BIT8)) === 0;
+          const struct = new Item(
+            createID(client, clock),
+            null,
+            // left
+            (info & BIT8) === BIT8 ? decoder.readLeftID() : null,
+            // origin
+            null,
+            // right
+            (info & BIT7) === BIT7 ? decoder.readRightID() : null,
+            // right origin
+            cantCopyParentInfo ? decoder.readParentInfo() ? doc2.get(decoder.readString()) : decoder.readLeftID() : null,
+            // parent
+            cantCopyParentInfo && (info & BIT6) === BIT6 ? decoder.readString() : null,
+            // parentSub
+            readItemContent(decoder, info)
+            // item content
+          );
+          refs[i2] = struct;
+          clock += struct.length;
+        }
+      }
+    }
+  }
+  return clientRefs;
+};
+var integrateStructs = (transaction, store, clientsStructRefs) => {
+  const stack = [];
+  let clientsStructRefsIds = from(clientsStructRefs.keys()).sort((a, b) => a - b);
+  if (clientsStructRefsIds.length === 0) {
+    return null;
+  }
+  const getNextStructTarget = () => {
+    if (clientsStructRefsIds.length === 0) {
+      return null;
+    }
+    let nextStructsTarget = (
+      /** @type {{i:number,refs:Array<GC|Item>}} */
+      clientsStructRefs.get(clientsStructRefsIds[clientsStructRefsIds.length - 1])
+    );
+    while (nextStructsTarget.refs.length === nextStructsTarget.i) {
+      clientsStructRefsIds.pop();
+      if (clientsStructRefsIds.length > 0) {
+        nextStructsTarget = /** @type {{i:number,refs:Array<GC|Item>}} */
+        clientsStructRefs.get(clientsStructRefsIds[clientsStructRefsIds.length - 1]);
+      } else {
+        return null;
+      }
+    }
+    return nextStructsTarget;
+  };
+  let curStructsTarget = getNextStructTarget();
+  if (curStructsTarget === null) {
+    return null;
+  }
+  const restStructs = new StructStore();
+  const missingSV = /* @__PURE__ */ new Map();
+  const updateMissingSv = (client, clock) => {
+    const mclock = missingSV.get(client);
+    if (mclock == null || mclock > clock) {
+      missingSV.set(client, clock);
+    }
+  };
+  let stackHead = (
+    /** @type {any} */
+    curStructsTarget.refs[
+      /** @type {any} */
+      curStructsTarget.i++
+    ]
+  );
+  const state = /* @__PURE__ */ new Map();
+  const addStackToRestSS = () => {
+    for (const item of stack) {
+      const client = item.id.client;
+      const inapplicableItems = clientsStructRefs.get(client);
+      if (inapplicableItems) {
+        inapplicableItems.i--;
+        restStructs.clients.set(client, inapplicableItems.refs.slice(inapplicableItems.i));
+        clientsStructRefs.delete(client);
+        inapplicableItems.i = 0;
+        inapplicableItems.refs = [];
+      } else {
+        restStructs.clients.set(client, [item]);
+      }
+      clientsStructRefsIds = clientsStructRefsIds.filter((c) => c !== client);
+    }
+    stack.length = 0;
+  };
+  while (true) {
+    if (stackHead.constructor !== Skip) {
+      const localClock = setIfUndefined(state, stackHead.id.client, () => getState(store, stackHead.id.client));
+      const offset = localClock - stackHead.id.clock;
+      if (offset < 0) {
+        stack.push(stackHead);
+        updateMissingSv(stackHead.id.client, stackHead.id.clock - 1);
+        addStackToRestSS();
+      } else {
+        const missing = stackHead.getMissing(transaction, store);
+        if (missing !== null) {
+          stack.push(stackHead);
+          const structRefs = clientsStructRefs.get(
+            /** @type {number} */
+            missing
+          ) || { refs: [], i: 0 };
+          if (structRefs.refs.length === structRefs.i) {
+            updateMissingSv(
+              /** @type {number} */
+              missing,
+              getState(store, missing)
+            );
+            addStackToRestSS();
+          } else {
+            stackHead = structRefs.refs[structRefs.i++];
+            continue;
+          }
+        } else if (offset === 0 || offset < stackHead.length) {
+          stackHead.integrate(transaction, offset);
+          state.set(stackHead.id.client, stackHead.id.clock + stackHead.length);
+        }
+      }
+    }
+    if (stack.length > 0) {
+      stackHead = /** @type {GC|Item} */
+      stack.pop();
+    } else if (curStructsTarget !== null && curStructsTarget.i < curStructsTarget.refs.length) {
+      stackHead = /** @type {GC|Item} */
+      curStructsTarget.refs[curStructsTarget.i++];
+    } else {
+      curStructsTarget = getNextStructTarget();
+      if (curStructsTarget === null) {
+        break;
+      } else {
+        stackHead = /** @type {GC|Item} */
+        curStructsTarget.refs[curStructsTarget.i++];
+      }
+    }
+  }
+  if (restStructs.clients.size > 0) {
+    const encoder = new UpdateEncoderV2();
+    writeClientsStructs(encoder, restStructs, /* @__PURE__ */ new Map());
+    writeVarUint(encoder.restEncoder, 0);
+    return { missing: missingSV, update: encoder.toUint8Array() };
+  }
+  return null;
+};
+var writeStructsFromTransaction = (encoder, transaction) => writeClientsStructs(encoder, transaction.doc.store, transaction.beforeState);
+var readUpdateV2 = (decoder, ydoc, transactionOrigin, structDecoder = new UpdateDecoderV2(decoder)) => transact(ydoc, (transaction) => {
+  transaction.local = false;
+  let retry = false;
+  const doc2 = transaction.doc;
+  const store = doc2.store;
+  const ss = readClientsStructRefs(structDecoder, doc2);
+  const restStructs = integrateStructs(transaction, store, ss);
+  const pending = store.pendingStructs;
+  if (pending) {
+    for (const [client, clock] of pending.missing) {
+      if (clock < getState(store, client)) {
+        retry = true;
+        break;
+      }
+    }
+    if (restStructs) {
+      for (const [client, clock] of restStructs.missing) {
+        const mclock = pending.missing.get(client);
+        if (mclock == null || mclock > clock) {
+          pending.missing.set(client, clock);
+        }
+      }
+      pending.update = mergeUpdatesV2([pending.update, restStructs.update]);
+    }
+  } else {
+    store.pendingStructs = restStructs;
+  }
+  const dsRest = readAndApplyDeleteSet(structDecoder, transaction, store);
+  if (store.pendingDs) {
+    const pendingDSUpdate = new UpdateDecoderV2(createDecoder(store.pendingDs));
+    readVarUint(pendingDSUpdate.restDecoder);
+    const dsRest2 = readAndApplyDeleteSet(pendingDSUpdate, transaction, store);
+    if (dsRest && dsRest2) {
+      store.pendingDs = mergeUpdatesV2([dsRest, dsRest2]);
+    } else {
+      store.pendingDs = dsRest || dsRest2;
+    }
+  } else {
+    store.pendingDs = dsRest;
+  }
+  if (retry) {
+    const update = (
+      /** @type {{update: Uint8Array}} */
+      store.pendingStructs.update
+    );
+    store.pendingStructs = null;
+    applyUpdateV2(transaction.doc, update);
+  }
+}, transactionOrigin, false);
+var applyUpdateV2 = (ydoc, update, transactionOrigin, YDecoder = UpdateDecoderV2) => {
+  const decoder = createDecoder(update);
+  readUpdateV2(decoder, ydoc, transactionOrigin, new YDecoder(decoder));
+};
+var applyUpdate = (ydoc, update, transactionOrigin) => applyUpdateV2(ydoc, update, transactionOrigin, UpdateDecoderV1);
+var writeStateAsUpdate = (encoder, doc2, targetStateVector = /* @__PURE__ */ new Map()) => {
+  writeClientsStructs(encoder, doc2.store, targetStateVector);
+  writeDeleteSet(encoder, createDeleteSetFromStructStore(doc2.store));
+};
+var encodeStateAsUpdateV2 = (doc2, encodedTargetStateVector = new Uint8Array([0]), encoder = new UpdateEncoderV2()) => {
+  const targetStateVector = decodeStateVector(encodedTargetStateVector);
+  writeStateAsUpdate(encoder, doc2, targetStateVector);
+  const updates = [encoder.toUint8Array()];
+  if (doc2.store.pendingDs) {
+    updates.push(doc2.store.pendingDs);
+  }
+  if (doc2.store.pendingStructs) {
+    updates.push(diffUpdateV2(doc2.store.pendingStructs.update, encodedTargetStateVector));
+  }
+  if (updates.length > 1) {
+    if (encoder.constructor === UpdateEncoderV1) {
+      return mergeUpdates(updates.map((update, i) => i === 0 ? update : convertUpdateFormatV2ToV1(update)));
+    } else if (encoder.constructor === UpdateEncoderV2) {
+      return mergeUpdatesV2(updates);
+    }
+  }
+  return updates[0];
+};
+var encodeStateAsUpdate = (doc2, encodedTargetStateVector) => encodeStateAsUpdateV2(doc2, encodedTargetStateVector, new UpdateEncoderV1());
+var readStateVector = (decoder) => {
+  const ss = /* @__PURE__ */ new Map();
+  const ssLength = readVarUint(decoder.restDecoder);
+  for (let i = 0; i < ssLength; i++) {
+    const client = readVarUint(decoder.restDecoder);
+    const clock = readVarUint(decoder.restDecoder);
+    ss.set(client, clock);
+  }
+  return ss;
+};
+var decodeStateVector = (decodedState) => readStateVector(new DSDecoderV1(createDecoder(decodedState)));
+var writeStateVector = (encoder, sv) => {
+  writeVarUint(encoder.restEncoder, sv.size);
+  from(sv.entries()).sort((a, b) => b[0] - a[0]).forEach(([client, clock]) => {
+    writeVarUint(encoder.restEncoder, client);
+    writeVarUint(encoder.restEncoder, clock);
+  });
+  return encoder;
+};
+var writeDocumentStateVector = (encoder, doc2) => writeStateVector(encoder, getStateVector(doc2.store));
+var encodeStateVectorV2 = (doc2, encoder = new DSEncoderV2()) => {
+  if (doc2 instanceof Map) {
+    writeStateVector(encoder, doc2);
+  } else {
+    writeDocumentStateVector(encoder, doc2);
+  }
+  return encoder.toUint8Array();
+};
+var encodeStateVector = (doc2) => encodeStateVectorV2(doc2, new DSEncoderV1());
+var EventHandler = class {
+  constructor() {
+    this.l = [];
+  }
+};
+var createEventHandler = () => new EventHandler();
+var addEventHandlerListener = (eventHandler, f) => eventHandler.l.push(f);
+var removeEventHandlerListener = (eventHandler, f) => {
+  const l = eventHandler.l;
+  const len = l.length;
+  eventHandler.l = l.filter((g) => f !== g);
+  if (len === eventHandler.l.length) {
+    console.error("[yjs] Tried to remove event handler that doesn't exist.");
+  }
+};
+var callEventHandlerListeners = (eventHandler, arg0, arg1) => callAll(eventHandler.l, [arg0, arg1]);
+var ID = class {
+  /**
+   * @param {number} client client id
+   * @param {number} clock unique per client id, continuous number
+   */
+  constructor(client, clock) {
+    this.client = client;
+    this.clock = clock;
+  }
+};
+var compareIDs = (a, b) => a === b || a !== null && b !== null && a.client === b.client && a.clock === b.clock;
+var createID = (client, clock) => new ID(client, clock);
+var findRootTypeKey = (type) => {
+  for (const [key, value] of type.doc.share.entries()) {
+    if (value === type) {
+      return key;
+    }
+  }
+  throw unexpectedCase();
+};
+var Snapshot = class {
+  /**
+   * @param {DeleteSet} ds
+   * @param {Map<number,number>} sv state map
+   */
+  constructor(ds, sv) {
+    this.ds = ds;
+    this.sv = sv;
+  }
+};
+var createSnapshot = (ds, sm) => new Snapshot(ds, sm);
+var emptySnapshot = createSnapshot(createDeleteSet(), /* @__PURE__ */ new Map());
+var isVisible = (item, snapshot) => snapshot === void 0 ? !item.deleted : snapshot.sv.has(item.id.client) && (snapshot.sv.get(item.id.client) || 0) > item.id.clock && !isDeleted(snapshot.ds, item.id);
+var splitSnapshotAffectedStructs = (transaction, snapshot) => {
+  const meta = setIfUndefined(transaction.meta, splitSnapshotAffectedStructs, create);
+  const store = transaction.doc.store;
+  if (!meta.has(snapshot)) {
+    snapshot.sv.forEach((clock, client) => {
+      if (clock < getState(store, client)) {
+        getItemCleanStart(transaction, createID(client, clock));
+      }
+    });
+    iterateDeletedStructs(transaction, snapshot.ds, (_item) => {
+    });
+    meta.add(snapshot);
+  }
+};
+var StructStore = class {
+  constructor() {
+    this.clients = /* @__PURE__ */ new Map();
+    this.pendingStructs = null;
+    this.pendingDs = null;
+  }
+};
+var getStateVector = (store) => {
+  const sm = /* @__PURE__ */ new Map();
+  store.clients.forEach((structs, client) => {
+    const struct = structs[structs.length - 1];
+    sm.set(client, struct.id.clock + struct.length);
+  });
+  return sm;
+};
+var getState = (store, client) => {
+  const structs = store.clients.get(client);
+  if (structs === void 0) {
+    return 0;
+  }
+  const lastStruct = structs[structs.length - 1];
+  return lastStruct.id.clock + lastStruct.length;
+};
+var addStruct = (store, struct) => {
+  let structs = store.clients.get(struct.id.client);
+  if (structs === void 0) {
+    structs = [];
+    store.clients.set(struct.id.client, structs);
+  } else {
+    const lastStruct = structs[structs.length - 1];
+    if (lastStruct.id.clock + lastStruct.length !== struct.id.clock) {
+      throw unexpectedCase();
+    }
+  }
+  structs.push(struct);
+};
+var findIndexSS = (structs, clock) => {
+  let left = 0;
+  let right = structs.length - 1;
+  let mid = structs[right];
+  let midclock = mid.id.clock;
+  if (midclock === clock) {
+    return right;
+  }
+  let midindex = floor(clock / (midclock + mid.length - 1) * right);
+  while (left <= right) {
+    mid = structs[midindex];
+    midclock = mid.id.clock;
+    if (midclock <= clock) {
+      if (clock < midclock + mid.length) {
+        return midindex;
+      }
+      left = midindex + 1;
+    } else {
+      right = midindex - 1;
+    }
+    midindex = floor((left + right) / 2);
+  }
+  throw unexpectedCase();
+};
+var find = (store, id2) => {
+  const structs = store.clients.get(id2.client);
+  return structs[findIndexSS(structs, id2.clock)];
+};
+var getItem = (
+  /** @type {function(StructStore,ID):Item} */
+  find
+);
+var findIndexCleanStart = (transaction, structs, clock) => {
+  const index = findIndexSS(structs, clock);
+  const struct = structs[index];
+  if (struct.id.clock < clock && struct instanceof Item) {
+    structs.splice(index + 1, 0, splitItem(transaction, struct, clock - struct.id.clock));
+    return index + 1;
+  }
+  return index;
+};
+var getItemCleanStart = (transaction, id2) => {
+  const structs = (
+    /** @type {Array<Item>} */
+    transaction.doc.store.clients.get(id2.client)
+  );
+  return structs[findIndexCleanStart(transaction, structs, id2.clock)];
+};
+var getItemCleanEnd = (transaction, store, id2) => {
+  const structs = store.clients.get(id2.client);
+  const index = findIndexSS(structs, id2.clock);
+  const struct = structs[index];
+  if (id2.clock !== struct.id.clock + struct.length - 1 && struct.constructor !== GC) {
+    structs.splice(index + 1, 0, splitItem(transaction, struct, id2.clock - struct.id.clock + 1));
+  }
+  return struct;
+};
+var replaceStruct = (store, struct, newStruct) => {
+  const structs = (
+    /** @type {Array<GC|Item>} */
+    store.clients.get(struct.id.client)
+  );
+  structs[findIndexSS(structs, struct.id.clock)] = newStruct;
+};
+var iterateStructs = (transaction, structs, clockStart, len, f) => {
+  if (len === 0) {
+    return;
+  }
+  const clockEnd = clockStart + len;
+  let index = findIndexCleanStart(transaction, structs, clockStart);
+  let struct;
+  do {
+    struct = structs[index++];
+    if (clockEnd < struct.id.clock + struct.length) {
+      findIndexCleanStart(transaction, structs, clockEnd);
+    }
+    f(struct);
+  } while (index < structs.length && structs[index].id.clock < clockEnd);
+};
+var Transaction = class {
+  /**
+   * @param {Doc} doc
+   * @param {any} origin
+   * @param {boolean} local
+   */
+  constructor(doc2, origin, local) {
+    this.doc = doc2;
+    this.deleteSet = new DeleteSet();
+    this.beforeState = getStateVector(doc2.store);
+    this.afterState = /* @__PURE__ */ new Map();
+    this.changed = /* @__PURE__ */ new Map();
+    this.changedParentTypes = /* @__PURE__ */ new Map();
+    this._mergeStructs = [];
+    this.origin = origin;
+    this.meta = /* @__PURE__ */ new Map();
+    this.local = local;
+    this.subdocsAdded = /* @__PURE__ */ new Set();
+    this.subdocsRemoved = /* @__PURE__ */ new Set();
+    this.subdocsLoaded = /* @__PURE__ */ new Set();
+    this._needFormattingCleanup = false;
+  }
+};
+var writeUpdateMessageFromTransaction = (encoder, transaction) => {
+  if (transaction.deleteSet.clients.size === 0 && !any(transaction.afterState, (clock, client) => transaction.beforeState.get(client) !== clock)) {
+    return false;
+  }
+  sortAndMergeDeleteSet(transaction.deleteSet);
+  writeStructsFromTransaction(encoder, transaction);
+  writeDeleteSet(encoder, transaction.deleteSet);
+  return true;
+};
+var addChangedTypeToTransaction = (transaction, type, parentSub) => {
+  const item = type._item;
+  if (item === null || item.id.clock < (transaction.beforeState.get(item.id.client) || 0) && !item.deleted) {
+    setIfUndefined(transaction.changed, type, create).add(parentSub);
+  }
+};
+var tryToMergeWithLefts = (structs, pos) => {
+  let right = structs[pos];
+  let left = structs[pos - 1];
+  let i = pos;
+  for (; i > 0; right = left, left = structs[--i - 1]) {
+    if (left.deleted === right.deleted && left.constructor === right.constructor) {
+      if (left.mergeWith(right)) {
+        if (right instanceof Item && right.parentSub !== null && /** @type {AbstractType<any>} */
+        right.parent._map.get(right.parentSub) === right) {
+          right.parent._map.set(
+            right.parentSub,
+            /** @type {Item} */
+            left
+          );
+        }
+        continue;
+      }
+    }
+    break;
+  }
+  const merged = pos - i;
+  if (merged) {
+    structs.splice(pos + 1 - merged, merged);
+  }
+  return merged;
+};
+var tryGcDeleteSet = (ds, store, gcFilter) => {
+  for (const [client, deleteItems] of ds.clients.entries()) {
+    const structs = (
+      /** @type {Array<GC|Item>} */
+      store.clients.get(client)
+    );
+    for (let di = deleteItems.length - 1; di >= 0; di--) {
+      const deleteItem = deleteItems[di];
+      const endDeleteItemClock = deleteItem.clock + deleteItem.len;
+      for (let si = findIndexSS(structs, deleteItem.clock), struct = structs[si]; si < structs.length && struct.id.clock < endDeleteItemClock; struct = structs[++si]) {
+        const struct2 = structs[si];
+        if (deleteItem.clock + deleteItem.len <= struct2.id.clock) {
+          break;
+        }
+        if (struct2 instanceof Item && struct2.deleted && !struct2.keep && gcFilter(struct2)) {
+          struct2.gc(store, false);
+        }
+      }
+    }
+  }
+};
+var tryMergeDeleteSet = (ds, store) => {
+  ds.clients.forEach((deleteItems, client) => {
+    const structs = (
+      /** @type {Array<GC|Item>} */
+      store.clients.get(client)
+    );
+    for (let di = deleteItems.length - 1; di >= 0; di--) {
+      const deleteItem = deleteItems[di];
+      const mostRightIndexToCheck = min(structs.length - 1, 1 + findIndexSS(structs, deleteItem.clock + deleteItem.len - 1));
+      for (let si = mostRightIndexToCheck, struct = structs[si]; si > 0 && struct.id.clock >= deleteItem.clock; struct = structs[si]) {
+        si -= 1 + tryToMergeWithLefts(structs, si);
+      }
+    }
+  });
+};
+var cleanupTransactions = (transactionCleanups, i) => {
+  if (i < transactionCleanups.length) {
+    const transaction = transactionCleanups[i];
+    const doc2 = transaction.doc;
+    const store = doc2.store;
+    const ds = transaction.deleteSet;
+    const mergeStructs = transaction._mergeStructs;
+    try {
+      sortAndMergeDeleteSet(ds);
+      transaction.afterState = getStateVector(transaction.doc.store);
+      doc2.emit("beforeObserverCalls", [transaction, doc2]);
+      const fs = [];
+      transaction.changed.forEach(
+        (subs, itemtype) => fs.push(() => {
+          if (itemtype._item === null || !itemtype._item.deleted) {
+            itemtype._callObserver(transaction, subs);
+          }
+        })
+      );
+      fs.push(() => {
+        transaction.changedParentTypes.forEach((events, type) => {
+          if (type._dEH.l.length > 0 && (type._item === null || !type._item.deleted)) {
+            events = events.filter(
+              (event) => event.target._item === null || !event.target._item.deleted
+            );
+            events.forEach((event) => {
+              event.currentTarget = type;
+              event._path = null;
+            });
+            events.sort((event1, event2) => event1.path.length - event2.path.length);
+            callEventHandlerListeners(type._dEH, events, transaction);
+          }
+        });
+      });
+      fs.push(() => doc2.emit("afterTransaction", [transaction, doc2]));
+      callAll(fs, []);
+      if (transaction._needFormattingCleanup) {
+        cleanupYTextAfterTransaction(transaction);
+      }
+    } finally {
+      if (doc2.gc) {
+        tryGcDeleteSet(ds, store, doc2.gcFilter);
+      }
+      tryMergeDeleteSet(ds, store);
+      transaction.afterState.forEach((clock, client) => {
+        const beforeClock = transaction.beforeState.get(client) || 0;
+        if (beforeClock !== clock) {
+          const structs = (
+            /** @type {Array<GC|Item>} */
+            store.clients.get(client)
+          );
+          const firstChangePos = max(findIndexSS(structs, beforeClock), 1);
+          for (let i2 = structs.length - 1; i2 >= firstChangePos; ) {
+            i2 -= 1 + tryToMergeWithLefts(structs, i2);
+          }
+        }
+      });
+      for (let i2 = mergeStructs.length - 1; i2 >= 0; i2--) {
+        const { client, clock } = mergeStructs[i2].id;
+        const structs = (
+          /** @type {Array<GC|Item>} */
+          store.clients.get(client)
+        );
+        const replacedStructPos = findIndexSS(structs, clock);
+        if (replacedStructPos + 1 < structs.length) {
+          if (tryToMergeWithLefts(structs, replacedStructPos + 1) > 1) {
+            continue;
+          }
+        }
+        if (replacedStructPos > 0) {
+          tryToMergeWithLefts(structs, replacedStructPos);
+        }
+      }
+      if (!transaction.local && transaction.afterState.get(doc2.clientID) !== transaction.beforeState.get(doc2.clientID)) {
+        print(ORANGE, BOLD, "[yjs] ", UNBOLD, RED, "Changed the client-id because another client seems to be using it.");
+        doc2.clientID = generateNewClientId();
+      }
+      doc2.emit("afterTransactionCleanup", [transaction, doc2]);
+      if (doc2._observers.has("update")) {
+        const encoder = new UpdateEncoderV1();
+        const hasContent2 = writeUpdateMessageFromTransaction(encoder, transaction);
+        if (hasContent2) {
+          doc2.emit("update", [encoder.toUint8Array(), transaction.origin, doc2, transaction]);
+        }
+      }
+      if (doc2._observers.has("updateV2")) {
+        const encoder = new UpdateEncoderV2();
+        const hasContent2 = writeUpdateMessageFromTransaction(encoder, transaction);
+        if (hasContent2) {
+          doc2.emit("updateV2", [encoder.toUint8Array(), transaction.origin, doc2, transaction]);
+        }
+      }
+      const { subdocsAdded, subdocsLoaded, subdocsRemoved } = transaction;
+      if (subdocsAdded.size > 0 || subdocsRemoved.size > 0 || subdocsLoaded.size > 0) {
+        subdocsAdded.forEach((subdoc) => {
+          subdoc.clientID = doc2.clientID;
+          if (subdoc.collectionid == null) {
+            subdoc.collectionid = doc2.collectionid;
+          }
+          doc2.subdocs.add(subdoc);
+        });
+        subdocsRemoved.forEach((subdoc) => doc2.subdocs.delete(subdoc));
+        doc2.emit("subdocs", [{ loaded: subdocsLoaded, added: subdocsAdded, removed: subdocsRemoved }, doc2, transaction]);
+        subdocsRemoved.forEach((subdoc) => subdoc.destroy());
+      }
+      if (transactionCleanups.length <= i + 1) {
+        doc2._transactionCleanups = [];
+        doc2.emit("afterAllTransactions", [doc2, transactionCleanups]);
+      } else {
+        cleanupTransactions(transactionCleanups, i + 1);
+      }
+    }
+  }
+};
+var transact = (doc2, f, origin = null, local = true) => {
+  const transactionCleanups = doc2._transactionCleanups;
+  let initialCall = false;
+  let result = null;
+  if (doc2._transaction === null) {
+    initialCall = true;
+    doc2._transaction = new Transaction(doc2, origin, local);
+    transactionCleanups.push(doc2._transaction);
+    if (transactionCleanups.length === 1) {
+      doc2.emit("beforeAllTransactions", [doc2]);
+    }
+    doc2.emit("beforeTransaction", [doc2._transaction, doc2]);
+  }
+  try {
+    result = f(doc2._transaction);
+  } finally {
+    if (initialCall) {
+      const finishCleanup = doc2._transaction === transactionCleanups[0];
+      doc2._transaction = null;
+      if (finishCleanup) {
+        cleanupTransactions(transactionCleanups, 0);
+      }
+    }
+  }
+  return result;
+};
+function* lazyStructReaderGenerator(decoder) {
+  const numOfStateUpdates = readVarUint(decoder.restDecoder);
+  for (let i = 0; i < numOfStateUpdates; i++) {
+    const numberOfStructs = readVarUint(decoder.restDecoder);
+    const client = decoder.readClient();
+    let clock = readVarUint(decoder.restDecoder);
+    for (let i2 = 0; i2 < numberOfStructs; i2++) {
+      const info = decoder.readInfo();
+      if (info === 10) {
+        const len = readVarUint(decoder.restDecoder);
+        yield new Skip(createID(client, clock), len);
+        clock += len;
+      } else if ((BITS5 & info) !== 0) {
+        const cantCopyParentInfo = (info & (BIT7 | BIT8)) === 0;
+        const struct = new Item(
+          createID(client, clock),
+          null,
+          // left
+          (info & BIT8) === BIT8 ? decoder.readLeftID() : null,
+          // origin
+          null,
+          // right
+          (info & BIT7) === BIT7 ? decoder.readRightID() : null,
+          // right origin
+          // @ts-ignore Force writing a string here.
+          cantCopyParentInfo ? decoder.readParentInfo() ? decoder.readString() : decoder.readLeftID() : null,
+          // parent
+          cantCopyParentInfo && (info & BIT6) === BIT6 ? decoder.readString() : null,
+          // parentSub
+          readItemContent(decoder, info)
+          // item content
+        );
+        yield struct;
+        clock += struct.length;
+      } else {
+        const len = decoder.readLen();
+        yield new GC(createID(client, clock), len);
+        clock += len;
+      }
+    }
+  }
+}
+var LazyStructReader = class {
+  /**
+   * @param {UpdateDecoderV1 | UpdateDecoderV2} decoder
+   * @param {boolean} filterSkips
+   */
+  constructor(decoder, filterSkips) {
+    this.gen = lazyStructReaderGenerator(decoder);
+    this.curr = null;
+    this.done = false;
+    this.filterSkips = filterSkips;
+    this.next();
+  }
+  /**
+   * @return {Item | GC | Skip |null}
+   */
+  next() {
+    do {
+      this.curr = this.gen.next().value || null;
+    } while (this.filterSkips && this.curr !== null && this.curr.constructor === Skip);
+    return this.curr;
+  }
+};
+var LazyStructWriter = class {
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   */
+  constructor(encoder) {
+    this.currClient = 0;
+    this.startClock = 0;
+    this.written = 0;
+    this.encoder = encoder;
+    this.clientStructs = [];
+  }
+};
+var mergeUpdates = (updates) => mergeUpdatesV2(updates, UpdateDecoderV1, UpdateEncoderV1);
+var sliceStruct = (left, diff) => {
+  if (left.constructor === GC) {
+    const { client, clock } = left.id;
+    return new GC(createID(client, clock + diff), left.length - diff);
+  } else if (left.constructor === Skip) {
+    const { client, clock } = left.id;
+    return new Skip(createID(client, clock + diff), left.length - diff);
+  } else {
+    const leftItem = (
+      /** @type {Item} */
+      left
+    );
+    const { client, clock } = leftItem.id;
+    return new Item(
+      createID(client, clock + diff),
+      null,
+      createID(client, clock + diff - 1),
+      null,
+      leftItem.rightOrigin,
+      leftItem.parent,
+      leftItem.parentSub,
+      leftItem.content.splice(diff)
+    );
+  }
+};
+var mergeUpdatesV2 = (updates, YDecoder = UpdateDecoderV2, YEncoder = UpdateEncoderV2) => {
+  if (updates.length === 1) {
+    return updates[0];
+  }
+  const updateDecoders = updates.map((update) => new YDecoder(createDecoder(update)));
+  let lazyStructDecoders = updateDecoders.map((decoder) => new LazyStructReader(decoder, true));
+  let currWrite = null;
+  const updateEncoder = new YEncoder();
+  const lazyStructEncoder = new LazyStructWriter(updateEncoder);
+  while (true) {
+    lazyStructDecoders = lazyStructDecoders.filter((dec) => dec.curr !== null);
+    lazyStructDecoders.sort(
+      /** @type {function(any,any):number} */
+      (dec1, dec2) => {
+        if (dec1.curr.id.client === dec2.curr.id.client) {
+          const clockDiff = dec1.curr.id.clock - dec2.curr.id.clock;
+          if (clockDiff === 0) {
+            return dec1.curr.constructor === dec2.curr.constructor ? 0 : dec1.curr.constructor === Skip ? 1 : -1;
+          } else {
+            return clockDiff;
+          }
+        } else {
+          return dec2.curr.id.client - dec1.curr.id.client;
+        }
+      }
+    );
+    if (lazyStructDecoders.length === 0) {
+      break;
+    }
+    const currDecoder = lazyStructDecoders[0];
+    const firstClient = (
+      /** @type {Item | GC} */
+      currDecoder.curr.id.client
+    );
+    if (currWrite !== null) {
+      let curr = (
+        /** @type {Item | GC | null} */
+        currDecoder.curr
+      );
+      let iterated = false;
+      while (curr !== null && curr.id.clock + curr.length <= currWrite.struct.id.clock + currWrite.struct.length && curr.id.client >= currWrite.struct.id.client) {
+        curr = currDecoder.next();
+        iterated = true;
+      }
+      if (curr === null || // current decoder is empty
+      curr.id.client !== firstClient || // check whether there is another decoder that has has updates from `firstClient`
+      iterated && curr.id.clock > currWrite.struct.id.clock + currWrite.struct.length) {
+        continue;
+      }
+      if (firstClient !== currWrite.struct.id.client) {
+        writeStructToLazyStructWriter(lazyStructEncoder, currWrite.struct, currWrite.offset);
+        currWrite = { struct: curr, offset: 0 };
+        currDecoder.next();
+      } else {
+        if (currWrite.struct.id.clock + currWrite.struct.length < curr.id.clock) {
+          if (currWrite.struct.constructor === Skip) {
+            currWrite.struct.length = curr.id.clock + curr.length - currWrite.struct.id.clock;
+          } else {
+            writeStructToLazyStructWriter(lazyStructEncoder, currWrite.struct, currWrite.offset);
+            const diff = curr.id.clock - currWrite.struct.id.clock - currWrite.struct.length;
+            const struct = new Skip(createID(firstClient, currWrite.struct.id.clock + currWrite.struct.length), diff);
+            currWrite = { struct, offset: 0 };
+          }
+        } else {
+          const diff = currWrite.struct.id.clock + currWrite.struct.length - curr.id.clock;
+          if (diff > 0) {
+            if (currWrite.struct.constructor === Skip) {
+              currWrite.struct.length -= diff;
+            } else {
+              curr = sliceStruct(curr, diff);
+            }
+          }
+          if (!currWrite.struct.mergeWith(
+            /** @type {any} */
+            curr
+          )) {
+            writeStructToLazyStructWriter(lazyStructEncoder, currWrite.struct, currWrite.offset);
+            currWrite = { struct: curr, offset: 0 };
+            currDecoder.next();
+          }
+        }
+      }
+    } else {
+      currWrite = { struct: (
+        /** @type {Item | GC} */
+        currDecoder.curr
+      ), offset: 0 };
+      currDecoder.next();
+    }
+    for (let next = currDecoder.curr; next !== null && next.id.client === firstClient && next.id.clock === currWrite.struct.id.clock + currWrite.struct.length && next.constructor !== Skip; next = currDecoder.next()) {
+      writeStructToLazyStructWriter(lazyStructEncoder, currWrite.struct, currWrite.offset);
+      currWrite = { struct: next, offset: 0 };
+    }
+  }
+  if (currWrite !== null) {
+    writeStructToLazyStructWriter(lazyStructEncoder, currWrite.struct, currWrite.offset);
+    currWrite = null;
+  }
+  finishLazyStructWriting(lazyStructEncoder);
+  const dss = updateDecoders.map((decoder) => readDeleteSet(decoder));
+  const ds = mergeDeleteSets(dss);
+  writeDeleteSet(updateEncoder, ds);
+  return updateEncoder.toUint8Array();
+};
+var diffUpdateV2 = (update, sv, YDecoder = UpdateDecoderV2, YEncoder = UpdateEncoderV2) => {
+  const state = decodeStateVector(sv);
+  const encoder = new YEncoder();
+  const lazyStructWriter = new LazyStructWriter(encoder);
+  const decoder = new YDecoder(createDecoder(update));
+  const reader = new LazyStructReader(decoder, false);
+  while (reader.curr) {
+    const curr = reader.curr;
+    const currClient = curr.id.client;
+    const svClock = state.get(currClient) || 0;
+    if (reader.curr.constructor === Skip) {
+      reader.next();
+      continue;
+    }
+    if (curr.id.clock + curr.length > svClock) {
+      writeStructToLazyStructWriter(lazyStructWriter, curr, max(svClock - curr.id.clock, 0));
+      reader.next();
+      while (reader.curr && reader.curr.id.client === currClient) {
+        writeStructToLazyStructWriter(lazyStructWriter, reader.curr, 0);
+        reader.next();
+      }
+    } else {
+      while (reader.curr && reader.curr.id.client === currClient && reader.curr.id.clock + reader.curr.length <= svClock) {
+        reader.next();
+      }
+    }
+  }
+  finishLazyStructWriting(lazyStructWriter);
+  const ds = readDeleteSet(decoder);
+  writeDeleteSet(encoder, ds);
+  return encoder.toUint8Array();
+};
+var flushLazyStructWriter = (lazyWriter) => {
+  if (lazyWriter.written > 0) {
+    lazyWriter.clientStructs.push({ written: lazyWriter.written, restEncoder: toUint8Array(lazyWriter.encoder.restEncoder) });
+    lazyWriter.encoder.restEncoder = createEncoder();
+    lazyWriter.written = 0;
+  }
+};
+var writeStructToLazyStructWriter = (lazyWriter, struct, offset) => {
+  if (lazyWriter.written > 0 && lazyWriter.currClient !== struct.id.client) {
+    flushLazyStructWriter(lazyWriter);
+  }
+  if (lazyWriter.written === 0) {
+    lazyWriter.currClient = struct.id.client;
+    lazyWriter.encoder.writeClient(struct.id.client);
+    writeVarUint(lazyWriter.encoder.restEncoder, struct.id.clock + offset);
+  }
+  struct.write(lazyWriter.encoder, offset);
+  lazyWriter.written++;
+};
+var finishLazyStructWriting = (lazyWriter) => {
+  flushLazyStructWriter(lazyWriter);
+  const restEncoder = lazyWriter.encoder.restEncoder;
+  writeVarUint(restEncoder, lazyWriter.clientStructs.length);
+  for (let i = 0; i < lazyWriter.clientStructs.length; i++) {
+    const partStructs = lazyWriter.clientStructs[i];
+    writeVarUint(restEncoder, partStructs.written);
+    writeUint8Array(restEncoder, partStructs.restEncoder);
+  }
+};
+var convertUpdateFormat = (update, blockTransformer, YDecoder, YEncoder) => {
+  const updateDecoder = new YDecoder(createDecoder(update));
+  const lazyDecoder = new LazyStructReader(updateDecoder, false);
+  const updateEncoder = new YEncoder();
+  const lazyWriter = new LazyStructWriter(updateEncoder);
+  for (let curr = lazyDecoder.curr; curr !== null; curr = lazyDecoder.next()) {
+    writeStructToLazyStructWriter(lazyWriter, blockTransformer(curr), 0);
+  }
+  finishLazyStructWriting(lazyWriter);
+  const ds = readDeleteSet(updateDecoder);
+  writeDeleteSet(updateEncoder, ds);
+  return updateEncoder.toUint8Array();
+};
+var convertUpdateFormatV2ToV1 = (update) => convertUpdateFormat(update, id, UpdateDecoderV2, UpdateEncoderV1);
+var errorComputeChanges = "You must not compute changes after the event-handler fired.";
+var YEvent = class {
+  /**
+   * @param {T} target The changed type.
+   * @param {Transaction} transaction
+   */
+  constructor(target, transaction) {
+    this.target = target;
+    this.currentTarget = target;
+    this.transaction = transaction;
+    this._changes = null;
+    this._keys = null;
+    this._delta = null;
+    this._path = null;
+  }
+  /**
+   * Computes the path from `y` to the changed type.
+   *
+   * @todo v14 should standardize on path: Array<{parent, index}> because that is easier to work with.
+   *
+   * The following property holds:
+   * @example
+   *   let type = y
+   *   event.path.forEach(dir => {
+   *     type = type.get(dir)
+   *   })
+   *   type === event.target // => true
+   */
+  get path() {
+    return this._path || (this._path = getPathTo(this.currentTarget, this.target));
+  }
+  /**
+   * Check if a struct is deleted by this event.
+   *
+   * In contrast to change.deleted, this method also returns true if the struct was added and then deleted.
+   *
+   * @param {AbstractStruct} struct
+   * @return {boolean}
+   */
+  deletes(struct) {
+    return isDeleted(this.transaction.deleteSet, struct.id);
+  }
+  /**
+   * @type {Map<string, { action: 'add' | 'update' | 'delete', oldValue: any, newValue: any }>}
+   */
+  get keys() {
+    if (this._keys === null) {
+      if (this.transaction.doc._transactionCleanups.length === 0) {
+        throw create2(errorComputeChanges);
+      }
+      const keys2 = /* @__PURE__ */ new Map();
+      const target = this.target;
+      const changed = (
+        /** @type Set<string|null> */
+        this.transaction.changed.get(target)
+      );
+      changed.forEach((key) => {
+        if (key !== null) {
+          const item = (
+            /** @type {Item} */
+            target._map.get(key)
+          );
+          let action;
+          let oldValue;
+          if (this.adds(item)) {
+            let prev = item.left;
+            while (prev !== null && this.adds(prev)) {
+              prev = prev.left;
+            }
+            if (this.deletes(item)) {
+              if (prev !== null && this.deletes(prev)) {
+                action = "delete";
+                oldValue = last(prev.content.getContent());
+              } else {
+                return;
+              }
+            } else {
+              if (prev !== null && this.deletes(prev)) {
+                action = "update";
+                oldValue = last(prev.content.getContent());
+              } else {
+                action = "add";
+                oldValue = void 0;
+              }
+            }
+          } else {
+            if (this.deletes(item)) {
+              action = "delete";
+              oldValue = last(
+                /** @type {Item} */
+                item.content.getContent()
+              );
+            } else {
+              return;
+            }
+          }
+          keys2.set(key, { action, oldValue });
+        }
+      });
+      this._keys = keys2;
+    }
+    return this._keys;
+  }
+  /**
+   * This is a computed property. Note that this can only be safely computed during the
+   * event call. Computing this property after other changes happened might result in
+   * unexpected behavior (incorrect computation of deltas). A safe way to collect changes
+   * is to store the `changes` or the `delta` object. Avoid storing the `transaction` object.
+   *
+   * @type {Array<{insert?: string | Array<any> | object | AbstractType<any>, retain?: number, delete?: number, attributes?: Object<string, any>}>}
+   */
+  get delta() {
+    return this.changes.delta;
+  }
+  /**
+   * Check if a struct is added by this event.
+   *
+   * In contrast to change.deleted, this method also returns true if the struct was added and then deleted.
+   *
+   * @param {AbstractStruct} struct
+   * @return {boolean}
+   */
+  adds(struct) {
+    return struct.id.clock >= (this.transaction.beforeState.get(struct.id.client) || 0);
+  }
+  /**
+   * This is a computed property. Note that this can only be safely computed during the
+   * event call. Computing this property after other changes happened might result in
+   * unexpected behavior (incorrect computation of deltas). A safe way to collect changes
+   * is to store the `changes` or the `delta` object. Avoid storing the `transaction` object.
+   *
+   * @type {{added:Set<Item>,deleted:Set<Item>,keys:Map<string,{action:'add'|'update'|'delete',oldValue:any}>,delta:Array<{insert?:Array<any>|string, delete?:number, retain?:number}>}}
+   */
+  get changes() {
+    let changes = this._changes;
+    if (changes === null) {
+      if (this.transaction.doc._transactionCleanups.length === 0) {
+        throw create2(errorComputeChanges);
+      }
+      const target = this.target;
+      const added = create();
+      const deleted = create();
+      const delta = [];
+      changes = {
+        added,
+        deleted,
+        delta,
+        keys: this.keys
+      };
+      const changed = (
+        /** @type Set<string|null> */
+        this.transaction.changed.get(target)
+      );
+      if (changed.has(null)) {
+        let lastOp = null;
+        const packOp = () => {
+          if (lastOp) {
+            delta.push(lastOp);
+          }
+        };
+        for (let item = target._start; item !== null; item = item.right) {
+          if (item.deleted) {
+            if (this.deletes(item) && !this.adds(item)) {
+              if (lastOp === null || lastOp.delete === void 0) {
+                packOp();
+                lastOp = { delete: 0 };
+              }
+              lastOp.delete += item.length;
+              deleted.add(item);
+            }
+          } else {
+            if (this.adds(item)) {
+              if (lastOp === null || lastOp.insert === void 0) {
+                packOp();
+                lastOp = { insert: [] };
+              }
+              lastOp.insert = lastOp.insert.concat(item.content.getContent());
+              added.add(item);
+            } else {
+              if (lastOp === null || lastOp.retain === void 0) {
+                packOp();
+                lastOp = { retain: 0 };
+              }
+              lastOp.retain += item.length;
+            }
+          }
+        }
+        if (lastOp !== null && lastOp.retain === void 0) {
+          packOp();
+        }
+      }
+      this._changes = changes;
+    }
+    return (
+      /** @type {any} */
+      changes
+    );
+  }
+};
+var getPathTo = (parent, child) => {
+  const path = [];
+  while (child._item !== null && child !== parent) {
+    if (child._item.parentSub !== null) {
+      path.unshift(child._item.parentSub);
+    } else {
+      let i = 0;
+      let c = (
+        /** @type {AbstractType<any>} */
+        child._item.parent._start
+      );
+      while (c !== child._item && c !== null) {
+        if (!c.deleted && c.countable) {
+          i += c.length;
+        }
+        c = c.right;
+      }
+      path.unshift(i);
+    }
+    child = /** @type {AbstractType<any>} */
+    child._item.parent;
+  }
+  return path;
+};
+var warnPrematureAccess = () => {
+  warn("Invalid access: Add Yjs type to a document before reading data.");
+};
+var maxSearchMarker = 80;
+var globalSearchMarkerTimestamp = 0;
+var ArraySearchMarker = class {
+  /**
+   * @param {Item} p
+   * @param {number} index
+   */
+  constructor(p, index) {
+    p.marker = true;
+    this.p = p;
+    this.index = index;
+    this.timestamp = globalSearchMarkerTimestamp++;
+  }
+};
+var refreshMarkerTimestamp = (marker) => {
+  marker.timestamp = globalSearchMarkerTimestamp++;
+};
+var overwriteMarker = (marker, p, index) => {
+  marker.p.marker = false;
+  marker.p = p;
+  p.marker = true;
+  marker.index = index;
+  marker.timestamp = globalSearchMarkerTimestamp++;
+};
+var markPosition = (searchMarker, p, index) => {
+  if (searchMarker.length >= maxSearchMarker) {
+    const marker = searchMarker.reduce((a, b) => a.timestamp < b.timestamp ? a : b);
+    overwriteMarker(marker, p, index);
+    return marker;
+  } else {
+    const pm = new ArraySearchMarker(p, index);
+    searchMarker.push(pm);
+    return pm;
+  }
+};
+var findMarker = (yarray, index) => {
+  if (yarray._start === null || index === 0 || yarray._searchMarker === null) {
+    return null;
+  }
+  const marker = yarray._searchMarker.length === 0 ? null : yarray._searchMarker.reduce((a, b) => abs(index - a.index) < abs(index - b.index) ? a : b);
+  let p = yarray._start;
+  let pindex = 0;
+  if (marker !== null) {
+    p = marker.p;
+    pindex = marker.index;
+    refreshMarkerTimestamp(marker);
+  }
+  while (p.right !== null && pindex < index) {
+    if (!p.deleted && p.countable) {
+      if (index < pindex + p.length) {
+        break;
+      }
+      pindex += p.length;
+    }
+    p = p.right;
+  }
+  while (p.left !== null && pindex > index) {
+    p = p.left;
+    if (!p.deleted && p.countable) {
+      pindex -= p.length;
+    }
+  }
+  while (p.left !== null && p.left.id.client === p.id.client && p.left.id.clock + p.left.length === p.id.clock) {
+    p = p.left;
+    if (!p.deleted && p.countable) {
+      pindex -= p.length;
+    }
+  }
+  if (marker !== null && abs(marker.index - pindex) < /** @type {YText|YArray<any>} */
+  p.parent.length / maxSearchMarker) {
+    overwriteMarker(marker, p, pindex);
+    return marker;
+  } else {
+    return markPosition(yarray._searchMarker, p, pindex);
+  }
+};
+var updateMarkerChanges = (searchMarker, index, len) => {
+  for (let i = searchMarker.length - 1; i >= 0; i--) {
+    const m = searchMarker[i];
+    if (len > 0) {
+      let p = m.p;
+      p.marker = false;
+      while (p && (p.deleted || !p.countable)) {
+        p = p.left;
+        if (p && !p.deleted && p.countable) {
+          m.index -= p.length;
+        }
+      }
+      if (p === null || p.marker === true) {
+        searchMarker.splice(i, 1);
+        continue;
+      }
+      m.p = p;
+      p.marker = true;
+    }
+    if (index < m.index || len > 0 && index === m.index) {
+      m.index = max(index, m.index + len);
+    }
+  }
+};
+var callTypeObservers = (type, transaction, event) => {
+  const changedType = type;
+  const changedParentTypes = transaction.changedParentTypes;
+  while (true) {
+    setIfUndefined(changedParentTypes, type, () => []).push(event);
+    if (type._item === null) {
+      break;
+    }
+    type = /** @type {AbstractType<any>} */
+    type._item.parent;
+  }
+  callEventHandlerListeners(changedType._eH, event, transaction);
+};
+var AbstractType = class {
+  constructor() {
+    this._item = null;
+    this._map = /* @__PURE__ */ new Map();
+    this._start = null;
+    this.doc = null;
+    this._length = 0;
+    this._eH = createEventHandler();
+    this._dEH = createEventHandler();
+    this._searchMarker = null;
+  }
+  /**
+   * @return {AbstractType<any>|null}
+   */
+  get parent() {
+    return this._item ? (
+      /** @type {AbstractType<any>} */
+      this._item.parent
+    ) : null;
+  }
+  /**
+   * Integrate this type into the Yjs instance.
+   *
+   * * Save this struct in the os
+   * * This type is sent to other client
+   * * Observer functions are fired
+   *
+   * @param {Doc} y The Yjs instance
+   * @param {Item|null} item
+   */
+  _integrate(y, item) {
+    this.doc = y;
+    this._item = item;
+  }
+  /**
+   * @return {AbstractType<EventType>}
+   */
+  _copy() {
+    throw methodUnimplemented();
+  }
+  /**
+   * Makes a copy of this data type that can be included somewhere else.
+   *
+   * Note that the content is only readable _after_ it has been included somewhere in the Ydoc.
+   *
+   * @return {AbstractType<EventType>}
+   */
+  clone() {
+    throw methodUnimplemented();
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} _encoder
+   */
+  _write(_encoder) {
+  }
+  /**
+   * The first non-deleted item
+   */
+  get _first() {
+    let n = this._start;
+    while (n !== null && n.deleted) {
+      n = n.right;
+    }
+    return n;
+  }
+  /**
+   * Creates YEvent and calls all type observers.
+   * Must be implemented by each type.
+   *
+   * @param {Transaction} transaction
+   * @param {Set<null|string>} _parentSubs Keys changed on this type. `null` if list was modified.
+   */
+  _callObserver(transaction, _parentSubs) {
+    if (!transaction.local && this._searchMarker) {
+      this._searchMarker.length = 0;
+    }
+  }
+  /**
+   * Observe all events that are created on this type.
+   *
+   * @param {function(EventType, Transaction):void} f Observer function
+   */
+  observe(f) {
+    addEventHandlerListener(this._eH, f);
+  }
+  /**
+   * Observe all events that are created by this type and its children.
+   *
+   * @param {function(Array<YEvent<any>>,Transaction):void} f Observer function
+   */
+  observeDeep(f) {
+    addEventHandlerListener(this._dEH, f);
+  }
+  /**
+   * Unregister an observer function.
+   *
+   * @param {function(EventType,Transaction):void} f Observer function
+   */
+  unobserve(f) {
+    removeEventHandlerListener(this._eH, f);
+  }
+  /**
+   * Unregister an observer function.
+   *
+   * @param {function(Array<YEvent<any>>,Transaction):void} f Observer function
+   */
+  unobserveDeep(f) {
+    removeEventHandlerListener(this._dEH, f);
+  }
+  /**
+   * @abstract
+   * @return {any}
+   */
+  toJSON() {
+  }
+};
+var typeListSlice = (type, start, end) => {
+  type.doc ?? warnPrematureAccess();
+  if (start < 0) {
+    start = type._length + start;
+  }
+  if (end < 0) {
+    end = type._length + end;
+  }
+  let len = end - start;
+  const cs = [];
+  let n = type._start;
+  while (n !== null && len > 0) {
+    if (n.countable && !n.deleted) {
+      const c = n.content.getContent();
+      if (c.length <= start) {
+        start -= c.length;
+      } else {
+        for (let i = start; i < c.length && len > 0; i++) {
+          cs.push(c[i]);
+          len--;
+        }
+        start = 0;
+      }
+    }
+    n = n.right;
+  }
+  return cs;
+};
+var typeListToArray = (type) => {
+  type.doc ?? warnPrematureAccess();
+  const cs = [];
+  let n = type._start;
+  while (n !== null) {
+    if (n.countable && !n.deleted) {
+      const c = n.content.getContent();
+      for (let i = 0; i < c.length; i++) {
+        cs.push(c[i]);
+      }
+    }
+    n = n.right;
+  }
+  return cs;
+};
+var typeListForEach = (type, f) => {
+  let index = 0;
+  let n = type._start;
+  type.doc ?? warnPrematureAccess();
+  while (n !== null) {
+    if (n.countable && !n.deleted) {
+      const c = n.content.getContent();
+      for (let i = 0; i < c.length; i++) {
+        f(c[i], index++, type);
+      }
+    }
+    n = n.right;
+  }
+};
+var typeListMap = (type, f) => {
+  const result = [];
+  typeListForEach(type, (c, i) => {
+    result.push(f(c, i, type));
+  });
+  return result;
+};
+var typeListCreateIterator = (type) => {
+  let n = type._start;
+  let currentContent = null;
+  let currentContentIndex = 0;
+  return {
+    [Symbol.iterator]() {
+      return this;
+    },
+    next: () => {
+      if (currentContent === null) {
+        while (n !== null && n.deleted) {
+          n = n.right;
+        }
+        if (n === null) {
+          return {
+            done: true,
+            value: void 0
+          };
+        }
+        currentContent = n.content.getContent();
+        currentContentIndex = 0;
+        n = n.right;
+      }
+      const value = currentContent[currentContentIndex++];
+      if (currentContent.length <= currentContentIndex) {
+        currentContent = null;
+      }
+      return {
+        done: false,
+        value
+      };
+    }
+  };
+};
+var typeListGet = (type, index) => {
+  type.doc ?? warnPrematureAccess();
+  const marker = findMarker(type, index);
+  let n = type._start;
+  if (marker !== null) {
+    n = marker.p;
+    index -= marker.index;
+  }
+  for (; n !== null; n = n.right) {
+    if (!n.deleted && n.countable) {
+      if (index < n.length) {
+        return n.content.getContent()[index];
+      }
+      index -= n.length;
+    }
+  }
+};
+var typeListInsertGenericsAfter = (transaction, parent, referenceItem, content) => {
+  let left = referenceItem;
+  const doc2 = transaction.doc;
+  const ownClientId = doc2.clientID;
+  const store = doc2.store;
+  const right = referenceItem === null ? parent._start : referenceItem.right;
+  let jsonContent = [];
+  const packJsonContent = () => {
+    if (jsonContent.length > 0) {
+      left = new Item(createID(ownClientId, getState(store, ownClientId)), left, left && left.lastId, right, right && right.id, parent, null, new ContentAny(jsonContent));
+      left.integrate(transaction, 0);
+      jsonContent = [];
+    }
+  };
+  content.forEach((c) => {
+    if (c === null) {
+      jsonContent.push(c);
+    } else {
+      switch (c.constructor) {
+        case Number:
+        case Object:
+        case Boolean:
+        case Array:
+        case String:
+          jsonContent.push(c);
+          break;
+        default:
+          packJsonContent();
+          switch (c.constructor) {
+            case Uint8Array:
+            case ArrayBuffer:
+              left = new Item(createID(ownClientId, getState(store, ownClientId)), left, left && left.lastId, right, right && right.id, parent, null, new ContentBinary(new Uint8Array(
+                /** @type {Uint8Array} */
+                c
+              )));
+              left.integrate(transaction, 0);
+              break;
+            case Doc:
+              left = new Item(createID(ownClientId, getState(store, ownClientId)), left, left && left.lastId, right, right && right.id, parent, null, new ContentDoc(
+                /** @type {Doc} */
+                c
+              ));
+              left.integrate(transaction, 0);
+              break;
+            default:
+              if (c instanceof AbstractType) {
+                left = new Item(createID(ownClientId, getState(store, ownClientId)), left, left && left.lastId, right, right && right.id, parent, null, new ContentType(c));
+                left.integrate(transaction, 0);
+              } else {
+                throw new Error("Unexpected content type in insert operation");
+              }
+          }
+      }
+    }
+  });
+  packJsonContent();
+};
+var lengthExceeded = () => create2("Length exceeded!");
+var typeListInsertGenerics = (transaction, parent, index, content) => {
+  if (index > parent._length) {
+    throw lengthExceeded();
+  }
+  if (index === 0) {
+    if (parent._searchMarker) {
+      updateMarkerChanges(parent._searchMarker, index, content.length);
+    }
+    return typeListInsertGenericsAfter(transaction, parent, null, content);
+  }
+  const startIndex = index;
+  const marker = findMarker(parent, index);
+  let n = parent._start;
+  if (marker !== null) {
+    n = marker.p;
+    index -= marker.index;
+    if (index === 0) {
+      n = n.prev;
+      index += n && n.countable && !n.deleted ? n.length : 0;
+    }
+  }
+  for (; n !== null; n = n.right) {
+    if (!n.deleted && n.countable) {
+      if (index <= n.length) {
+        if (index < n.length) {
+          getItemCleanStart(transaction, createID(n.id.client, n.id.clock + index));
+        }
+        break;
+      }
+      index -= n.length;
+    }
+  }
+  if (parent._searchMarker) {
+    updateMarkerChanges(parent._searchMarker, startIndex, content.length);
+  }
+  return typeListInsertGenericsAfter(transaction, parent, n, content);
+};
+var typeListPushGenerics = (transaction, parent, content) => {
+  const marker = (parent._searchMarker || []).reduce((maxMarker, currMarker) => currMarker.index > maxMarker.index ? currMarker : maxMarker, { index: 0, p: parent._start });
+  let n = marker.p;
+  if (n) {
+    while (n.right) {
+      n = n.right;
+    }
+  }
+  return typeListInsertGenericsAfter(transaction, parent, n, content);
+};
+var typeListDelete = (transaction, parent, index, length3) => {
+  if (length3 === 0) {
+    return;
+  }
+  const startIndex = index;
+  const startLength = length3;
+  const marker = findMarker(parent, index);
+  let n = parent._start;
+  if (marker !== null) {
+    n = marker.p;
+    index -= marker.index;
+  }
+  for (; n !== null && index > 0; n = n.right) {
+    if (!n.deleted && n.countable) {
+      if (index < n.length) {
+        getItemCleanStart(transaction, createID(n.id.client, n.id.clock + index));
+      }
+      index -= n.length;
+    }
+  }
+  while (length3 > 0 && n !== null) {
+    if (!n.deleted) {
+      if (length3 < n.length) {
+        getItemCleanStart(transaction, createID(n.id.client, n.id.clock + length3));
+      }
+      n.delete(transaction);
+      length3 -= n.length;
+    }
+    n = n.right;
+  }
+  if (length3 > 0) {
+    throw lengthExceeded();
+  }
+  if (parent._searchMarker) {
+    updateMarkerChanges(
+      parent._searchMarker,
+      startIndex,
+      -startLength + length3
+      /* in case we remove the above exception */
+    );
+  }
+};
+var typeMapDelete = (transaction, parent, key) => {
+  const c = parent._map.get(key);
+  if (c !== void 0) {
+    c.delete(transaction);
+  }
+};
+var typeMapSet = (transaction, parent, key, value) => {
+  const left = parent._map.get(key) || null;
+  const doc2 = transaction.doc;
+  const ownClientId = doc2.clientID;
+  let content;
+  if (value == null) {
+    content = new ContentAny([value]);
+  } else {
+    switch (value.constructor) {
+      case Number:
+      case Object:
+      case Boolean:
+      case Array:
+      case String:
+        content = new ContentAny([value]);
+        break;
+      case Uint8Array:
+        content = new ContentBinary(
+          /** @type {Uint8Array} */
+          value
+        );
+        break;
+      case Doc:
+        content = new ContentDoc(
+          /** @type {Doc} */
+          value
+        );
+        break;
+      default:
+        if (value instanceof AbstractType) {
+          content = new ContentType(value);
+        } else {
+          throw new Error("Unexpected content type");
+        }
+    }
+  }
+  new Item(createID(ownClientId, getState(doc2.store, ownClientId)), left, left && left.lastId, null, null, parent, key, content).integrate(transaction, 0);
+};
+var typeMapGet = (parent, key) => {
+  parent.doc ?? warnPrematureAccess();
+  const val = parent._map.get(key);
+  return val !== void 0 && !val.deleted ? val.content.getContent()[val.length - 1] : void 0;
+};
+var typeMapGetAll = (parent) => {
+  const res = {};
+  parent.doc ?? warnPrematureAccess();
+  parent._map.forEach((value, key) => {
+    if (!value.deleted) {
+      res[key] = value.content.getContent()[value.length - 1];
+    }
+  });
+  return res;
+};
+var typeMapHas = (parent, key) => {
+  parent.doc ?? warnPrematureAccess();
+  const val = parent._map.get(key);
+  return val !== void 0 && !val.deleted;
+};
+var typeMapGetAllSnapshot = (parent, snapshot) => {
+  const res = {};
+  parent._map.forEach((value, key) => {
+    let v = value;
+    while (v !== null && (!snapshot.sv.has(v.id.client) || v.id.clock >= (snapshot.sv.get(v.id.client) || 0))) {
+      v = v.left;
+    }
+    if (v !== null && isVisible(v, snapshot)) {
+      res[key] = v.content.getContent()[v.length - 1];
+    }
+  });
+  return res;
+};
+var createMapIterator = (type) => {
+  type.doc ?? warnPrematureAccess();
+  return iteratorFilter(
+    type._map.entries(),
+    /** @param {any} entry */
+    (entry) => !entry[1].deleted
+  );
+};
+var YArrayEvent = class extends YEvent {
+};
+var YArray = class _YArray extends AbstractType {
+  constructor() {
+    super();
+    this._prelimContent = [];
+    this._searchMarker = [];
+  }
+  /**
+   * Construct a new YArray containing the specified items.
+   * @template {Object<string,any>|Array<any>|number|null|string|Uint8Array} T
+   * @param {Array<T>} items
+   * @return {YArray<T>}
+   */
+  static from(items) {
+    const a = new _YArray();
+    a.push(items);
+    return a;
+  }
+  /**
+   * Integrate this type into the Yjs instance.
+   *
+   * * Save this struct in the os
+   * * This type is sent to other client
+   * * Observer functions are fired
+   *
+   * @param {Doc} y The Yjs instance
+   * @param {Item} item
+   */
+  _integrate(y, item) {
+    super._integrate(y, item);
+    this.insert(
+      0,
+      /** @type {Array<any>} */
+      this._prelimContent
+    );
+    this._prelimContent = null;
+  }
+  /**
+   * @return {YArray<T>}
+   */
+  _copy() {
+    return new _YArray();
+  }
+  /**
+   * Makes a copy of this data type that can be included somewhere else.
+   *
+   * Note that the content is only readable _after_ it has been included somewhere in the Ydoc.
+   *
+   * @return {YArray<T>}
+   */
+  clone() {
+    const arr = new _YArray();
+    arr.insert(0, this.toArray().map(
+      (el) => el instanceof AbstractType ? (
+        /** @type {typeof el} */
+        el.clone()
+      ) : el
+    ));
+    return arr;
+  }
+  get length() {
+    this.doc ?? warnPrematureAccess();
+    return this._length;
+  }
+  /**
+   * Creates YArrayEvent and calls observers.
+   *
+   * @param {Transaction} transaction
+   * @param {Set<null|string>} parentSubs Keys changed on this type. `null` if list was modified.
+   */
+  _callObserver(transaction, parentSubs) {
+    super._callObserver(transaction, parentSubs);
+    callTypeObservers(this, transaction, new YArrayEvent(this, transaction));
+  }
+  /**
+   * Inserts new content at an index.
+   *
+   * Important: This function expects an array of content. Not just a content
+   * object. The reason for this "weirdness" is that inserting several elements
+   * is very efficient when it is done as a single operation.
+   *
+   * @example
+   *  // Insert character 'a' at position 0
+   *  yarray.insert(0, ['a'])
+   *  // Insert numbers 1, 2 at position 1
+   *  yarray.insert(1, [1, 2])
+   *
+   * @param {number} index The index to insert content at.
+   * @param {Array<T>} content The array of content
+   */
+  insert(index, content) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeListInsertGenerics(
+          transaction,
+          this,
+          index,
+          /** @type {any} */
+          content
+        );
+      });
+    } else {
+      this._prelimContent.splice(index, 0, ...content);
+    }
+  }
+  /**
+   * Appends content to this YArray.
+   *
+   * @param {Array<T>} content Array of content to append.
+   *
+   * @todo Use the following implementation in all types.
+   */
+  push(content) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeListPushGenerics(
+          transaction,
+          this,
+          /** @type {any} */
+          content
+        );
+      });
+    } else {
+      this._prelimContent.push(...content);
+    }
+  }
+  /**
+   * Prepends content to this YArray.
+   *
+   * @param {Array<T>} content Array of content to prepend.
+   */
+  unshift(content) {
+    this.insert(0, content);
+  }
+  /**
+   * Deletes elements starting from an index.
+   *
+   * @param {number} index Index at which to start deleting elements
+   * @param {number} length The number of elements to remove. Defaults to 1.
+   */
+  delete(index, length3 = 1) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeListDelete(transaction, this, index, length3);
+      });
+    } else {
+      this._prelimContent.splice(index, length3);
+    }
+  }
+  /**
+   * Returns the i-th element from a YArray.
+   *
+   * @param {number} index The index of the element to return from the YArray
+   * @return {T}
+   */
+  get(index) {
+    return typeListGet(this, index);
+  }
+  /**
+   * Transforms this YArray to a JavaScript Array.
+   *
+   * @return {Array<T>}
+   */
+  toArray() {
+    return typeListToArray(this);
+  }
+  /**
+   * Returns a portion of this YArray into a JavaScript Array selected
+   * from start to end (end not included).
+   *
+   * @param {number} [start]
+   * @param {number} [end]
+   * @return {Array<T>}
+   */
+  slice(start = 0, end = this.length) {
+    return typeListSlice(this, start, end);
+  }
+  /**
+   * Transforms this Shared Type to a JSON object.
+   *
+   * @return {Array<any>}
+   */
+  toJSON() {
+    return this.map((c) => c instanceof AbstractType ? c.toJSON() : c);
+  }
+  /**
+   * Returns an Array with the result of calling a provided function on every
+   * element of this YArray.
+   *
+   * @template M
+   * @param {function(T,number,YArray<T>):M} f Function that produces an element of the new Array
+   * @return {Array<M>} A new array with each element being the result of the
+   *                 callback function
+   */
+  map(f) {
+    return typeListMap(
+      this,
+      /** @type {any} */
+      f
+    );
+  }
+  /**
+   * Executes a provided function once on every element of this YArray.
+   *
+   * @param {function(T,number,YArray<T>):void} f A function to execute on every element of this YArray.
+   */
+  forEach(f) {
+    typeListForEach(this, f);
+  }
+  /**
+   * @return {IterableIterator<T>}
+   */
+  [Symbol.iterator]() {
+    return typeListCreateIterator(this);
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   */
+  _write(encoder) {
+    encoder.writeTypeRef(YArrayRefID);
+  }
+};
+var readYArray = (_decoder) => new YArray();
+var YMapEvent = class extends YEvent {
+  /**
+   * @param {YMap<T>} ymap The YArray that changed.
+   * @param {Transaction} transaction
+   * @param {Set<any>} subs The keys that changed.
+   */
+  constructor(ymap, transaction, subs) {
+    super(ymap, transaction);
+    this.keysChanged = subs;
+  }
+};
+var YMap = class _YMap extends AbstractType {
+  /**
+   *
+   * @param {Iterable<readonly [string, any]>=} entries - an optional iterable to initialize the YMap
+   */
+  constructor(entries) {
+    super();
+    this._prelimContent = null;
+    if (entries === void 0) {
+      this._prelimContent = /* @__PURE__ */ new Map();
+    } else {
+      this._prelimContent = new Map(entries);
+    }
+  }
+  /**
+   * Integrate this type into the Yjs instance.
+   *
+   * * Save this struct in the os
+   * * This type is sent to other client
+   * * Observer functions are fired
+   *
+   * @param {Doc} y The Yjs instance
+   * @param {Item} item
+   */
+  _integrate(y, item) {
+    super._integrate(y, item);
+    this._prelimContent.forEach((value, key) => {
+      this.set(key, value);
+    });
+    this._prelimContent = null;
+  }
+  /**
+   * @return {YMap<MapType>}
+   */
+  _copy() {
+    return new _YMap();
+  }
+  /**
+   * Makes a copy of this data type that can be included somewhere else.
+   *
+   * Note that the content is only readable _after_ it has been included somewhere in the Ydoc.
+   *
+   * @return {YMap<MapType>}
+   */
+  clone() {
+    const map2 = new _YMap();
+    this.forEach((value, key) => {
+      map2.set(key, value instanceof AbstractType ? (
+        /** @type {typeof value} */
+        value.clone()
+      ) : value);
+    });
+    return map2;
+  }
+  /**
+   * Creates YMapEvent and calls observers.
+   *
+   * @param {Transaction} transaction
+   * @param {Set<null|string>} parentSubs Keys changed on this type. `null` if list was modified.
+   */
+  _callObserver(transaction, parentSubs) {
+    callTypeObservers(this, transaction, new YMapEvent(this, transaction, parentSubs));
+  }
+  /**
+   * Transforms this Shared Type to a JSON object.
+   *
+   * @return {Object<string,any>}
+   */
+  toJSON() {
+    this.doc ?? warnPrematureAccess();
+    const map2 = {};
+    this._map.forEach((item, key) => {
+      if (!item.deleted) {
+        const v = item.content.getContent()[item.length - 1];
+        map2[key] = v instanceof AbstractType ? v.toJSON() : v;
+      }
+    });
+    return map2;
+  }
+  /**
+   * Returns the size of the YMap (count of key/value pairs)
+   *
+   * @return {number}
+   */
+  get size() {
+    return [...createMapIterator(this)].length;
+  }
+  /**
+   * Returns the keys for each element in the YMap Type.
+   *
+   * @return {IterableIterator<string>}
+   */
+  keys() {
+    return iteratorMap(
+      createMapIterator(this),
+      /** @param {any} v */
+      (v) => v[0]
+    );
+  }
+  /**
+   * Returns the values for each element in the YMap Type.
+   *
+   * @return {IterableIterator<MapType>}
+   */
+  values() {
+    return iteratorMap(
+      createMapIterator(this),
+      /** @param {any} v */
+      (v) => v[1].content.getContent()[v[1].length - 1]
+    );
+  }
+  /**
+   * Returns an Iterator of [key, value] pairs
+   *
+   * @return {IterableIterator<[string, MapType]>}
+   */
+  entries() {
+    return iteratorMap(
+      createMapIterator(this),
+      /** @param {any} v */
+      (v) => (
+        /** @type {any} */
+        [v[0], v[1].content.getContent()[v[1].length - 1]]
+      )
+    );
+  }
+  /**
+   * Executes a provided function on once on every key-value pair.
+   *
+   * @param {function(MapType,string,YMap<MapType>):void} f A function to execute on every element of this YArray.
+   */
+  forEach(f) {
+    this.doc ?? warnPrematureAccess();
+    this._map.forEach((item, key) => {
+      if (!item.deleted) {
+        f(item.content.getContent()[item.length - 1], key, this);
+      }
+    });
+  }
+  /**
+   * Returns an Iterator of [key, value] pairs
+   *
+   * @return {IterableIterator<[string, MapType]>}
+   */
+  [Symbol.iterator]() {
+    return this.entries();
+  }
+  /**
+   * Remove a specified element from this YMap.
+   *
+   * @param {string} key The key of the element to remove.
+   */
+  delete(key) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeMapDelete(transaction, this, key);
+      });
+    } else {
+      this._prelimContent.delete(key);
+    }
+  }
+  /**
+   * Adds or updates an element with a specified key and value.
+   * @template {MapType} VAL
+   *
+   * @param {string} key The key of the element to add to this YMap
+   * @param {VAL} value The value of the element to add
+   * @return {VAL}
+   */
+  set(key, value) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeMapSet(
+          transaction,
+          this,
+          key,
+          /** @type {any} */
+          value
+        );
+      });
+    } else {
+      this._prelimContent.set(key, value);
+    }
+    return value;
+  }
+  /**
+   * Returns a specified element from this YMap.
+   *
+   * @param {string} key
+   * @return {MapType|undefined}
+   */
+  get(key) {
+    return (
+      /** @type {any} */
+      typeMapGet(this, key)
+    );
+  }
+  /**
+   * Returns a boolean indicating whether the specified key exists or not.
+   *
+   * @param {string} key The key to test.
+   * @return {boolean}
+   */
+  has(key) {
+    return typeMapHas(this, key);
+  }
+  /**
+   * Removes all elements from this YMap.
+   */
+  clear() {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        this.forEach(function(_value, key, map2) {
+          typeMapDelete(transaction, map2, key);
+        });
+      });
+    } else {
+      this._prelimContent.clear();
+    }
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   */
+  _write(encoder) {
+    encoder.writeTypeRef(YMapRefID);
+  }
+};
+var readYMap = (_decoder) => new YMap();
+var equalAttrs = (a, b) => a === b || typeof a === "object" && typeof b === "object" && a && b && equalFlat(a, b);
+var ItemTextListPosition = class {
+  /**
+   * @param {Item|null} left
+   * @param {Item|null} right
+   * @param {number} index
+   * @param {Map<string,any>} currentAttributes
+   */
+  constructor(left, right, index, currentAttributes) {
+    this.left = left;
+    this.right = right;
+    this.index = index;
+    this.currentAttributes = currentAttributes;
+  }
+  /**
+   * Only call this if you know that this.right is defined
+   */
+  forward() {
+    if (this.right === null) {
+      unexpectedCase();
+    }
+    switch (this.right.content.constructor) {
+      case ContentFormat:
+        if (!this.right.deleted) {
+          updateCurrentAttributes(
+            this.currentAttributes,
+            /** @type {ContentFormat} */
+            this.right.content
+          );
+        }
+        break;
+      default:
+        if (!this.right.deleted) {
+          this.index += this.right.length;
+        }
+        break;
+    }
+    this.left = this.right;
+    this.right = this.right.right;
+  }
+};
+var findNextPosition = (transaction, pos, count) => {
+  while (pos.right !== null && count > 0) {
+    switch (pos.right.content.constructor) {
+      case ContentFormat:
+        if (!pos.right.deleted) {
+          updateCurrentAttributes(
+            pos.currentAttributes,
+            /** @type {ContentFormat} */
+            pos.right.content
+          );
+        }
+        break;
+      default:
+        if (!pos.right.deleted) {
+          if (count < pos.right.length) {
+            getItemCleanStart(transaction, createID(pos.right.id.client, pos.right.id.clock + count));
+          }
+          pos.index += pos.right.length;
+          count -= pos.right.length;
+        }
+        break;
+    }
+    pos.left = pos.right;
+    pos.right = pos.right.right;
+  }
+  return pos;
+};
+var findPosition = (transaction, parent, index, useSearchMarker) => {
+  const currentAttributes = /* @__PURE__ */ new Map();
+  const marker = useSearchMarker ? findMarker(parent, index) : null;
+  if (marker) {
+    const pos = new ItemTextListPosition(marker.p.left, marker.p, marker.index, currentAttributes);
+    return findNextPosition(transaction, pos, index - marker.index);
+  } else {
+    const pos = new ItemTextListPosition(null, parent._start, 0, currentAttributes);
+    return findNextPosition(transaction, pos, index);
+  }
+};
+var insertNegatedAttributes = (transaction, parent, currPos, negatedAttributes) => {
+  while (currPos.right !== null && (currPos.right.deleted === true || currPos.right.content.constructor === ContentFormat && equalAttrs(
+    negatedAttributes.get(
+      /** @type {ContentFormat} */
+      currPos.right.content.key
+    ),
+    /** @type {ContentFormat} */
+    currPos.right.content.value
+  ))) {
+    if (!currPos.right.deleted) {
+      negatedAttributes.delete(
+        /** @type {ContentFormat} */
+        currPos.right.content.key
+      );
+    }
+    currPos.forward();
+  }
+  const doc2 = transaction.doc;
+  const ownClientId = doc2.clientID;
+  negatedAttributes.forEach((val, key) => {
+    const left = currPos.left;
+    const right = currPos.right;
+    const nextFormat = new Item(createID(ownClientId, getState(doc2.store, ownClientId)), left, left && left.lastId, right, right && right.id, parent, null, new ContentFormat(key, val));
+    nextFormat.integrate(transaction, 0);
+    currPos.right = nextFormat;
+    currPos.forward();
+  });
+};
+var updateCurrentAttributes = (currentAttributes, format) => {
+  const { key, value } = format;
+  if (value === null) {
+    currentAttributes.delete(key);
+  } else {
+    currentAttributes.set(key, value);
+  }
+};
+var minimizeAttributeChanges = (currPos, attributes) => {
+  while (true) {
+    if (currPos.right === null) {
+      break;
+    } else if (currPos.right.deleted || currPos.right.content.constructor === ContentFormat && equalAttrs(
+      attributes[
+        /** @type {ContentFormat} */
+        currPos.right.content.key
+      ] ?? null,
+      /** @type {ContentFormat} */
+      currPos.right.content.value
+    )) ;
+    else {
+      break;
+    }
+    currPos.forward();
+  }
+};
+var insertAttributes = (transaction, parent, currPos, attributes) => {
+  const doc2 = transaction.doc;
+  const ownClientId = doc2.clientID;
+  const negatedAttributes = /* @__PURE__ */ new Map();
+  for (const key in attributes) {
+    const val = attributes[key];
+    const currentVal = currPos.currentAttributes.get(key) ?? null;
+    if (!equalAttrs(currentVal, val)) {
+      negatedAttributes.set(key, currentVal);
+      const { left, right } = currPos;
+      currPos.right = new Item(createID(ownClientId, getState(doc2.store, ownClientId)), left, left && left.lastId, right, right && right.id, parent, null, new ContentFormat(key, val));
+      currPos.right.integrate(transaction, 0);
+      currPos.forward();
+    }
+  }
+  return negatedAttributes;
+};
+var insertText = (transaction, parent, currPos, text2, attributes) => {
+  currPos.currentAttributes.forEach((_val, key) => {
+    if (attributes[key] === void 0) {
+      attributes[key] = null;
+    }
+  });
+  const doc2 = transaction.doc;
+  const ownClientId = doc2.clientID;
+  minimizeAttributeChanges(currPos, attributes);
+  const negatedAttributes = insertAttributes(transaction, parent, currPos, attributes);
+  const content = text2.constructor === String ? new ContentString(
+    /** @type {string} */
+    text2
+  ) : text2 instanceof AbstractType ? new ContentType(text2) : new ContentEmbed(text2);
+  let { left, right, index } = currPos;
+  if (parent._searchMarker) {
+    updateMarkerChanges(parent._searchMarker, currPos.index, content.getLength());
+  }
+  right = new Item(createID(ownClientId, getState(doc2.store, ownClientId)), left, left && left.lastId, right, right && right.id, parent, null, content);
+  right.integrate(transaction, 0);
+  currPos.right = right;
+  currPos.index = index;
+  currPos.forward();
+  insertNegatedAttributes(transaction, parent, currPos, negatedAttributes);
+};
+var formatText = (transaction, parent, currPos, length3, attributes) => {
+  const doc2 = transaction.doc;
+  const ownClientId = doc2.clientID;
+  minimizeAttributeChanges(currPos, attributes);
+  const negatedAttributes = insertAttributes(transaction, parent, currPos, attributes);
+  iterationLoop: while (currPos.right !== null && (length3 > 0 || negatedAttributes.size > 0 && (currPos.right.deleted || currPos.right.content.constructor === ContentFormat))) {
+    if (!currPos.right.deleted) {
+      switch (currPos.right.content.constructor) {
+        case ContentFormat: {
+          const { key, value } = (
+            /** @type {ContentFormat} */
+            currPos.right.content
+          );
+          const attr = attributes[key];
+          if (attr !== void 0) {
+            if (equalAttrs(attr, value)) {
+              negatedAttributes.delete(key);
+            } else {
+              if (length3 === 0) {
+                break iterationLoop;
+              }
+              negatedAttributes.set(key, value);
+            }
+            currPos.right.delete(transaction);
+          } else {
+            currPos.currentAttributes.set(key, value);
+          }
+          break;
+        }
+        default:
+          if (length3 < currPos.right.length) {
+            getItemCleanStart(transaction, createID(currPos.right.id.client, currPos.right.id.clock + length3));
+          }
+          length3 -= currPos.right.length;
+          break;
+      }
+    }
+    currPos.forward();
+  }
+  if (length3 > 0) {
+    let newlines = "";
+    for (; length3 > 0; length3--) {
+      newlines += "\n";
+    }
+    currPos.right = new Item(createID(ownClientId, getState(doc2.store, ownClientId)), currPos.left, currPos.left && currPos.left.lastId, currPos.right, currPos.right && currPos.right.id, parent, null, new ContentString(newlines));
+    currPos.right.integrate(transaction, 0);
+    currPos.forward();
+  }
+  insertNegatedAttributes(transaction, parent, currPos, negatedAttributes);
+};
+var cleanupFormattingGap = (transaction, start, curr, startAttributes, currAttributes) => {
+  let end = start;
+  const endFormats = create3();
+  while (end && (!end.countable || end.deleted)) {
+    if (!end.deleted && end.content.constructor === ContentFormat) {
+      const cf = (
+        /** @type {ContentFormat} */
+        end.content
+      );
+      endFormats.set(cf.key, cf);
+    }
+    end = end.right;
+  }
+  let cleanups = 0;
+  let reachedCurr = false;
+  while (start !== end) {
+    if (curr === start) {
+      reachedCurr = true;
+    }
+    if (!start.deleted) {
+      const content = start.content;
+      switch (content.constructor) {
+        case ContentFormat: {
+          const { key, value } = (
+            /** @type {ContentFormat} */
+            content
+          );
+          const startAttrValue = startAttributes.get(key) ?? null;
+          if (endFormats.get(key) !== content || startAttrValue === value) {
+            start.delete(transaction);
+            cleanups++;
+            if (!reachedCurr && (currAttributes.get(key) ?? null) === value && startAttrValue !== value) {
+              if (startAttrValue === null) {
+                currAttributes.delete(key);
+              } else {
+                currAttributes.set(key, startAttrValue);
+              }
+            }
+          }
+          if (!reachedCurr && !start.deleted) {
+            updateCurrentAttributes(
+              currAttributes,
+              /** @type {ContentFormat} */
+              content
+            );
+          }
+          break;
+        }
+      }
+    }
+    start = /** @type {Item} */
+    start.right;
+  }
+  return cleanups;
+};
+var cleanupContextlessFormattingGap = (transaction, item) => {
+  while (item && item.right && (item.right.deleted || !item.right.countable)) {
+    item = item.right;
+  }
+  const attrs = /* @__PURE__ */ new Set();
+  while (item && (item.deleted || !item.countable)) {
+    if (!item.deleted && item.content.constructor === ContentFormat) {
+      const key = (
+        /** @type {ContentFormat} */
+        item.content.key
+      );
+      if (attrs.has(key)) {
+        item.delete(transaction);
+      } else {
+        attrs.add(key);
+      }
+    }
+    item = item.left;
+  }
+};
+var cleanupYTextFormatting = (type) => {
+  let res = 0;
+  transact(
+    /** @type {Doc} */
+    type.doc,
+    (transaction) => {
+      let start = (
+        /** @type {Item} */
+        type._start
+      );
+      let end = type._start;
+      let startAttributes = create3();
+      const currentAttributes = copy(startAttributes);
+      while (end) {
+        if (end.deleted === false) {
+          switch (end.content.constructor) {
+            case ContentFormat:
+              updateCurrentAttributes(
+                currentAttributes,
+                /** @type {ContentFormat} */
+                end.content
+              );
+              break;
+            default:
+              res += cleanupFormattingGap(transaction, start, end, startAttributes, currentAttributes);
+              startAttributes = copy(currentAttributes);
+              start = end;
+              break;
+          }
+        }
+        end = end.right;
+      }
+    }
+  );
+  return res;
+};
+var cleanupYTextAfterTransaction = (transaction) => {
+  const needFullCleanup = /* @__PURE__ */ new Set();
+  const doc2 = transaction.doc;
+  for (const [client, afterClock] of transaction.afterState.entries()) {
+    const clock = transaction.beforeState.get(client) || 0;
+    if (afterClock === clock) {
+      continue;
+    }
+    iterateStructs(
+      transaction,
+      /** @type {Array<Item|GC>} */
+      doc2.store.clients.get(client),
+      clock,
+      afterClock,
+      (item) => {
+        if (!item.deleted && /** @type {Item} */
+        item.content.constructor === ContentFormat && item.constructor !== GC) {
+          needFullCleanup.add(
+            /** @type {any} */
+            item.parent
+          );
+        }
+      }
+    );
+  }
+  transact(doc2, (t) => {
+    iterateDeletedStructs(transaction, transaction.deleteSet, (item) => {
+      if (item instanceof GC || !/** @type {YText} */
+      item.parent._hasFormatting || needFullCleanup.has(
+        /** @type {YText} */
+        item.parent
+      )) {
+        return;
+      }
+      const parent = (
+        /** @type {YText} */
+        item.parent
+      );
+      if (item.content.constructor === ContentFormat) {
+        needFullCleanup.add(parent);
+      } else {
+        cleanupContextlessFormattingGap(t, item);
+      }
+    });
+    for (const yText of needFullCleanup) {
+      cleanupYTextFormatting(yText);
+    }
+  });
+};
+var deleteText = (transaction, currPos, length3) => {
+  const startLength = length3;
+  const startAttrs = copy(currPos.currentAttributes);
+  const start = currPos.right;
+  while (length3 > 0 && currPos.right !== null) {
+    if (currPos.right.deleted === false) {
+      switch (currPos.right.content.constructor) {
+        case ContentType:
+        case ContentEmbed:
+        case ContentString:
+          if (length3 < currPos.right.length) {
+            getItemCleanStart(transaction, createID(currPos.right.id.client, currPos.right.id.clock + length3));
+          }
+          length3 -= currPos.right.length;
+          currPos.right.delete(transaction);
+          break;
+      }
+    }
+    currPos.forward();
+  }
+  if (start) {
+    cleanupFormattingGap(transaction, start, currPos.right, startAttrs, currPos.currentAttributes);
+  }
+  const parent = (
+    /** @type {AbstractType<any>} */
+    /** @type {Item} */
+    (currPos.left || currPos.right).parent
+  );
+  if (parent._searchMarker) {
+    updateMarkerChanges(parent._searchMarker, currPos.index, -startLength + length3);
+  }
+  return currPos;
+};
+var YTextEvent = class extends YEvent {
+  /**
+   * @param {YText} ytext
+   * @param {Transaction} transaction
+   * @param {Set<any>} subs The keys that changed
+   */
+  constructor(ytext, transaction, subs) {
+    super(ytext, transaction);
+    this.childListChanged = false;
+    this.keysChanged = /* @__PURE__ */ new Set();
+    subs.forEach((sub) => {
+      if (sub === null) {
+        this.childListChanged = true;
+      } else {
+        this.keysChanged.add(sub);
+      }
+    });
+  }
+  /**
+   * @type {{added:Set<Item>,deleted:Set<Item>,keys:Map<string,{action:'add'|'update'|'delete',oldValue:any}>,delta:Array<{insert?:Array<any>|string, delete?:number, retain?:number}>}}
+   */
+  get changes() {
+    if (this._changes === null) {
+      const changes = {
+        keys: this.keys,
+        delta: this.delta,
+        added: /* @__PURE__ */ new Set(),
+        deleted: /* @__PURE__ */ new Set()
+      };
+      this._changes = changes;
+    }
+    return (
+      /** @type {any} */
+      this._changes
+    );
+  }
+  /**
+   * Compute the changes in the delta format.
+   * A {@link https://quilljs.com/docs/delta/|Quill Delta}) that represents the changes on the document.
+   *
+   * @type {Array<{insert?:string|object|AbstractType<any>, delete?:number, retain?:number, attributes?: Object<string,any>}>}
+   *
+   * @public
+   */
+  get delta() {
+    if (this._delta === null) {
+      const y = (
+        /** @type {Doc} */
+        this.target.doc
+      );
+      const delta = [];
+      transact(y, (transaction) => {
+        const currentAttributes = /* @__PURE__ */ new Map();
+        const oldAttributes = /* @__PURE__ */ new Map();
+        let item = this.target._start;
+        let action = null;
+        const attributes = {};
+        let insert = "";
+        let retain = 0;
+        let deleteLen = 0;
+        const addOp = () => {
+          if (action !== null) {
+            let op = null;
+            switch (action) {
+              case "delete":
+                if (deleteLen > 0) {
+                  op = { delete: deleteLen };
+                }
+                deleteLen = 0;
+                break;
+              case "insert":
+                if (typeof insert === "object" || insert.length > 0) {
+                  op = { insert };
+                  if (currentAttributes.size > 0) {
+                    op.attributes = {};
+                    currentAttributes.forEach((value, key) => {
+                      if (value !== null) {
+                        op.attributes[key] = value;
+                      }
+                    });
+                  }
+                }
+                insert = "";
+                break;
+              case "retain":
+                if (retain > 0) {
+                  op = { retain };
+                  if (!isEmpty(attributes)) {
+                    op.attributes = assign({}, attributes);
+                  }
+                }
+                retain = 0;
+                break;
+            }
+            if (op) delta.push(op);
+            action = null;
+          }
+        };
+        while (item !== null) {
+          switch (item.content.constructor) {
+            case ContentType:
+            case ContentEmbed:
+              if (this.adds(item)) {
+                if (!this.deletes(item)) {
+                  addOp();
+                  action = "insert";
+                  insert = item.content.getContent()[0];
+                  addOp();
+                }
+              } else if (this.deletes(item)) {
+                if (action !== "delete") {
+                  addOp();
+                  action = "delete";
+                }
+                deleteLen += 1;
+              } else if (!item.deleted) {
+                if (action !== "retain") {
+                  addOp();
+                  action = "retain";
+                }
+                retain += 1;
+              }
+              break;
+            case ContentString:
+              if (this.adds(item)) {
+                if (!this.deletes(item)) {
+                  if (action !== "insert") {
+                    addOp();
+                    action = "insert";
+                  }
+                  insert += /** @type {ContentString} */
+                  item.content.str;
+                }
+              } else if (this.deletes(item)) {
+                if (action !== "delete") {
+                  addOp();
+                  action = "delete";
+                }
+                deleteLen += item.length;
+              } else if (!item.deleted) {
+                if (action !== "retain") {
+                  addOp();
+                  action = "retain";
+                }
+                retain += item.length;
+              }
+              break;
+            case ContentFormat: {
+              const { key, value } = (
+                /** @type {ContentFormat} */
+                item.content
+              );
+              if (this.adds(item)) {
+                if (!this.deletes(item)) {
+                  const curVal = currentAttributes.get(key) ?? null;
+                  if (!equalAttrs(curVal, value)) {
+                    if (action === "retain") {
+                      addOp();
+                    }
+                    if (equalAttrs(value, oldAttributes.get(key) ?? null)) {
+                      delete attributes[key];
+                    } else {
+                      attributes[key] = value;
+                    }
+                  } else if (value !== null) {
+                    item.delete(transaction);
+                  }
+                }
+              } else if (this.deletes(item)) {
+                oldAttributes.set(key, value);
+                const curVal = currentAttributes.get(key) ?? null;
+                if (!equalAttrs(curVal, value)) {
+                  if (action === "retain") {
+                    addOp();
+                  }
+                  attributes[key] = curVal;
+                }
+              } else if (!item.deleted) {
+                oldAttributes.set(key, value);
+                const attr = attributes[key];
+                if (attr !== void 0) {
+                  if (!equalAttrs(attr, value)) {
+                    if (action === "retain") {
+                      addOp();
+                    }
+                    if (value === null) {
+                      delete attributes[key];
+                    } else {
+                      attributes[key] = value;
+                    }
+                  } else if (attr !== null) {
+                    item.delete(transaction);
+                  }
+                }
+              }
+              if (!item.deleted) {
+                if (action === "insert") {
+                  addOp();
+                }
+                updateCurrentAttributes(
+                  currentAttributes,
+                  /** @type {ContentFormat} */
+                  item.content
+                );
+              }
+              break;
+            }
+          }
+          item = item.right;
+        }
+        addOp();
+        while (delta.length > 0) {
+          const lastOp = delta[delta.length - 1];
+          if (lastOp.retain !== void 0 && lastOp.attributes === void 0) {
+            delta.pop();
+          } else {
+            break;
+          }
+        }
+      });
+      this._delta = delta;
+    }
+    return (
+      /** @type {any} */
+      this._delta
+    );
+  }
+};
+var YText = class _YText extends AbstractType {
+  /**
+   * @param {String} [string] The initial value of the YText.
+   */
+  constructor(string) {
+    super();
+    this._pending = string !== void 0 ? [() => this.insert(0, string)] : [];
+    this._searchMarker = [];
+    this._hasFormatting = false;
+  }
+  /**
+   * Number of characters of this text type.
+   *
+   * @type {number}
+   */
+  get length() {
+    this.doc ?? warnPrematureAccess();
+    return this._length;
+  }
+  /**
+   * @param {Doc} y
+   * @param {Item} item
+   */
+  _integrate(y, item) {
+    super._integrate(y, item);
+    try {
+      this._pending.forEach((f) => f());
+    } catch (e) {
+      console.error(e);
+    }
+    this._pending = null;
+  }
+  _copy() {
+    return new _YText();
+  }
+  /**
+   * Makes a copy of this data type that can be included somewhere else.
+   *
+   * Note that the content is only readable _after_ it has been included somewhere in the Ydoc.
+   *
+   * @return {YText}
+   */
+  clone() {
+    const text2 = new _YText();
+    text2.applyDelta(this.toDelta());
+    return text2;
+  }
+  /**
+   * Creates YTextEvent and calls observers.
+   *
+   * @param {Transaction} transaction
+   * @param {Set<null|string>} parentSubs Keys changed on this type. `null` if list was modified.
+   */
+  _callObserver(transaction, parentSubs) {
+    super._callObserver(transaction, parentSubs);
+    const event = new YTextEvent(this, transaction, parentSubs);
+    callTypeObservers(this, transaction, event);
+    if (!transaction.local && this._hasFormatting) {
+      transaction._needFormattingCleanup = true;
+    }
+  }
+  /**
+   * Returns the unformatted string representation of this YText type.
+   *
+   * @public
+   */
+  toString() {
+    this.doc ?? warnPrematureAccess();
+    let str = "";
+    let n = this._start;
+    while (n !== null) {
+      if (!n.deleted && n.countable && n.content.constructor === ContentString) {
+        str += /** @type {ContentString} */
+        n.content.str;
+      }
+      n = n.right;
+    }
+    return str;
+  }
+  /**
+   * Returns the unformatted string representation of this YText type.
+   *
+   * @return {string}
+   * @public
+   */
+  toJSON() {
+    return this.toString();
+  }
+  /**
+   * Apply a {@link Delta} on this shared YText type.
+   *
+   * @param {Array<any>} delta The changes to apply on this element.
+   * @param {object}  opts
+   * @param {boolean} [opts.sanitize] Sanitize input delta. Removes ending newlines if set to true.
+   *
+   *
+   * @public
+   */
+  applyDelta(delta, { sanitize = true } = {}) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        const currPos = new ItemTextListPosition(null, this._start, 0, /* @__PURE__ */ new Map());
+        for (let i = 0; i < delta.length; i++) {
+          const op = delta[i];
+          if (op.insert !== void 0) {
+            const ins = !sanitize && typeof op.insert === "string" && i === delta.length - 1 && currPos.right === null && op.insert.slice(-1) === "\n" ? op.insert.slice(0, -1) : op.insert;
+            if (typeof ins !== "string" || ins.length > 0) {
+              insertText(transaction, this, currPos, ins, op.attributes || {});
+            }
+          } else if (op.retain !== void 0) {
+            formatText(transaction, this, currPos, op.retain, op.attributes || {});
+          } else if (op.delete !== void 0) {
+            deleteText(transaction, currPos, op.delete);
+          }
+        }
+      });
+    } else {
+      this._pending.push(() => this.applyDelta(delta));
+    }
+  }
+  /**
+   * Returns the Delta representation of this YText type.
+   *
+   * @param {Snapshot} [snapshot]
+   * @param {Snapshot} [prevSnapshot]
+   * @param {function('removed' | 'added', ID):any} [computeYChange]
+   * @return {any} The Delta representation of this type.
+   *
+   * @public
+   */
+  toDelta(snapshot, prevSnapshot, computeYChange) {
+    this.doc ?? warnPrematureAccess();
+    const ops = [];
+    const currentAttributes = /* @__PURE__ */ new Map();
+    const doc2 = (
+      /** @type {Doc} */
+      this.doc
+    );
+    let str = "";
+    let n = this._start;
+    function packStr() {
+      if (str.length > 0) {
+        const attributes = {};
+        let addAttributes = false;
+        currentAttributes.forEach((value, key) => {
+          addAttributes = true;
+          attributes[key] = value;
+        });
+        const op = { insert: str };
+        if (addAttributes) {
+          op.attributes = attributes;
+        }
+        ops.push(op);
+        str = "";
+      }
+    }
+    const computeDelta = () => {
+      while (n !== null) {
+        if (isVisible(n, snapshot) || prevSnapshot !== void 0 && isVisible(n, prevSnapshot)) {
+          switch (n.content.constructor) {
+            case ContentString: {
+              const cur = currentAttributes.get("ychange");
+              if (snapshot !== void 0 && !isVisible(n, snapshot)) {
+                if (cur === void 0 || cur.user !== n.id.client || cur.type !== "removed") {
+                  packStr();
+                  currentAttributes.set("ychange", computeYChange ? computeYChange("removed", n.id) : { type: "removed" });
+                }
+              } else if (prevSnapshot !== void 0 && !isVisible(n, prevSnapshot)) {
+                if (cur === void 0 || cur.user !== n.id.client || cur.type !== "added") {
+                  packStr();
+                  currentAttributes.set("ychange", computeYChange ? computeYChange("added", n.id) : { type: "added" });
+                }
+              } else if (cur !== void 0) {
+                packStr();
+                currentAttributes.delete("ychange");
+              }
+              str += /** @type {ContentString} */
+              n.content.str;
+              break;
+            }
+            case ContentType:
+            case ContentEmbed: {
+              packStr();
+              const op = {
+                insert: n.content.getContent()[0]
+              };
+              if (currentAttributes.size > 0) {
+                const attrs = (
+                  /** @type {Object<string,any>} */
+                  {}
+                );
+                op.attributes = attrs;
+                currentAttributes.forEach((value, key) => {
+                  attrs[key] = value;
+                });
+              }
+              ops.push(op);
+              break;
+            }
+            case ContentFormat:
+              if (isVisible(n, snapshot)) {
+                packStr();
+                updateCurrentAttributes(
+                  currentAttributes,
+                  /** @type {ContentFormat} */
+                  n.content
+                );
+              }
+              break;
+          }
+        }
+        n = n.right;
+      }
+      packStr();
+    };
+    if (snapshot || prevSnapshot) {
+      transact(doc2, (transaction) => {
+        if (snapshot) {
+          splitSnapshotAffectedStructs(transaction, snapshot);
+        }
+        if (prevSnapshot) {
+          splitSnapshotAffectedStructs(transaction, prevSnapshot);
+        }
+        computeDelta();
+      }, "cleanup");
+    } else {
+      computeDelta();
+    }
+    return ops;
+  }
+  /**
+   * Insert text at a given index.
+   *
+   * @param {number} index The index at which to start inserting.
+   * @param {String} text The text to insert at the specified position.
+   * @param {TextAttributes} [attributes] Optionally define some formatting
+   *                                    information to apply on the inserted
+   *                                    Text.
+   * @public
+   */
+  insert(index, text2, attributes) {
+    if (text2.length <= 0) {
+      return;
+    }
+    const y = this.doc;
+    if (y !== null) {
+      transact(y, (transaction) => {
+        const pos = findPosition(transaction, this, index, !attributes);
+        if (!attributes) {
+          attributes = {};
+          pos.currentAttributes.forEach((v, k) => {
+            attributes[k] = v;
+          });
+        }
+        insertText(transaction, this, pos, text2, attributes);
+      });
+    } else {
+      this._pending.push(() => this.insert(index, text2, attributes));
+    }
+  }
+  /**
+   * Inserts an embed at a index.
+   *
+   * @param {number} index The index to insert the embed at.
+   * @param {Object | AbstractType<any>} embed The Object that represents the embed.
+   * @param {TextAttributes} [attributes] Attribute information to apply on the
+   *                                    embed
+   *
+   * @public
+   */
+  insertEmbed(index, embed, attributes) {
+    const y = this.doc;
+    if (y !== null) {
+      transact(y, (transaction) => {
+        const pos = findPosition(transaction, this, index, !attributes);
+        insertText(transaction, this, pos, embed, attributes || {});
+      });
+    } else {
+      this._pending.push(() => this.insertEmbed(index, embed, attributes || {}));
+    }
+  }
+  /**
+   * Deletes text starting from an index.
+   *
+   * @param {number} index Index at which to start deleting.
+   * @param {number} length The number of characters to remove. Defaults to 1.
+   *
+   * @public
+   */
+  delete(index, length3) {
+    if (length3 === 0) {
+      return;
+    }
+    const y = this.doc;
+    if (y !== null) {
+      transact(y, (transaction) => {
+        deleteText(transaction, findPosition(transaction, this, index, true), length3);
+      });
+    } else {
+      this._pending.push(() => this.delete(index, length3));
+    }
+  }
+  /**
+   * Assigns properties to a range of text.
+   *
+   * @param {number} index The position where to start formatting.
+   * @param {number} length The amount of characters to assign properties to.
+   * @param {TextAttributes} attributes Attribute information to apply on the
+   *                                    text.
+   *
+   * @public
+   */
+  format(index, length3, attributes) {
+    if (length3 === 0) {
+      return;
+    }
+    const y = this.doc;
+    if (y !== null) {
+      transact(y, (transaction) => {
+        const pos = findPosition(transaction, this, index, false);
+        if (pos.right === null) {
+          return;
+        }
+        formatText(transaction, this, pos, length3, attributes);
+      });
+    } else {
+      this._pending.push(() => this.format(index, length3, attributes));
+    }
+  }
+  /**
+   * Removes an attribute.
+   *
+   * @note Xml-Text nodes don't have attributes. You can use this feature to assign properties to complete text-blocks.
+   *
+   * @param {String} attributeName The attribute name that is to be removed.
+   *
+   * @public
+   */
+  removeAttribute(attributeName) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeMapDelete(transaction, this, attributeName);
+      });
+    } else {
+      this._pending.push(() => this.removeAttribute(attributeName));
+    }
+  }
+  /**
+   * Sets or updates an attribute.
+   *
+   * @note Xml-Text nodes don't have attributes. You can use this feature to assign properties to complete text-blocks.
+   *
+   * @param {String} attributeName The attribute name that is to be set.
+   * @param {any} attributeValue The attribute value that is to be set.
+   *
+   * @public
+   */
+  setAttribute(attributeName, attributeValue) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeMapSet(transaction, this, attributeName, attributeValue);
+      });
+    } else {
+      this._pending.push(() => this.setAttribute(attributeName, attributeValue));
+    }
+  }
+  /**
+   * Returns an attribute value that belongs to the attribute name.
+   *
+   * @note Xml-Text nodes don't have attributes. You can use this feature to assign properties to complete text-blocks.
+   *
+   * @param {String} attributeName The attribute name that identifies the
+   *                               queried value.
+   * @return {any} The queried attribute value.
+   *
+   * @public
+   */
+  getAttribute(attributeName) {
+    return (
+      /** @type {any} */
+      typeMapGet(this, attributeName)
+    );
+  }
+  /**
+   * Returns all attribute name/value pairs in a JSON Object.
+   *
+   * @note Xml-Text nodes don't have attributes. You can use this feature to assign properties to complete text-blocks.
+   *
+   * @return {Object<string, any>} A JSON Object that describes the attributes.
+   *
+   * @public
+   */
+  getAttributes() {
+    return typeMapGetAll(this);
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   */
+  _write(encoder) {
+    encoder.writeTypeRef(YTextRefID);
+  }
+};
+var readYText = (_decoder) => new YText();
+var YXmlTreeWalker = class {
+  /**
+   * @param {YXmlFragment | YXmlElement} root
+   * @param {function(AbstractType<any>):boolean} [f]
+   */
+  constructor(root, f = () => true) {
+    this._filter = f;
+    this._root = root;
+    this._currentNode = /** @type {Item} */
+    root._start;
+    this._firstCall = true;
+    root.doc ?? warnPrematureAccess();
+  }
+  [Symbol.iterator]() {
+    return this;
+  }
+  /**
+   * Get the next node.
+   *
+   * @return {IteratorResult<YXmlElement|YXmlText|YXmlHook>} The next node.
+   *
+   * @public
+   */
+  next() {
+    let n = this._currentNode;
+    let type = n && n.content && /** @type {any} */
+    n.content.type;
+    if (n !== null && (!this._firstCall || n.deleted || !this._filter(type))) {
+      do {
+        type = /** @type {any} */
+        n.content.type;
+        if (!n.deleted && (type.constructor === YXmlElement || type.constructor === YXmlFragment) && type._start !== null) {
+          n = type._start;
+        } else {
+          while (n !== null) {
+            const nxt = n.next;
+            if (nxt !== null) {
+              n = nxt;
+              break;
+            } else if (n.parent === this._root) {
+              n = null;
+            } else {
+              n = /** @type {AbstractType<any>} */
+              n.parent._item;
+            }
+          }
+        }
+      } while (n !== null && (n.deleted || !this._filter(
+        /** @type {ContentType} */
+        n.content.type
+      )));
+    }
+    this._firstCall = false;
+    if (n === null) {
+      return { value: void 0, done: true };
+    }
+    this._currentNode = n;
+    return { value: (
+      /** @type {any} */
+      n.content.type
+    ), done: false };
+  }
+};
+var YXmlFragment = class _YXmlFragment extends AbstractType {
+  constructor() {
+    super();
+    this._prelimContent = [];
+  }
+  /**
+   * @type {YXmlElement|YXmlText|null}
+   */
+  get firstChild() {
+    const first = this._first;
+    return first ? first.content.getContent()[0] : null;
+  }
+  /**
+   * Integrate this type into the Yjs instance.
+   *
+   * * Save this struct in the os
+   * * This type is sent to other client
+   * * Observer functions are fired
+   *
+   * @param {Doc} y The Yjs instance
+   * @param {Item} item
+   */
+  _integrate(y, item) {
+    super._integrate(y, item);
+    this.insert(
+      0,
+      /** @type {Array<any>} */
+      this._prelimContent
+    );
+    this._prelimContent = null;
+  }
+  _copy() {
+    return new _YXmlFragment();
+  }
+  /**
+   * Makes a copy of this data type that can be included somewhere else.
+   *
+   * Note that the content is only readable _after_ it has been included somewhere in the Ydoc.
+   *
+   * @return {YXmlFragment}
+   */
+  clone() {
+    const el = new _YXmlFragment();
+    el.insert(0, this.toArray().map((item) => item instanceof AbstractType ? item.clone() : item));
+    return el;
+  }
+  get length() {
+    this.doc ?? warnPrematureAccess();
+    return this._prelimContent === null ? this._length : this._prelimContent.length;
+  }
+  /**
+   * Create a subtree of childNodes.
+   *
+   * @example
+   * const walker = elem.createTreeWalker(dom => dom.nodeName === 'div')
+   * for (let node in walker) {
+   *   // `node` is a div node
+   *   nop(node)
+   * }
+   *
+   * @param {function(AbstractType<any>):boolean} filter Function that is called on each child element and
+   *                          returns a Boolean indicating whether the child
+   *                          is to be included in the subtree.
+   * @return {YXmlTreeWalker} A subtree and a position within it.
+   *
+   * @public
+   */
+  createTreeWalker(filter) {
+    return new YXmlTreeWalker(this, filter);
+  }
+  /**
+   * Returns the first YXmlElement that matches the query.
+   * Similar to DOM's {@link querySelector}.
+   *
+   * Query support:
+   *   - tagname
+   * TODO:
+   *   - id
+   *   - attribute
+   *
+   * @param {CSS_Selector} query The query on the children.
+   * @return {YXmlElement|YXmlText|YXmlHook|null} The first element that matches the query or null.
+   *
+   * @public
+   */
+  querySelector(query) {
+    query = query.toUpperCase();
+    const iterator = new YXmlTreeWalker(this, (element2) => element2.nodeName && element2.nodeName.toUpperCase() === query);
+    const next = iterator.next();
+    if (next.done) {
+      return null;
+    } else {
+      return next.value;
+    }
+  }
+  /**
+   * Returns all YXmlElements that match the query.
+   * Similar to Dom's {@link querySelectorAll}.
+   *
+   * @todo Does not yet support all queries. Currently only query by tagName.
+   *
+   * @param {CSS_Selector} query The query on the children
+   * @return {Array<YXmlElement|YXmlText|YXmlHook|null>} The elements that match this query.
+   *
+   * @public
+   */
+  querySelectorAll(query) {
+    query = query.toUpperCase();
+    return from(new YXmlTreeWalker(this, (element2) => element2.nodeName && element2.nodeName.toUpperCase() === query));
+  }
+  /**
+   * Creates YXmlEvent and calls observers.
+   *
+   * @param {Transaction} transaction
+   * @param {Set<null|string>} parentSubs Keys changed on this type. `null` if list was modified.
+   */
+  _callObserver(transaction, parentSubs) {
+    callTypeObservers(this, transaction, new YXmlEvent(this, parentSubs, transaction));
+  }
+  /**
+   * Get the string representation of all the children of this YXmlFragment.
+   *
+   * @return {string} The string representation of all children.
+   */
+  toString() {
+    return typeListMap(this, (xml) => xml.toString()).join("");
+  }
+  /**
+   * @return {string}
+   */
+  toJSON() {
+    return this.toString();
+  }
+  /**
+   * Creates a Dom Element that mirrors this YXmlElement.
+   *
+   * @param {Document} [_document=document] The document object (you must define
+   *                                        this when calling this method in
+   *                                        nodejs)
+   * @param {Object<string, any>} [hooks={}] Optional property to customize how hooks
+   *                                             are presented in the DOM
+   * @param {any} [binding] You should not set this property. This is
+   *                               used if DomBinding wants to create a
+   *                               association to the created DOM type.
+   * @return {Node} The {@link https://developer.mozilla.org/en-US/docs/Web/API/Element|Dom Element}
+   *
+   * @public
+   */
+  toDOM(_document = document, hooks = {}, binding) {
+    const fragment = _document.createDocumentFragment();
+    if (binding !== void 0) {
+      binding._createAssociation(fragment, this);
+    }
+    typeListForEach(this, (xmlType) => {
+      fragment.insertBefore(xmlType.toDOM(_document, hooks, binding), null);
+    });
+    return fragment;
+  }
+  /**
+   * Inserts new content at an index.
+   *
+   * @example
+   *  // Insert character 'a' at position 0
+   *  xml.insert(0, [new Y.XmlText('text')])
+   *
+   * @param {number} index The index to insert content at
+   * @param {Array<YXmlElement|YXmlText>} content The array of content
+   */
+  insert(index, content) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeListInsertGenerics(transaction, this, index, content);
+      });
+    } else {
+      this._prelimContent.splice(index, 0, ...content);
+    }
+  }
+  /**
+   * Inserts new content at an index.
+   *
+   * @example
+   *  // Insert character 'a' at position 0
+   *  xml.insert(0, [new Y.XmlText('text')])
+   *
+   * @param {null|Item|YXmlElement|YXmlText} ref The index to insert content at
+   * @param {Array<YXmlElement|YXmlText>} content The array of content
+   */
+  insertAfter(ref, content) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        const refItem = ref && ref instanceof AbstractType ? ref._item : ref;
+        typeListInsertGenericsAfter(transaction, this, refItem, content);
+      });
+    } else {
+      const pc = (
+        /** @type {Array<any>} */
+        this._prelimContent
+      );
+      const index = ref === null ? 0 : pc.findIndex((el) => el === ref) + 1;
+      if (index === 0 && ref !== null) {
+        throw create2("Reference item not found");
+      }
+      pc.splice(index, 0, ...content);
+    }
+  }
+  /**
+   * Deletes elements starting from an index.
+   *
+   * @param {number} index Index at which to start deleting elements
+   * @param {number} [length=1] The number of elements to remove. Defaults to 1.
+   */
+  delete(index, length3 = 1) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeListDelete(transaction, this, index, length3);
+      });
+    } else {
+      this._prelimContent.splice(index, length3);
+    }
+  }
+  /**
+   * Transforms this YArray to a JavaScript Array.
+   *
+   * @return {Array<YXmlElement|YXmlText|YXmlHook>}
+   */
+  toArray() {
+    return typeListToArray(this);
+  }
+  /**
+   * Appends content to this YArray.
+   *
+   * @param {Array<YXmlElement|YXmlText>} content Array of content to append.
+   */
+  push(content) {
+    this.insert(this.length, content);
+  }
+  /**
+   * Prepends content to this YArray.
+   *
+   * @param {Array<YXmlElement|YXmlText>} content Array of content to prepend.
+   */
+  unshift(content) {
+    this.insert(0, content);
+  }
+  /**
+   * Returns the i-th element from a YArray.
+   *
+   * @param {number} index The index of the element to return from the YArray
+   * @return {YXmlElement|YXmlText}
+   */
+  get(index) {
+    return typeListGet(this, index);
+  }
+  /**
+   * Returns a portion of this YXmlFragment into a JavaScript Array selected
+   * from start to end (end not included).
+   *
+   * @param {number} [start]
+   * @param {number} [end]
+   * @return {Array<YXmlElement|YXmlText>}
+   */
+  slice(start = 0, end = this.length) {
+    return typeListSlice(this, start, end);
+  }
+  /**
+   * Executes a provided function on once on every child element.
+   *
+   * @param {function(YXmlElement|YXmlText,number, typeof self):void} f A function to execute on every element of this YArray.
+   */
+  forEach(f) {
+    typeListForEach(this, f);
+  }
+  /**
+   * Transform the properties of this type to binary and write it to an
+   * BinaryEncoder.
+   *
+   * This is called when this Item is sent to a remote peer.
+   *
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder The encoder to write data to.
+   */
+  _write(encoder) {
+    encoder.writeTypeRef(YXmlFragmentRefID);
+  }
+};
+var readYXmlFragment = (_decoder) => new YXmlFragment();
+var YXmlElement = class _YXmlElement extends YXmlFragment {
+  constructor(nodeName = "UNDEFINED") {
+    super();
+    this.nodeName = nodeName;
+    this._prelimAttrs = /* @__PURE__ */ new Map();
+  }
+  /**
+   * @type {YXmlElement|YXmlText|null}
+   */
+  get nextSibling() {
+    const n = this._item ? this._item.next : null;
+    return n ? (
+      /** @type {YXmlElement|YXmlText} */
+      /** @type {ContentType} */
+      n.content.type
+    ) : null;
+  }
+  /**
+   * @type {YXmlElement|YXmlText|null}
+   */
+  get prevSibling() {
+    const n = this._item ? this._item.prev : null;
+    return n ? (
+      /** @type {YXmlElement|YXmlText} */
+      /** @type {ContentType} */
+      n.content.type
+    ) : null;
+  }
+  /**
+   * Integrate this type into the Yjs instance.
+   *
+   * * Save this struct in the os
+   * * This type is sent to other client
+   * * Observer functions are fired
+   *
+   * @param {Doc} y The Yjs instance
+   * @param {Item} item
+   */
+  _integrate(y, item) {
+    super._integrate(y, item);
+    /** @type {Map<string, any>} */
+    this._prelimAttrs.forEach((value, key) => {
+      this.setAttribute(key, value);
+    });
+    this._prelimAttrs = null;
+  }
+  /**
+   * Creates an Item with the same effect as this Item (without position effect)
+   *
+   * @return {YXmlElement}
+   */
+  _copy() {
+    return new _YXmlElement(this.nodeName);
+  }
+  /**
+   * Makes a copy of this data type that can be included somewhere else.
+   *
+   * Note that the content is only readable _after_ it has been included somewhere in the Ydoc.
+   *
+   * @return {YXmlElement<KV>}
+   */
+  clone() {
+    const el = new _YXmlElement(this.nodeName);
+    const attrs = this.getAttributes();
+    forEach(attrs, (value, key) => {
+      if (typeof value === "string") {
+        el.setAttribute(key, value);
+      }
+    });
+    el.insert(0, this.toArray().map((item) => item instanceof AbstractType ? item.clone() : item));
+    return el;
+  }
+  /**
+   * Returns the XML serialization of this YXmlElement.
+   * The attributes are ordered by attribute-name, so you can easily use this
+   * method to compare YXmlElements
+   *
+   * @return {string} The string representation of this type.
+   *
+   * @public
+   */
+  toString() {
+    const attrs = this.getAttributes();
+    const stringBuilder = [];
+    const keys2 = [];
+    for (const key in attrs) {
+      keys2.push(key);
+    }
+    keys2.sort();
+    const keysLen = keys2.length;
+    for (let i = 0; i < keysLen; i++) {
+      const key = keys2[i];
+      stringBuilder.push(key + '="' + attrs[key] + '"');
+    }
+    const nodeName = this.nodeName.toLocaleLowerCase();
+    const attrsString = stringBuilder.length > 0 ? " " + stringBuilder.join(" ") : "";
+    return `<${nodeName}${attrsString}>${super.toString()}</${nodeName}>`;
+  }
+  /**
+   * Removes an attribute from this YXmlElement.
+   *
+   * @param {string} attributeName The attribute name that is to be removed.
+   *
+   * @public
+   */
+  removeAttribute(attributeName) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeMapDelete(transaction, this, attributeName);
+      });
+    } else {
+      this._prelimAttrs.delete(attributeName);
+    }
+  }
+  /**
+   * Sets or updates an attribute.
+   *
+   * @template {keyof KV & string} KEY
+   *
+   * @param {KEY} attributeName The attribute name that is to be set.
+   * @param {KV[KEY]} attributeValue The attribute value that is to be set.
+   *
+   * @public
+   */
+  setAttribute(attributeName, attributeValue) {
+    if (this.doc !== null) {
+      transact(this.doc, (transaction) => {
+        typeMapSet(transaction, this, attributeName, attributeValue);
+      });
+    } else {
+      this._prelimAttrs.set(attributeName, attributeValue);
+    }
+  }
+  /**
+   * Returns an attribute value that belongs to the attribute name.
+   *
+   * @template {keyof KV & string} KEY
+   *
+   * @param {KEY} attributeName The attribute name that identifies the
+   *                               queried value.
+   * @return {KV[KEY]|undefined} The queried attribute value.
+   *
+   * @public
+   */
+  getAttribute(attributeName) {
+    return (
+      /** @type {any} */
+      typeMapGet(this, attributeName)
+    );
+  }
+  /**
+   * Returns whether an attribute exists
+   *
+   * @param {string} attributeName The attribute name to check for existence.
+   * @return {boolean} whether the attribute exists.
+   *
+   * @public
+   */
+  hasAttribute(attributeName) {
+    return (
+      /** @type {any} */
+      typeMapHas(this, attributeName)
+    );
+  }
+  /**
+   * Returns all attribute name/value pairs in a JSON Object.
+   *
+   * @param {Snapshot} [snapshot]
+   * @return {{ [Key in Extract<keyof KV,string>]?: KV[Key]}} A JSON Object that describes the attributes.
+   *
+   * @public
+   */
+  getAttributes(snapshot) {
+    return (
+      /** @type {any} */
+      snapshot ? typeMapGetAllSnapshot(this, snapshot) : typeMapGetAll(this)
+    );
+  }
+  /**
+   * Creates a Dom Element that mirrors this YXmlElement.
+   *
+   * @param {Document} [_document=document] The document object (you must define
+   *                                        this when calling this method in
+   *                                        nodejs)
+   * @param {Object<string, any>} [hooks={}] Optional property to customize how hooks
+   *                                             are presented in the DOM
+   * @param {any} [binding] You should not set this property. This is
+   *                               used if DomBinding wants to create a
+   *                               association to the created DOM type.
+   * @return {Node} The {@link https://developer.mozilla.org/en-US/docs/Web/API/Element|Dom Element}
+   *
+   * @public
+   */
+  toDOM(_document = document, hooks = {}, binding) {
+    const dom = _document.createElement(this.nodeName);
+    const attrs = this.getAttributes();
+    for (const key in attrs) {
+      const value = attrs[key];
+      if (typeof value === "string") {
+        dom.setAttribute(key, value);
+      }
+    }
+    typeListForEach(this, (yxml) => {
+      dom.appendChild(yxml.toDOM(_document, hooks, binding));
+    });
+    if (binding !== void 0) {
+      binding._createAssociation(dom, this);
+    }
+    return dom;
+  }
+  /**
+   * Transform the properties of this type to binary and write it to an
+   * BinaryEncoder.
+   *
+   * This is called when this Item is sent to a remote peer.
+   *
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder The encoder to write data to.
+   */
+  _write(encoder) {
+    encoder.writeTypeRef(YXmlElementRefID);
+    encoder.writeKey(this.nodeName);
+  }
+};
+var readYXmlElement = (decoder) => new YXmlElement(decoder.readKey());
+var YXmlEvent = class extends YEvent {
+  /**
+   * @param {YXmlElement|YXmlText|YXmlFragment} target The target on which the event is created.
+   * @param {Set<string|null>} subs The set of changed attributes. `null` is included if the
+   *                   child list changed.
+   * @param {Transaction} transaction The transaction instance with which the
+   *                                  change was created.
+   */
+  constructor(target, subs, transaction) {
+    super(target, transaction);
+    this.childListChanged = false;
+    this.attributesChanged = /* @__PURE__ */ new Set();
+    subs.forEach((sub) => {
+      if (sub === null) {
+        this.childListChanged = true;
+      } else {
+        this.attributesChanged.add(sub);
+      }
+    });
+  }
+};
+var YXmlHook = class _YXmlHook extends YMap {
+  /**
+   * @param {string} hookName nodeName of the Dom Node.
+   */
+  constructor(hookName) {
+    super();
+    this.hookName = hookName;
+  }
+  /**
+   * Creates an Item with the same effect as this Item (without position effect)
+   */
+  _copy() {
+    return new _YXmlHook(this.hookName);
+  }
+  /**
+   * Makes a copy of this data type that can be included somewhere else.
+   *
+   * Note that the content is only readable _after_ it has been included somewhere in the Ydoc.
+   *
+   * @return {YXmlHook}
+   */
+  clone() {
+    const el = new _YXmlHook(this.hookName);
+    this.forEach((value, key) => {
+      el.set(key, value);
+    });
+    return el;
+  }
+  /**
+   * Creates a Dom Element that mirrors this YXmlElement.
+   *
+   * @param {Document} [_document=document] The document object (you must define
+   *                                        this when calling this method in
+   *                                        nodejs)
+   * @param {Object.<string, any>} [hooks] Optional property to customize how hooks
+   *                                             are presented in the DOM
+   * @param {any} [binding] You should not set this property. This is
+   *                               used if DomBinding wants to create a
+   *                               association to the created DOM type
+   * @return {Element} The {@link https://developer.mozilla.org/en-US/docs/Web/API/Element|Dom Element}
+   *
+   * @public
+   */
+  toDOM(_document = document, hooks = {}, binding) {
+    const hook = hooks[this.hookName];
+    let dom;
+    if (hook !== void 0) {
+      dom = hook.createDom(this);
+    } else {
+      dom = document.createElement(this.hookName);
+    }
+    dom.setAttribute("data-yjs-hook", this.hookName);
+    if (binding !== void 0) {
+      binding._createAssociation(dom, this);
+    }
+    return dom;
+  }
+  /**
+   * Transform the properties of this type to binary and write it to an
+   * BinaryEncoder.
+   *
+   * This is called when this Item is sent to a remote peer.
+   *
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder The encoder to write data to.
+   */
+  _write(encoder) {
+    encoder.writeTypeRef(YXmlHookRefID);
+    encoder.writeKey(this.hookName);
+  }
+};
+var readYXmlHook = (decoder) => new YXmlHook(decoder.readKey());
+var YXmlText = class _YXmlText extends YText {
+  /**
+   * @type {YXmlElement|YXmlText|null}
+   */
+  get nextSibling() {
+    const n = this._item ? this._item.next : null;
+    return n ? (
+      /** @type {YXmlElement|YXmlText} */
+      /** @type {ContentType} */
+      n.content.type
+    ) : null;
+  }
+  /**
+   * @type {YXmlElement|YXmlText|null}
+   */
+  get prevSibling() {
+    const n = this._item ? this._item.prev : null;
+    return n ? (
+      /** @type {YXmlElement|YXmlText} */
+      /** @type {ContentType} */
+      n.content.type
+    ) : null;
+  }
+  _copy() {
+    return new _YXmlText();
+  }
+  /**
+   * Makes a copy of this data type that can be included somewhere else.
+   *
+   * Note that the content is only readable _after_ it has been included somewhere in the Ydoc.
+   *
+   * @return {YXmlText}
+   */
+  clone() {
+    const text2 = new _YXmlText();
+    text2.applyDelta(this.toDelta());
+    return text2;
+  }
+  /**
+   * Creates a Dom Element that mirrors this YXmlText.
+   *
+   * @param {Document} [_document=document] The document object (you must define
+   *                                        this when calling this method in
+   *                                        nodejs)
+   * @param {Object<string, any>} [hooks] Optional property to customize how hooks
+   *                                             are presented in the DOM
+   * @param {any} [binding] You should not set this property. This is
+   *                               used if DomBinding wants to create a
+   *                               association to the created DOM type.
+   * @return {Text} The {@link https://developer.mozilla.org/en-US/docs/Web/API/Element|Dom Element}
+   *
+   * @public
+   */
+  toDOM(_document = document, hooks, binding) {
+    const dom = _document.createTextNode(this.toString());
+    if (binding !== void 0) {
+      binding._createAssociation(dom, this);
+    }
+    return dom;
+  }
+  toString() {
+    return this.toDelta().map((delta) => {
+      const nestedNodes = [];
+      for (const nodeName in delta.attributes) {
+        const attrs = [];
+        for (const key in delta.attributes[nodeName]) {
+          attrs.push({ key, value: delta.attributes[nodeName][key] });
+        }
+        attrs.sort((a, b) => a.key < b.key ? -1 : 1);
+        nestedNodes.push({ nodeName, attrs });
+      }
+      nestedNodes.sort((a, b) => a.nodeName < b.nodeName ? -1 : 1);
+      let str = "";
+      for (let i = 0; i < nestedNodes.length; i++) {
+        const node = nestedNodes[i];
+        str += `<${node.nodeName}`;
+        for (let j = 0; j < node.attrs.length; j++) {
+          const attr = node.attrs[j];
+          str += ` ${attr.key}="${attr.value}"`;
+        }
+        str += ">";
+      }
+      str += delta.insert;
+      for (let i = nestedNodes.length - 1; i >= 0; i--) {
+        str += `</${nestedNodes[i].nodeName}>`;
+      }
+      return str;
+    }).join("");
+  }
+  /**
+   * @return {string}
+   */
+  toJSON() {
+    return this.toString();
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   */
+  _write(encoder) {
+    encoder.writeTypeRef(YXmlTextRefID);
+  }
+};
+var readYXmlText = (decoder) => new YXmlText();
+var AbstractStruct = class {
+  /**
+   * @param {ID} id
+   * @param {number} length
+   */
+  constructor(id2, length3) {
+    this.id = id2;
+    this.length = length3;
+  }
+  /**
+   * @type {boolean}
+   */
+  get deleted() {
+    throw methodUnimplemented();
+  }
+  /**
+   * Merge this struct with the item to the right.
+   * This method is already assuming that `this.id.clock + this.length === this.id.clock`.
+   * Also this method does *not* remove right from StructStore!
+   * @param {AbstractStruct} right
+   * @return {boolean} whether this merged with right
+   */
+  mergeWith(right) {
+    return false;
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder The encoder to write data to.
+   * @param {number} offset
+   * @param {number} encodingRef
+   */
+  write(encoder, offset, encodingRef) {
+    throw methodUnimplemented();
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {number} offset
+   */
+  integrate(transaction, offset) {
+    throw methodUnimplemented();
+  }
+};
+var structGCRefNumber = 0;
+var GC = class extends AbstractStruct {
+  get deleted() {
+    return true;
+  }
+  delete() {
+  }
+  /**
+   * @param {GC} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    if (this.constructor !== right.constructor) {
+      return false;
+    }
+    this.length += right.length;
+    return true;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {number} offset
+   */
+  integrate(transaction, offset) {
+    if (offset > 0) {
+      this.id.clock += offset;
+      this.length -= offset;
+    }
+    addStruct(transaction.doc.store, this);
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    encoder.writeInfo(structGCRefNumber);
+    encoder.writeLen(this.length - offset);
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {StructStore} store
+   * @return {null | number}
+   */
+  getMissing(transaction, store) {
+    return null;
+  }
+};
+var ContentBinary = class _ContentBinary {
+  /**
+   * @param {Uint8Array} content
+   */
+  constructor(content) {
+    this.content = content;
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return 1;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return [this.content];
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return true;
+  }
+  /**
+   * @return {ContentBinary}
+   */
+  copy() {
+    return new _ContentBinary(this.content);
+  }
+  /**
+   * @param {number} offset
+   * @return {ContentBinary}
+   */
+  splice(offset) {
+    throw methodUnimplemented();
+  }
+  /**
+   * @param {ContentBinary} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    return false;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {Item} item
+   */
+  integrate(transaction, item) {
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    encoder.writeBuf(this.content);
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 3;
+  }
+};
+var readContentBinary = (decoder) => new ContentBinary(decoder.readBuf());
+var ContentDeleted = class _ContentDeleted {
+  /**
+   * @param {number} len
+   */
+  constructor(len) {
+    this.len = len;
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return this.len;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return [];
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return false;
+  }
+  /**
+   * @return {ContentDeleted}
+   */
+  copy() {
+    return new _ContentDeleted(this.len);
+  }
+  /**
+   * @param {number} offset
+   * @return {ContentDeleted}
+   */
+  splice(offset) {
+    const right = new _ContentDeleted(this.len - offset);
+    this.len = offset;
+    return right;
+  }
+  /**
+   * @param {ContentDeleted} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    this.len += right.len;
+    return true;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {Item} item
+   */
+  integrate(transaction, item) {
+    addToDeleteSet(transaction.deleteSet, item.id.client, item.id.clock, this.len);
+    item.markDeleted();
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    encoder.writeLen(this.len - offset);
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 1;
+  }
+};
+var readContentDeleted = (decoder) => new ContentDeleted(decoder.readLen());
+var createDocFromOpts = (guid, opts2) => new Doc({ guid, ...opts2, shouldLoad: opts2.shouldLoad || opts2.autoLoad || false });
+var ContentDoc = class _ContentDoc {
+  /**
+   * @param {Doc} doc
+   */
+  constructor(doc2) {
+    if (doc2._item) {
+      console.error("This document was already integrated as a sub-document. You should create a second instance instead with the same guid.");
+    }
+    this.doc = doc2;
+    const opts2 = {};
+    this.opts = opts2;
+    if (!doc2.gc) {
+      opts2.gc = false;
+    }
+    if (doc2.autoLoad) {
+      opts2.autoLoad = true;
+    }
+    if (doc2.meta !== null) {
+      opts2.meta = doc2.meta;
+    }
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return 1;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return [this.doc];
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return true;
+  }
+  /**
+   * @return {ContentDoc}
+   */
+  copy() {
+    return new _ContentDoc(createDocFromOpts(this.doc.guid, this.opts));
+  }
+  /**
+   * @param {number} offset
+   * @return {ContentDoc}
+   */
+  splice(offset) {
+    throw methodUnimplemented();
+  }
+  /**
+   * @param {ContentDoc} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    return false;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {Item} item
+   */
+  integrate(transaction, item) {
+    this.doc._item = item;
+    transaction.subdocsAdded.add(this.doc);
+    if (this.doc.shouldLoad) {
+      transaction.subdocsLoaded.add(this.doc);
+    }
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+    if (transaction.subdocsAdded.has(this.doc)) {
+      transaction.subdocsAdded.delete(this.doc);
+    } else {
+      transaction.subdocsRemoved.add(this.doc);
+    }
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    encoder.writeString(this.doc.guid);
+    encoder.writeAny(this.opts);
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 9;
+  }
+};
+var readContentDoc = (decoder) => new ContentDoc(createDocFromOpts(decoder.readString(), decoder.readAny()));
+var ContentEmbed = class _ContentEmbed {
+  /**
+   * @param {Object} embed
+   */
+  constructor(embed) {
+    this.embed = embed;
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return 1;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return [this.embed];
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return true;
+  }
+  /**
+   * @return {ContentEmbed}
+   */
+  copy() {
+    return new _ContentEmbed(this.embed);
+  }
+  /**
+   * @param {number} offset
+   * @return {ContentEmbed}
+   */
+  splice(offset) {
+    throw methodUnimplemented();
+  }
+  /**
+   * @param {ContentEmbed} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    return false;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {Item} item
+   */
+  integrate(transaction, item) {
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    encoder.writeJSON(this.embed);
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 5;
+  }
+};
+var readContentEmbed = (decoder) => new ContentEmbed(decoder.readJSON());
+var ContentFormat = class _ContentFormat {
+  /**
+   * @param {string} key
+   * @param {Object} value
+   */
+  constructor(key, value) {
+    this.key = key;
+    this.value = value;
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return 1;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return [];
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return false;
+  }
+  /**
+   * @return {ContentFormat}
+   */
+  copy() {
+    return new _ContentFormat(this.key, this.value);
+  }
+  /**
+   * @param {number} _offset
+   * @return {ContentFormat}
+   */
+  splice(_offset) {
+    throw methodUnimplemented();
+  }
+  /**
+   * @param {ContentFormat} _right
+   * @return {boolean}
+   */
+  mergeWith(_right) {
+    return false;
+  }
+  /**
+   * @param {Transaction} _transaction
+   * @param {Item} item
+   */
+  integrate(_transaction, item) {
+    const p = (
+      /** @type {YText} */
+      item.parent
+    );
+    p._searchMarker = null;
+    p._hasFormatting = true;
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    encoder.writeKey(this.key);
+    encoder.writeJSON(this.value);
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 6;
+  }
+};
+var readContentFormat = (decoder) => new ContentFormat(decoder.readKey(), decoder.readJSON());
+var ContentJSON = class _ContentJSON {
+  /**
+   * @param {Array<any>} arr
+   */
+  constructor(arr) {
+    this.arr = arr;
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return this.arr.length;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return this.arr;
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return true;
+  }
+  /**
+   * @return {ContentJSON}
+   */
+  copy() {
+    return new _ContentJSON(this.arr);
+  }
+  /**
+   * @param {number} offset
+   * @return {ContentJSON}
+   */
+  splice(offset) {
+    const right = new _ContentJSON(this.arr.slice(offset));
+    this.arr = this.arr.slice(0, offset);
+    return right;
+  }
+  /**
+   * @param {ContentJSON} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    this.arr = this.arr.concat(right.arr);
+    return true;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {Item} item
+   */
+  integrate(transaction, item) {
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    const len = this.arr.length;
+    encoder.writeLen(len - offset);
+    for (let i = offset; i < len; i++) {
+      const c = this.arr[i];
+      encoder.writeString(c === void 0 ? "undefined" : JSON.stringify(c));
+    }
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 2;
+  }
+};
+var readContentJSON = (decoder) => {
+  const len = decoder.readLen();
+  const cs = [];
+  for (let i = 0; i < len; i++) {
+    const c = decoder.readString();
+    if (c === "undefined") {
+      cs.push(void 0);
+    } else {
+      cs.push(JSON.parse(c));
+    }
+  }
+  return new ContentJSON(cs);
+};
+var isDevMode = getVariable("node_env") === "development";
+var ContentAny = class _ContentAny {
+  /**
+   * @param {Array<any>} arr
+   */
+  constructor(arr) {
+    this.arr = arr;
+    isDevMode && deepFreeze(arr);
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return this.arr.length;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return this.arr;
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return true;
+  }
+  /**
+   * @return {ContentAny}
+   */
+  copy() {
+    return new _ContentAny(this.arr);
+  }
+  /**
+   * @param {number} offset
+   * @return {ContentAny}
+   */
+  splice(offset) {
+    const right = new _ContentAny(this.arr.slice(offset));
+    this.arr = this.arr.slice(0, offset);
+    return right;
+  }
+  /**
+   * @param {ContentAny} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    this.arr = this.arr.concat(right.arr);
+    return true;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {Item} item
+   */
+  integrate(transaction, item) {
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    const len = this.arr.length;
+    encoder.writeLen(len - offset);
+    for (let i = offset; i < len; i++) {
+      const c = this.arr[i];
+      encoder.writeAny(c);
+    }
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 8;
+  }
+};
+var readContentAny = (decoder) => {
+  const len = decoder.readLen();
+  const cs = [];
+  for (let i = 0; i < len; i++) {
+    cs.push(decoder.readAny());
+  }
+  return new ContentAny(cs);
+};
+var ContentString = class _ContentString {
+  /**
+   * @param {string} str
+   */
+  constructor(str) {
+    this.str = str;
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return this.str.length;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return this.str.split("");
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return true;
+  }
+  /**
+   * @return {ContentString}
+   */
+  copy() {
+    return new _ContentString(this.str);
+  }
+  /**
+   * @param {number} offset
+   * @return {ContentString}
+   */
+  splice(offset) {
+    const right = new _ContentString(this.str.slice(offset));
+    this.str = this.str.slice(0, offset);
+    const firstCharCode = this.str.charCodeAt(offset - 1);
+    if (firstCharCode >= 55296 && firstCharCode <= 56319) {
+      this.str = this.str.slice(0, offset - 1) + "\uFFFD";
+      right.str = "\uFFFD" + right.str.slice(1);
+    }
+    return right;
+  }
+  /**
+   * @param {ContentString} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    this.str += right.str;
+    return true;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {Item} item
+   */
+  integrate(transaction, item) {
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    encoder.writeString(offset === 0 ? this.str : this.str.slice(offset));
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 4;
+  }
+};
+var readContentString = (decoder) => new ContentString(decoder.readString());
+var typeRefs = [
+  readYArray,
+  readYMap,
+  readYText,
+  readYXmlElement,
+  readYXmlFragment,
+  readYXmlHook,
+  readYXmlText
+];
+var YArrayRefID = 0;
+var YMapRefID = 1;
+var YTextRefID = 2;
+var YXmlElementRefID = 3;
+var YXmlFragmentRefID = 4;
+var YXmlHookRefID = 5;
+var YXmlTextRefID = 6;
+var ContentType = class _ContentType {
+  /**
+   * @param {AbstractType<any>} type
+   */
+  constructor(type) {
+    this.type = type;
+  }
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return 1;
+  }
+  /**
+   * @return {Array<any>}
+   */
+  getContent() {
+    return [this.type];
+  }
+  /**
+   * @return {boolean}
+   */
+  isCountable() {
+    return true;
+  }
+  /**
+   * @return {ContentType}
+   */
+  copy() {
+    return new _ContentType(this.type._copy());
+  }
+  /**
+   * @param {number} offset
+   * @return {ContentType}
+   */
+  splice(offset) {
+    throw methodUnimplemented();
+  }
+  /**
+   * @param {ContentType} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    return false;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {Item} item
+   */
+  integrate(transaction, item) {
+    this.type._integrate(transaction.doc, item);
+  }
+  /**
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+    let item = this.type._start;
+    while (item !== null) {
+      if (!item.deleted) {
+        item.delete(transaction);
+      } else if (item.id.clock < (transaction.beforeState.get(item.id.client) || 0)) {
+        transaction._mergeStructs.push(item);
+      }
+      item = item.right;
+    }
+    this.type._map.forEach((item2) => {
+      if (!item2.deleted) {
+        item2.delete(transaction);
+      } else if (item2.id.clock < (transaction.beforeState.get(item2.id.client) || 0)) {
+        transaction._mergeStructs.push(item2);
+      }
+    });
+    transaction.changed.delete(this.type);
+  }
+  /**
+   * @param {StructStore} store
+   */
+  gc(store) {
+    let item = this.type._start;
+    while (item !== null) {
+      item.gc(store, true);
+      item = item.right;
+    }
+    this.type._start = null;
+    this.type._map.forEach(
+      /** @param {Item | null} item */
+      (item2) => {
+        while (item2 !== null) {
+          item2.gc(store, true);
+          item2 = item2.left;
+        }
+      }
+    );
+    this.type._map = /* @__PURE__ */ new Map();
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    this.type._write(encoder);
+  }
+  /**
+   * @return {number}
+   */
+  getRef() {
+    return 7;
+  }
+};
+var readContentType = (decoder) => new ContentType(typeRefs[decoder.readTypeRef()](decoder));
+var splitItem = (transaction, leftItem, diff) => {
+  const { client, clock } = leftItem.id;
+  const rightItem = new Item(
+    createID(client, clock + diff),
+    leftItem,
+    createID(client, clock + diff - 1),
+    leftItem.right,
+    leftItem.rightOrigin,
+    leftItem.parent,
+    leftItem.parentSub,
+    leftItem.content.splice(diff)
+  );
+  if (leftItem.deleted) {
+    rightItem.markDeleted();
+  }
+  if (leftItem.keep) {
+    rightItem.keep = true;
+  }
+  if (leftItem.redone !== null) {
+    rightItem.redone = createID(leftItem.redone.client, leftItem.redone.clock + diff);
+  }
+  leftItem.right = rightItem;
+  if (rightItem.right !== null) {
+    rightItem.right.left = rightItem;
+  }
+  transaction._mergeStructs.push(rightItem);
+  if (rightItem.parentSub !== null && rightItem.right === null) {
+    rightItem.parent._map.set(rightItem.parentSub, rightItem);
+  }
+  leftItem.length = diff;
+  return rightItem;
+};
+var Item = class _Item extends AbstractStruct {
+  /**
+   * @param {ID} id
+   * @param {Item | null} left
+   * @param {ID | null} origin
+   * @param {Item | null} right
+   * @param {ID | null} rightOrigin
+   * @param {AbstractType<any>|ID|null} parent Is a type if integrated, is null if it is possible to copy parent from left or right, is ID before integration to search for it.
+   * @param {string | null} parentSub
+   * @param {AbstractContent} content
+   */
+  constructor(id2, left, origin, right, rightOrigin, parent, parentSub, content) {
+    super(id2, content.getLength());
+    this.origin = origin;
+    this.left = left;
+    this.right = right;
+    this.rightOrigin = rightOrigin;
+    this.parent = parent;
+    this.parentSub = parentSub;
+    this.redone = null;
+    this.content = content;
+    this.info = this.content.isCountable() ? BIT2 : 0;
+  }
+  /**
+   * This is used to mark the item as an indexed fast-search marker
+   *
+   * @type {boolean}
+   */
+  set marker(isMarked) {
+    if ((this.info & BIT4) > 0 !== isMarked) {
+      this.info ^= BIT4;
+    }
+  }
+  get marker() {
+    return (this.info & BIT4) > 0;
+  }
+  /**
+   * If true, do not garbage collect this Item.
+   */
+  get keep() {
+    return (this.info & BIT1) > 0;
+  }
+  set keep(doKeep) {
+    if (this.keep !== doKeep) {
+      this.info ^= BIT1;
+    }
+  }
+  get countable() {
+    return (this.info & BIT2) > 0;
+  }
+  /**
+   * Whether this item was deleted or not.
+   * @type {Boolean}
+   */
+  get deleted() {
+    return (this.info & BIT3) > 0;
+  }
+  set deleted(doDelete) {
+    if (this.deleted !== doDelete) {
+      this.info ^= BIT3;
+    }
+  }
+  markDeleted() {
+    this.info |= BIT3;
+  }
+  /**
+   * Return the creator clientID of the missing op or define missing items and return null.
+   *
+   * @param {Transaction} transaction
+   * @param {StructStore} store
+   * @return {null | number}
+   */
+  getMissing(transaction, store) {
+    if (this.origin && this.origin.client !== this.id.client && this.origin.clock >= getState(store, this.origin.client)) {
+      return this.origin.client;
+    }
+    if (this.rightOrigin && this.rightOrigin.client !== this.id.client && this.rightOrigin.clock >= getState(store, this.rightOrigin.client)) {
+      return this.rightOrigin.client;
+    }
+    if (this.parent && this.parent.constructor === ID && this.id.client !== this.parent.client && this.parent.clock >= getState(store, this.parent.client)) {
+      return this.parent.client;
+    }
+    if (this.origin) {
+      this.left = getItemCleanEnd(transaction, store, this.origin);
+      this.origin = this.left.lastId;
+    }
+    if (this.rightOrigin) {
+      this.right = getItemCleanStart(transaction, this.rightOrigin);
+      this.rightOrigin = this.right.id;
+    }
+    if (this.left && this.left.constructor === GC || this.right && this.right.constructor === GC) {
+      this.parent = null;
+    } else if (!this.parent) {
+      if (this.left && this.left.constructor === _Item) {
+        this.parent = this.left.parent;
+        this.parentSub = this.left.parentSub;
+      } else if (this.right && this.right.constructor === _Item) {
+        this.parent = this.right.parent;
+        this.parentSub = this.right.parentSub;
+      }
+    } else if (this.parent.constructor === ID) {
+      const parentItem = getItem(store, this.parent);
+      if (parentItem.constructor === GC) {
+        this.parent = null;
+      } else {
+        this.parent = /** @type {ContentType} */
+        parentItem.content.type;
+      }
+    }
+    return null;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {number} offset
+   */
+  integrate(transaction, offset) {
+    if (offset > 0) {
+      this.id.clock += offset;
+      this.left = getItemCleanEnd(transaction, transaction.doc.store, createID(this.id.client, this.id.clock - 1));
+      this.origin = this.left.lastId;
+      this.content = this.content.splice(offset);
+      this.length -= offset;
+    }
+    if (this.parent) {
+      if (!this.left && (!this.right || this.right.left !== null) || this.left && this.left.right !== this.right) {
+        let left = this.left;
+        let o;
+        if (left !== null) {
+          o = left.right;
+        } else if (this.parentSub !== null) {
+          o = /** @type {AbstractType<any>} */
+          this.parent._map.get(this.parentSub) || null;
+          while (o !== null && o.left !== null) {
+            o = o.left;
+          }
+        } else {
+          o = /** @type {AbstractType<any>} */
+          this.parent._start;
+        }
+        const conflictingItems = /* @__PURE__ */ new Set();
+        const itemsBeforeOrigin = /* @__PURE__ */ new Set();
+        while (o !== null && o !== this.right) {
+          itemsBeforeOrigin.add(o);
+          conflictingItems.add(o);
+          if (compareIDs(this.origin, o.origin)) {
+            if (o.id.client < this.id.client) {
+              left = o;
+              conflictingItems.clear();
+            } else if (compareIDs(this.rightOrigin, o.rightOrigin)) {
+              break;
+            }
+          } else if (o.origin !== null && itemsBeforeOrigin.has(getItem(transaction.doc.store, o.origin))) {
+            if (!conflictingItems.has(getItem(transaction.doc.store, o.origin))) {
+              left = o;
+              conflictingItems.clear();
+            }
+          } else {
+            break;
+          }
+          o = o.right;
+        }
+        this.left = left;
+      }
+      if (this.left !== null) {
+        const right = this.left.right;
+        this.right = right;
+        this.left.right = this;
+      } else {
+        let r;
+        if (this.parentSub !== null) {
+          r = /** @type {AbstractType<any>} */
+          this.parent._map.get(this.parentSub) || null;
+          while (r !== null && r.left !== null) {
+            r = r.left;
+          }
+        } else {
+          r = /** @type {AbstractType<any>} */
+          this.parent._start;
+          this.parent._start = this;
+        }
+        this.right = r;
+      }
+      if (this.right !== null) {
+        this.right.left = this;
+      } else if (this.parentSub !== null) {
+        this.parent._map.set(this.parentSub, this);
+        if (this.left !== null) {
+          this.left.delete(transaction);
+        }
+      }
+      if (this.parentSub === null && this.countable && !this.deleted) {
+        this.parent._length += this.length;
+      }
+      addStruct(transaction.doc.store, this);
+      this.content.integrate(transaction, this);
+      addChangedTypeToTransaction(
+        transaction,
+        /** @type {AbstractType<any>} */
+        this.parent,
+        this.parentSub
+      );
+      if (
+        /** @type {AbstractType<any>} */
+        this.parent._item !== null && /** @type {AbstractType<any>} */
+        this.parent._item.deleted || this.parentSub !== null && this.right !== null
+      ) {
+        this.delete(transaction);
+      }
+    } else {
+      new GC(this.id, this.length).integrate(transaction, 0);
+    }
+  }
+  /**
+   * Returns the next non-deleted item
+   */
+  get next() {
+    let n = this.right;
+    while (n !== null && n.deleted) {
+      n = n.right;
+    }
+    return n;
+  }
+  /**
+   * Returns the previous non-deleted item
+   */
+  get prev() {
+    let n = this.left;
+    while (n !== null && n.deleted) {
+      n = n.left;
+    }
+    return n;
+  }
+  /**
+   * Computes the last content address of this Item.
+   */
+  get lastId() {
+    return this.length === 1 ? this.id : createID(this.id.client, this.id.clock + this.length - 1);
+  }
+  /**
+   * Try to merge two items
+   *
+   * @param {Item} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    if (this.constructor === right.constructor && compareIDs(right.origin, this.lastId) && this.right === right && compareIDs(this.rightOrigin, right.rightOrigin) && this.id.client === right.id.client && this.id.clock + this.length === right.id.clock && this.deleted === right.deleted && this.redone === null && right.redone === null && this.content.constructor === right.content.constructor && this.content.mergeWith(right.content)) {
+      const searchMarker = (
+        /** @type {AbstractType<any>} */
+        this.parent._searchMarker
+      );
+      if (searchMarker) {
+        searchMarker.forEach((marker) => {
+          if (marker.p === right) {
+            marker.p = this;
+            if (!this.deleted && this.countable) {
+              marker.index -= this.length;
+            }
+          }
+        });
+      }
+      if (right.keep) {
+        this.keep = true;
+      }
+      this.right = right.right;
+      if (this.right !== null) {
+        this.right.left = this;
+      }
+      this.length += right.length;
+      return true;
+    }
+    return false;
+  }
+  /**
+   * Mark this Item as deleted.
+   *
+   * @param {Transaction} transaction
+   */
+  delete(transaction) {
+    if (!this.deleted) {
+      const parent = (
+        /** @type {AbstractType<any>} */
+        this.parent
+      );
+      if (this.countable && this.parentSub === null) {
+        parent._length -= this.length;
+      }
+      this.markDeleted();
+      addToDeleteSet(transaction.deleteSet, this.id.client, this.id.clock, this.length);
+      addChangedTypeToTransaction(transaction, parent, this.parentSub);
+      this.content.delete(transaction);
+    }
+  }
+  /**
+   * @param {StructStore} store
+   * @param {boolean} parentGCd
+   */
+  gc(store, parentGCd) {
+    if (!this.deleted) {
+      throw unexpectedCase();
+    }
+    this.content.gc(store);
+    if (parentGCd) {
+      replaceStruct(store, this, new GC(this.id, this.length));
+    } else {
+      this.content = new ContentDeleted(this.length);
+    }
+  }
+  /**
+   * Transform the properties of this type to binary and write it to an
+   * BinaryEncoder.
+   *
+   * This is called when this Item is sent to a remote peer.
+   *
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder The encoder to write data to.
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    const origin = offset > 0 ? createID(this.id.client, this.id.clock + offset - 1) : this.origin;
+    const rightOrigin = this.rightOrigin;
+    const parentSub = this.parentSub;
+    const info = this.content.getRef() & BITS5 | (origin === null ? 0 : BIT8) | // origin is defined
+    (rightOrigin === null ? 0 : BIT7) | // right origin is defined
+    (parentSub === null ? 0 : BIT6);
+    encoder.writeInfo(info);
+    if (origin !== null) {
+      encoder.writeLeftID(origin);
+    }
+    if (rightOrigin !== null) {
+      encoder.writeRightID(rightOrigin);
+    }
+    if (origin === null && rightOrigin === null) {
+      const parent = (
+        /** @type {AbstractType<any>} */
+        this.parent
+      );
+      if (parent._item !== void 0) {
+        const parentItem = parent._item;
+        if (parentItem === null) {
+          const ykey = findRootTypeKey(parent);
+          encoder.writeParentInfo(true);
+          encoder.writeString(ykey);
+        } else {
+          encoder.writeParentInfo(false);
+          encoder.writeLeftID(parentItem.id);
+        }
+      } else if (parent.constructor === String) {
+        encoder.writeParentInfo(true);
+        encoder.writeString(parent);
+      } else if (parent.constructor === ID) {
+        encoder.writeParentInfo(false);
+        encoder.writeLeftID(parent);
+      } else {
+        unexpectedCase();
+      }
+      if (parentSub !== null) {
+        encoder.writeString(parentSub);
+      }
+    }
+    this.content.write(encoder, offset);
+  }
+};
+var readItemContent = (decoder, info) => contentRefs[info & BITS5](decoder);
+var contentRefs = [
+  () => {
+    unexpectedCase();
+  },
+  // GC is not ItemContent
+  readContentDeleted,
+  // 1
+  readContentJSON,
+  // 2
+  readContentBinary,
+  // 3
+  readContentString,
+  // 4
+  readContentEmbed,
+  // 5
+  readContentFormat,
+  // 6
+  readContentType,
+  // 7
+  readContentAny,
+  // 8
+  readContentDoc,
+  // 9
+  () => {
+    unexpectedCase();
+  }
+  // 10 - Skip is not ItemContent
+];
+var structSkipRefNumber = 10;
+var Skip = class extends AbstractStruct {
+  get deleted() {
+    return true;
+  }
+  delete() {
+  }
+  /**
+   * @param {Skip} right
+   * @return {boolean}
+   */
+  mergeWith(right) {
+    if (this.constructor !== right.constructor) {
+      return false;
+    }
+    this.length += right.length;
+    return true;
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {number} offset
+   */
+  integrate(transaction, offset) {
+    unexpectedCase();
+  }
+  /**
+   * @param {UpdateEncoderV1 | UpdateEncoderV2} encoder
+   * @param {number} offset
+   */
+  write(encoder, offset) {
+    encoder.writeInfo(structSkipRefNumber);
+    writeVarUint(encoder.restEncoder, this.length - offset);
+  }
+  /**
+   * @param {Transaction} transaction
+   * @param {StructStore} store
+   * @return {null | number}
+   */
+  getMissing(transaction, store) {
+    return null;
+  }
+};
+var glo = (
+  /** @type {any} */
+  typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {}
+);
+var importIdentifier = "__ $YJS$ __";
+if (glo[importIdentifier] === true) {
+  console.error("Yjs was already imported. This breaks constructor checks and will lead to issues! - https://github.com/yjs/yjs/issues/438");
+}
+glo[importIdentifier] = true;
+
+// node_modules/y-partykit/dist/chunk-YNZY542Q.mjs
+var BINARY_BITS_32 = 4294967295;
+var TRACE_ENABLED = false;
+var trace = (...args2) => TRACE_ENABLED && console.log(...args2);
+var keyEncoding = {
+  encode(arr) {
+    const resultArr = [];
+    for (const item of arr) {
+      resultArr.push(
+        // TODO: This is a bit hacky, but it works
+        typeof item === "string" ? `"${item}"` : `${item}`.padStart(9, "0")
+      );
+    }
+    return resultArr.join("#");
+  },
+  decode(str) {
+    return str.split("#").map(
+      (el) => el.startsWith('"') ? JSON.parse(el) : parseInt(el, 10)
+    );
+  }
+};
+async function levelGet(db, key) {
+  const prefix = keyEncoding.encode(key);
+  const res = await db.list({
+    start: prefix,
+    end: `${prefix}#zzzzz`
+  });
+  if (res.size === 0) {
+    return null;
+  }
+  const finalArrayLength = Array.from(res.values()).reduce(
+    (acc, val) => acc + val.length,
+    0
+  );
+  const finalArray = new Uint8Array(finalArrayLength);
+  let offset = 0;
+  for (const val of res.values()) {
+    finalArray.set(val, offset);
+    offset += val.length;
+  }
+  return finalArray;
+}
+async function levelPut(db, key, val) {
+  const chunks = [];
+  for (let i = 0; i < val.length; i += 128 * 1024) {
+    chunks.push(val.slice(i, i + 128 * 1024));
+  }
+  const keyPrefix = keyEncoding.encode(key);
+  for (let i = 0; i < chunks.length; i++) {
+    await db.put(`${keyPrefix}#${i.toString().padStart(3, "0")}`, chunks[i]);
+  }
+}
+function groupBy(arr, fn) {
+  const map2 = /* @__PURE__ */ new Map();
+  for (const el of arr) {
+    const key = fn(el);
+    if (!map2.has(key)) {
+      map2.set(key, []);
+    }
+    map2.get(key).push(el);
+  }
+  return map2;
+}
+function chunk(arr, size2) {
+  const chunks = [];
+  for (let i = 0; i < arr.length; i += size2) {
+    chunks.push(arr.slice(i, i + size2));
+  }
+  return chunks;
+}
+async function getLevelBulkData(db, opts2) {
+  const res = await db.list({
+    start: keyEncoding.encode(opts2.gte),
+    end: keyEncoding.encode(opts2.lt),
+    reverse: opts2.reverse,
+    limit: opts2.limit
+  });
+  const grouped = groupBy(
+    Array.from(res.entries()),
+    ([key]) => key.split("#").slice(0, -1).join("#")
+  );
+  const result = [];
+  for (const [key, values] of grouped.entries()) {
+    const finalArrayLength = values.reduce(
+      (acc, val) => acc + val[1].length,
+      0
+    );
+    const finalArray = new Uint8Array(finalArrayLength);
+    let offset = 0;
+    for (const [, val] of values) {
+      finalArray.set(val, offset);
+      offset += val.length;
+    }
+    result.push({
+      key: keyEncoding.decode(key),
+      value: finalArray
+    });
+  }
+  return result;
+}
+async function getLevelKeyRangeAsEncoded(db, opts2) {
+  const res = await db.list({
+    start: keyEncoding.encode(opts2.gte),
+    end: keyEncoding.encode(opts2.lt),
+    reverse: opts2.reverse,
+    limit: opts2.limit
+  });
+  return [...res.keys()];
+}
+async function getLevelUpdates(db, docName, opts2 = {
+  values: true,
+  keys: false
+}) {
+  return getLevelBulkData(db, {
+    gte: createDocumentUpdateKey(docName, 0),
+    lt: createDocumentUpdateKey(docName, BINARY_BITS_32),
+    ...opts2
+  });
+}
+async function getCurrentUpdateClock(db, docName) {
+  return getLevelUpdates(db, docName, {
+    keys: true,
+    values: false,
+    reverse: true,
+    limit: 1
+  }).then((datums) => {
+    if (datums.length === 0) {
+      return -1;
+    } else {
+      const ret = datums[0].key[3];
+      if (typeof ret !== "number") {
+        throw new Error("Expected number, got " + typeof ret);
+      }
+      return ret;
+    }
+  });
+}
+async function clearRange(db, gte, lt) {
+  const keys2 = await getLevelKeyRangeAsEncoded(db, {
+    gte,
+    lt
+  });
+  await db.transaction(
+    () => Promise.all(chunk(keys2, 128).map((keysToDelete) => db.delete(keysToDelete)))
+  );
+}
+async function clearUpdatesRange(db, docName, from2, to) {
+  return clearRange(
+    db,
+    createDocumentUpdateKey(docName, from2),
+    createDocumentUpdateKey(docName, to)
+  );
+}
+function createDocumentUpdateKey(docName, clock) {
+  return ["v1", docName, "update", clock];
+}
+function createDocumentStateVectorKey(docName) {
+  return ["v1_sv", docName];
+}
+function mergeUpdates2(updates) {
+  const ydoc = new Doc();
+  ydoc.transact(() => {
+    for (let i = 0; i < updates.length; i++) {
+      applyUpdate(ydoc, updates[i]);
+    }
+  });
+  return { update: encodeStateAsUpdate(ydoc), sv: encodeStateVector(ydoc) };
+}
+async function writeStateVector2(db, docName, sv, clock) {
+  const encoder = createEncoder();
+  writeVarUint(encoder, clock);
+  writeVarUint8Array(encoder, sv);
+  await levelPut(
+    db,
+    createDocumentStateVectorKey(docName),
+    toUint8Array(encoder)
+  );
+}
+function decodeLeveldbStateVector(buf) {
+  const decoder = createDecoder(buf);
+  const clock = readVarUint(decoder);
+  const sv = readVarUint8Array(decoder);
+  return { sv, clock };
+}
+async function readStateVector2(db, docName) {
+  const buf = await levelGet(db, createDocumentStateVectorKey(docName));
+  if (buf === null) {
+    return { sv: null, clock: -1 };
+  }
+  return decodeLeveldbStateVector(buf);
+}
+async function flushDocument(db, docName, stateAsUpdate, stateVector) {
+  const clock = await storeUpdate(db, docName, stateAsUpdate);
+  await writeStateVector2(db, docName, stateVector, clock);
+  void clearUpdatesRange(db, docName, 0, clock);
+  return clock;
+}
+async function storeUpdate(db, docName, update) {
+  const clock = await getCurrentUpdateClock(db, docName);
+  if (clock === -1) {
+    const ydoc = new Doc();
+    applyUpdate(ydoc, update);
+    const sv = encodeStateVector(ydoc);
+    await writeStateVector2(db, docName, sv, 0);
+  }
+  await levelPut(db, createDocumentUpdateKey(docName, clock + 1), update);
+  return clock + 1;
+}
+var YPartyKitStorage = class {
+  db;
+  tr;
+  _transact(fn) {
+    throw Error("implement _transact");
+    return fn(this.db);
+  }
+  constructor(storage) {
+    const db = this.db = storage;
+    this.tr = Promise.resolve();
+    this._transact = (f) => {
+      const currTr = this.tr;
+      this.tr = (async () => {
+        await currTr;
+        let res = (
+          /** @type {any} */
+          null
+        );
+        try {
+          res = await f(db);
+        } catch (err) {
+          console.warn("Error during y-partykit-storage transaction", err);
+        }
+        return res;
+      })();
+      return this.tr;
+    };
+  }
+  async compactUpdateLog(docName, maxUpdates, maxBytes) {
+    return this._transact(async (db) => {
+      const updates = await getLevelUpdates(db, docName);
+      const flush = async () => {
+        trace("[compactUpdateLog]", "Compacting document update log!");
+        const { update, sv } = mergeUpdates2(updates.map((u) => u.value));
+        await flushDocument(db, docName, update, sv);
+      };
+      trace("[compactUpdateLog]", { docName, maxUpdates, maxBytes });
+      trace("[compactUpdateLog]", "Current update count:", updates.length);
+      if (updates.length > maxUpdates) {
+        trace(
+          "[compactUpdateLog]",
+          `Update count exceeds maximum allowed: ${updates.length} > ${maxUpdates}`
+        );
+        return flush();
+      }
+      const totalBytes = updates.reduce(
+        (size2, u) => size2 + u.value.byteLength,
+        0
+      );
+      trace("[compactUpdateLog]", "Current update size:", totalBytes);
+      if (totalBytes > maxBytes && updates.length > 1) {
+        trace(
+          "[compactUpdateLog]",
+          `Update total size exceeds maximum allowed: ${totalBytes} > ${maxBytes}`
+        );
+        return flush();
+      }
+      trace("[compactUpdateLog]", "Skipping compacting update log...");
+      return Promise.resolve();
+    });
+  }
+  async getYDoc(docName) {
+    return this._transact(async (db) => {
+      const updates = await getLevelUpdates(db, docName);
+      const ydoc = new Doc();
+      ydoc.transact(() => {
+        for (let i = 0; i < updates.length; i++) {
+          applyUpdate(ydoc, updates[i].value);
+        }
+      });
+      return ydoc;
+    });
+  }
+  async getStateVector(docName) {
+    return this._transact(async (db) => {
+      const { clock, sv } = await readStateVector2(db, docName);
+      let curClock = -1;
+      if (sv !== null) {
+        curClock = await getCurrentUpdateClock(db, docName);
+      }
+      if (sv !== null && clock === curClock) {
+        return sv;
+      } else {
+        const updates = await getLevelUpdates(db, docName);
+        const { update, sv: sv2 } = mergeUpdates2(updates.map((u) => u.value));
+        await flushDocument(db, docName, update, sv2);
+        return sv2;
+      }
+    });
+  }
+  async storeUpdate(docName, update) {
+    return this._transact((db) => storeUpdate(db, docName, update));
+  }
+};
+
+// node_modules/y-partykit/dist/chunk-2H6M6QIA.mjs
+var BATCH_SENTINEL = "y-pk-batch";
+var TRACE_ENABLED2 = false;
+var trace2 = (...args2) => TRACE_ENABLED2 && console.log(...args2);
+var handleChunked = (receive) => {
+  let batch;
+  let start;
+  return (message) => {
+    if (typeof message === "string") {
+      return;
+    }
+    if (isBatchSentinel(message.data)) {
+      const marker = parseBatchMarker(message.data);
+      if (marker.type === "start") {
+        batch = [];
+        start = marker;
+      }
+      if (marker.type === "end") {
+        if (batch) {
+          try {
+            assertEquality(start?.id, marker.id, "client id");
+            assertEquality(start?.count, marker.count, "client counts");
+            assertEquality(start?.size, marker.size, "client size");
+            const size2 = batch.reduce(
+              (sum, buffer) => sum + buffer.byteLength,
+              0
+            );
+            const bytes = new Uint8Array(size2);
+            let bytesWritten = 0;
+            for (const chunk2 of batch) {
+              bytes.set(new Uint8Array(chunk2), bytesWritten);
+              bytesWritten += chunk2.byteLength;
+            }
+            assertEquality(marker.count, batch.length, "received batch count");
+            assertEquality(marker.size, bytesWritten, "client size");
+            receive(bytes);
+          } catch (e) {
+            console.error(e);
+            throw e;
+          } finally {
+            batch = void 0;
+            start = void 0;
+          }
+        }
+      }
+    } else if (batch) {
+      batch.push(message.data);
+    } else {
+      receive(new Uint8Array(message.data));
+    }
+  };
+};
+function assertEquality(expected, actual, label) {
+  if (expected !== actual) {
+    throw new Error(
+      `Mismatching ${label}! Expected ${expected}, got ${actual}`
+    );
+  } else {
+    trace2(`Matching ${label}: ${expected}`);
+  }
+}
+function isBatchSentinel(msg) {
+  return typeof msg === "string" && msg.startsWith(BATCH_SENTINEL);
+}
+function parseBatchMarker(msg) {
+  const [sentinel, data] = msg.split("#", 2);
+  if (sentinel !== BATCH_SENTINEL) {
+    throw new Error("Unexpected batch marker: " + msg);
+  }
+  const batch = JSON.parse(data);
+  if (batch.type !== "start" && batch.type !== "end") {
+    throw new Error("Unexpected batch data: " + msg);
+  }
+  return batch;
+}
+
+// node_modules/y-partykit/dist/index.mjs
+var import_lodash = __toESM(require_lodash(), 1);
+
+// node_modules/y-protocols/awareness.js
+var outdatedTimeout = 3e4;
+var Awareness = class extends Observable {
+  /**
+   * @param {Y.Doc} doc
+   */
+  constructor(doc2) {
+    super();
+    this.doc = doc2;
+    this.clientID = doc2.clientID;
+    this.states = /* @__PURE__ */ new Map();
+    this.meta = /* @__PURE__ */ new Map();
+    this._checkInterval = /** @type {any} */
+    setInterval(() => {
+      const now = getUnixTime();
+      if (this.getLocalState() !== null && outdatedTimeout / 2 <= now - /** @type {{lastUpdated:number}} */
+      this.meta.get(this.clientID).lastUpdated) {
+        this.setLocalState(this.getLocalState());
+      }
+      const remove = [];
+      this.meta.forEach((meta, clientid) => {
+        if (clientid !== this.clientID && outdatedTimeout <= now - meta.lastUpdated && this.states.has(clientid)) {
+          remove.push(clientid);
+        }
+      });
+      if (remove.length > 0) {
+        removeAwarenessStates(this, remove, "timeout");
+      }
+    }, floor(outdatedTimeout / 10));
+    doc2.on("destroy", () => {
+      this.destroy();
+    });
+    this.setLocalState({});
+  }
+  destroy() {
+    this.emit("destroy", [this]);
+    this.setLocalState(null);
+    super.destroy();
+    clearInterval(this._checkInterval);
+  }
+  /**
+   * @return {Object<string,any>|null}
+   */
+  getLocalState() {
+    return this.states.get(this.clientID) || null;
+  }
+  /**
+   * @param {Object<string,any>|null} state
+   */
+  setLocalState(state) {
+    const clientID = this.clientID;
+    const currLocalMeta = this.meta.get(clientID);
+    const clock = currLocalMeta === void 0 ? 0 : currLocalMeta.clock + 1;
+    const prevState = this.states.get(clientID);
+    if (state === null) {
+      this.states.delete(clientID);
+    } else {
+      this.states.set(clientID, state);
+    }
+    this.meta.set(clientID, {
+      clock,
+      lastUpdated: getUnixTime()
+    });
+    const added = [];
+    const updated = [];
+    const filteredUpdated = [];
+    const removed = [];
+    if (state === null) {
+      removed.push(clientID);
+    } else if (prevState == null) {
+      if (state != null) {
+        added.push(clientID);
+      }
+    } else {
+      updated.push(clientID);
+      if (!equalityDeep(prevState, state)) {
+        filteredUpdated.push(clientID);
+      }
+    }
+    if (added.length > 0 || filteredUpdated.length > 0 || removed.length > 0) {
+      this.emit("change", [{ added, updated: filteredUpdated, removed }, "local"]);
+    }
+    this.emit("update", [{ added, updated, removed }, "local"]);
+  }
+  /**
+   * @param {string} field
+   * @param {any} value
+   */
+  setLocalStateField(field, value) {
+    const state = this.getLocalState();
+    if (state !== null) {
+      this.setLocalState({
+        ...state,
+        [field]: value
+      });
+    }
+  }
+  /**
+   * @return {Map<number,Object<string,any>>}
+   */
+  getStates() {
+    return this.states;
+  }
+};
+var removeAwarenessStates = (awareness, clients, origin) => {
+  const removed = [];
+  for (let i = 0; i < clients.length; i++) {
+    const clientID = clients[i];
+    if (awareness.states.has(clientID)) {
+      awareness.states.delete(clientID);
+      if (clientID === awareness.clientID) {
+        const curMeta = (
+          /** @type {MetaClientState} */
+          awareness.meta.get(clientID)
+        );
+        awareness.meta.set(clientID, {
+          clock: curMeta.clock + 1,
+          lastUpdated: getUnixTime()
+        });
+      }
+      removed.push(clientID);
+    }
+  }
+  if (removed.length > 0) {
+    awareness.emit("change", [{ added: [], updated: [], removed }, origin]);
+    awareness.emit("update", [{ added: [], updated: [], removed }, origin]);
+  }
+};
+var encodeAwarenessUpdate = (awareness, clients, states = awareness.states) => {
+  const len = clients.length;
+  const encoder = createEncoder();
+  writeVarUint(encoder, len);
+  for (let i = 0; i < len; i++) {
+    const clientID = clients[i];
+    const state = states.get(clientID) || null;
+    const clock = (
+      /** @type {MetaClientState} */
+      awareness.meta.get(clientID).clock
+    );
+    writeVarUint(encoder, clientID);
+    writeVarUint(encoder, clock);
+    writeVarString(encoder, JSON.stringify(state));
+  }
+  return toUint8Array(encoder);
+};
+var applyAwarenessUpdate = (awareness, update, origin) => {
+  const decoder = createDecoder(update);
+  const timestamp = getUnixTime();
+  const added = [];
+  const updated = [];
+  const filteredUpdated = [];
+  const removed = [];
+  const len = readVarUint(decoder);
+  for (let i = 0; i < len; i++) {
+    const clientID = readVarUint(decoder);
+    let clock = readVarUint(decoder);
+    const state = JSON.parse(readVarString(decoder));
+    const clientMeta = awareness.meta.get(clientID);
+    const prevState = awareness.states.get(clientID);
+    const currClock = clientMeta === void 0 ? 0 : clientMeta.clock;
+    if (currClock < clock || currClock === clock && state === null && awareness.states.has(clientID)) {
+      if (state === null) {
+        if (clientID === awareness.clientID && awareness.getLocalState() != null) {
+          clock++;
+        } else {
+          awareness.states.delete(clientID);
+        }
+      } else {
+        awareness.states.set(clientID, state);
+      }
+      awareness.meta.set(clientID, {
+        clock,
+        lastUpdated: timestamp
+      });
+      if (clientMeta === void 0 && state !== null) {
+        added.push(clientID);
+      } else if (clientMeta !== void 0 && state === null) {
+        removed.push(clientID);
+      } else if (state !== null) {
+        if (!equalityDeep(state, prevState)) {
+          filteredUpdated.push(clientID);
+        }
+        updated.push(clientID);
+      }
+    }
+  }
+  if (added.length > 0 || filteredUpdated.length > 0 || removed.length > 0) {
+    awareness.emit("change", [{
+      added,
+      updated: filteredUpdated,
+      removed
+    }, origin]);
+  }
+  if (added.length > 0 || updated.length > 0 || removed.length > 0) {
+    awareness.emit("update", [{
+      added,
+      updated,
+      removed
+    }, origin]);
+  }
+};
+
+// node_modules/y-protocols/sync.js
+var messageYjsSyncStep1 = 0;
+var messageYjsSyncStep2 = 1;
+var messageYjsUpdate = 2;
+var writeSyncStep1 = (encoder, doc2) => {
+  writeVarUint(encoder, messageYjsSyncStep1);
+  const sv = encodeStateVector(doc2);
+  writeVarUint8Array(encoder, sv);
+};
+var writeSyncStep2 = (encoder, doc2, encodedStateVector) => {
+  writeVarUint(encoder, messageYjsSyncStep2);
+  writeVarUint8Array(encoder, encodeStateAsUpdate(doc2, encodedStateVector));
+};
+var readSyncStep1 = (decoder, encoder, doc2) => writeSyncStep2(encoder, doc2, readVarUint8Array(decoder));
+var readSyncStep2 = (decoder, doc2, transactionOrigin) => {
+  try {
+    applyUpdate(doc2, readVarUint8Array(decoder), transactionOrigin);
+  } catch (error) {
+    console.error("Caught error while handling a Yjs update", error);
+  }
+};
+var writeUpdate = (encoder, update) => {
+  writeVarUint(encoder, messageYjsUpdate);
+  writeVarUint8Array(encoder, update);
+};
+var readUpdate = readSyncStep2;
+
+// node_modules/y-partykit/dist/index.mjs
+function assert(condition, message) {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
+var MAX_BYTES = 1e7;
+var MAX_UPDATES = Number.MAX_SAFE_INTEGER;
+var wsReadyStateConnecting = 0;
+var wsReadyStateOpen = 1;
+var docs = /* @__PURE__ */ new Map();
+var opts = /* @__PURE__ */ new WeakMap();
+var hashOptions = (options) => {
+  return JSON.stringify(
+    options,
+    (_key, value) => (
+      // don't compare function implementation, just whether we had one
+      typeof value === "function" ? "function() {}" : value
+    )
+  );
+};
+var didWarnAboutOptionsChange = false;
+var warnIfOptionsChanged = (doc2, options) => {
+  if (didWarnAboutOptionsChange) return;
+  const prevOpts = opts.get(doc2);
+  const currOpts = hashOptions(options);
+  if (prevOpts !== currOpts) {
+    didWarnAboutOptionsChange = true;
+    console.warn(
+      "Document was previously initialized with different options. Provided options are ignored."
+    );
+    console.log("Previous options:", prevOpts);
+    console.log("Provided options:", currOpts);
+  }
+};
+var messageSync = 0;
+var messageAwareness = 1;
+function updateHandler(update, origin, doc2) {
+  const encoder = createEncoder();
+  writeVarUint(encoder, messageSync);
+  writeUpdate(encoder, update);
+  const message = toUint8Array(encoder);
+  doc2.conns.forEach((_, conn) => send(doc2, conn, message));
+}
+var WSSharedDoc = class extends Doc {
+  name;
+  conns;
+  awareness;
+  storage;
+  persist;
+  persistMaxBytes = MAX_BYTES;
+  persistMaxUpdates = MAX_UPDATES;
+  gc;
+  constructor(room, options) {
+    super({ gc: options.gc ?? !options.persist });
+    this.gc = options.gc ?? !options.persist;
+    this.name = room.id;
+    if (options.persist) {
+      if (options.persist === true) {
+        console.warn(
+          "y-partykit: Using deprecated option `persist: true`. Choose an explicit persistence strategy instead. See: https://docs.partykit.io/reference/y-partykit-api/#persistence"
+        );
+        this.persist = {
+          mode: "history",
+          maxBytes: MAX_BYTES,
+          maxUpdates: MAX_UPDATES
+        };
+      } else if (options.persist?.mode === "history") {
+        if ((options.persist.maxBytes ?? 0) > MAX_BYTES) {
+          console.warn(
+            "y-partykit: `persist.maxBytes` exceeds maximum allowed value 10_000_000 (10MB). Using default value instead. See: https://docs.partykit.io/reference/y-partykit-api/#persistence"
+          );
+        }
+        const { maxBytes, maxUpdates } = options.persist;
+        this.persist = {
+          mode: "history",
+          maxBytes: Math.min(MAX_BYTES, maxBytes || MAX_BYTES),
+          maxUpdates: Math.min(MAX_UPDATES, maxUpdates || MAX_UPDATES)
+        };
+      } else {
+        this.persist = options.persist;
+      }
+    }
+    if (options.persist) {
+      this.storage = new YPartyKitStorage(room.storage);
+    }
+    this.conns = /* @__PURE__ */ new Map();
+    this.awareness = new Awareness(this);
+    this.awareness.setLocalState(null);
+    const awarenessChangeHandler = ({
+      added,
+      updated,
+      removed
+    }, conn) => {
+      const changedClients = added.concat(updated, removed);
+      if (conn !== null) {
+        const connControlledIDs = (
+          /** @type {Set<number>} */
+          this.conns.get(conn)
+        );
+        if (connControlledIDs !== void 0) {
+          added.forEach((clientID) => {
+            connControlledIDs.add(clientID);
+          });
+          removed.forEach((clientID) => {
+            connControlledIDs.delete(clientID);
+          });
+        }
+      }
+      const encoder = createEncoder();
+      writeVarUint(encoder, messageAwareness);
+      writeVarUint8Array(
+        encoder,
+        encodeAwarenessUpdate(this.awareness, changedClients)
+      );
+      const buff = toUint8Array(encoder);
+      this.conns.forEach((_, c) => {
+        send(this, c, buff);
+      });
+    };
+    this.awareness.on("update", awarenessChangeHandler);
+    this.on("update", updateHandler);
+  }
+  async bindState() {
+    assert(this.storage, "Storage not set");
+    const persistedYdoc = await this.storage.getYDoc(this.name);
+    applyUpdate(this, encodeStateAsUpdate(persistedYdoc));
+    this.on("update", (update) => {
+      assert(this.storage, "Storage not set");
+      this.storage.storeUpdate(this.name, update).catch((e) => {
+        console.error("Error storing update", e);
+      });
+    });
+  }
+  /**
+   * Appends the entire document state as an update to the update log.
+   */
+  async writeState() {
+    assert(this.storage, "Storage not set");
+    const newUpdates = encodeStateAsUpdate(this);
+    await this.storage.storeUpdate(this.name, newUpdates);
+  }
+  /**
+   * Replaces the current update log with the current state of the document.
+   */
+  async compactUpdateLog() {
+    assert(this.storage, "Storage not set");
+    await this.storage.compactUpdateLog(
+      this.name,
+      this.persist?.mode === "history" && this.persist.maxUpdates || 0,
+      this.persist?.mode === "history" && this.persist.maxBytes || 0
+    );
+  }
+};
+var CALLBACK_DEFAULTS = {
+  debounceWait: 2e3,
+  debounceMaxWait: 1e4,
+  timeout: 5e3,
+  objects: {}
+};
+function getContent(objName, objType, doc2) {
+  switch (objType) {
+    case "Array":
+      return doc2.getArray(objName);
+    case "Map":
+      return doc2.getMap(objName);
+    case "Text":
+      return doc2.getText(objName);
+    case "XmlFragment":
+      return doc2.getXmlFragment(objName);
+    case "XmlElement":
+      return doc2.getXmlElement(objName);
+    default:
+      return {
+        toJSON() {
+          throw new Error(`Unknown shared object type: ${objType}`);
+        }
+      };
+  }
+}
+var getYDocPromises = /* @__PURE__ */ new Map();
+async function getYDoc(room, options) {
+  let doc2 = docs.get(room.id);
+  if (doc2) {
+    warnIfOptionsChanged(doc2, options);
+    return doc2;
+  }
+  const hashedOptions = hashOptions(options);
+  if (options.gc && options.persist) {
+    throw new Error("Cannot use gc and persist at the same time");
+  }
+  if (options.gc === void 0 && (options.persist === void 0 || options.persist === false)) {
+    options.gc = true;
+    options.persist = false;
+  }
+  if (options.gc === void 0 && options.persist) {
+    options.gc = false;
+  }
+  doc2 = new WSSharedDoc(room, options);
+  const { callback, load } = options;
+  if (load) {
+    const src = await load();
+    if (src != null) {
+      const state = encodeStateAsUpdate(src);
+      applyUpdate(doc2, state);
+    }
+  }
+  if (callback !== void 0) {
+    doc2.on(
+      "update",
+      (0, import_lodash.default)(
+        async (update, origin, doc22) => {
+          if (callback.url) {
+            const dataToSend = {
+              // @ts-expect-error - TODO: fix this
+              room: doc22.name,
+              data: {}
+            };
+            const callbackObjects = callback.objects || CALLBACK_DEFAULTS.objects;
+            const sharedObjectList = Object.keys(callbackObjects);
+            sharedObjectList.forEach((sharedObjectName) => {
+              const sharedObjectType = callbackObjects[sharedObjectName];
+              dataToSend.data[sharedObjectName] = {
+                type: sharedObjectType,
+                content: getContent(
+                  sharedObjectName,
+                  sharedObjectType,
+                  doc22
+                ).toJSON()
+              };
+            });
+            try {
+              const res = await fetch(callback.url, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...callback.headers && Object.fromEntries(callback.headers)
+                },
+                body: JSON.stringify(dataToSend),
+                signal: AbortSignal.timeout(
+                  callback.timeout || CALLBACK_DEFAULTS.timeout
+                )
+              });
+              if (!res.ok) {
+                console.error("failed to persist:", await res.text());
+              }
+            } catch (err) {
+              console.error("failed to persist:", err);
+            }
+          }
+          if (callback.handler) {
+            try {
+              await callback.handler(doc22);
+            } catch (err) {
+              console.error("failed to persist:", err);
+            }
+          }
+        },
+        callback.debounceWait || CALLBACK_DEFAULTS.debounceWait,
+        {
+          maxWait: callback.debounceMaxWait || CALLBACK_DEFAULTS.debounceMaxWait
+        }
+      )
+    );
+  }
+  if (doc2.persist) {
+    await doc2.bindState();
+  }
+  docs.set(room.id, doc2);
+  opts.set(doc2, hashedOptions);
+  return doc2;
+}
+function readSyncMessage(decoder, encoder, doc2, transactionOrigin, readOnly = false) {
+  const messageType = readVarUint(decoder);
+  switch (messageType) {
+    case messageYjsSyncStep1:
+      readSyncStep1(decoder, encoder, doc2);
+      break;
+    case messageYjsSyncStep2:
+      if (!readOnly)
+        readSyncStep2(decoder, doc2, transactionOrigin);
+      break;
+    case messageYjsUpdate:
+      if (!readOnly) readUpdate(decoder, doc2, transactionOrigin);
+      break;
+    default:
+      throw new Error("Unknown message type");
+  }
+  return messageType;
+}
+function messageListener(conn, doc2, message, readOnly) {
+  try {
+    const encoder = createEncoder();
+    const decoder = createDecoder(message);
+    const messageType = readVarUint(decoder);
+    switch (messageType) {
+      case messageSync:
+        writeVarUint(encoder, messageSync);
+        readSyncMessage(decoder, encoder, doc2, conn, readOnly);
+        if (length(encoder) > 1) {
+          send(doc2, conn, toUint8Array(encoder));
+        }
+        break;
+      case messageAwareness: {
+        applyAwarenessUpdate(
+          doc2.awareness,
+          readVarUint8Array(decoder),
+          conn
+        );
+        break;
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    doc2.emit("error", [err]);
+  }
+}
+function closeConn(doc2, conn) {
+  if (doc2.conns.has(conn)) {
+    const controlledIds = doc2.conns.get(conn);
+    doc2.conns.delete(conn);
+    removeAwarenessStates(
+      doc2.awareness,
+      Array.from(controlledIds),
+      null
+    );
+    if (doc2.conns.size === 0 && doc2.persist) {
+      doc2.compactUpdateLog().then(
+        () => {
+          doc2.destroy();
+        },
+        (err) => {
+          doc2.emit("error", [err]);
+        }
+      );
+      docs.delete(doc2.name);
+    }
+  }
+  try {
+    conn.close();
+  } catch (e) {
+    console.warn("failed to close connection", e);
+  }
+}
+function send(doc2, conn, m) {
+  if (conn.readyState !== void 0 && conn.readyState !== wsReadyStateConnecting && conn.readyState !== wsReadyStateOpen) {
+    closeConn(doc2, conn);
+  }
+  try {
+    conn.send(m);
+  } catch (e) {
+    closeConn(doc2, conn);
+  }
+}
+async function onConnect(conn, room, opts2 = {}) {
+  const options = { ...opts2 };
+  if (!getYDocPromises.has(room.id)) {
+    getYDocPromises.set(room.id, getYDoc(room, options));
+  }
+  const doc2 = await getYDocPromises.get(room.id);
+  getYDocPromises.delete(room.id);
+  doc2.conns.set(conn, /* @__PURE__ */ new Set());
+  conn.addEventListener(
+    "message",
+    handleChunked((data) => {
+      if (typeof data !== "string") {
+        return messageListener(
+          conn,
+          doc2,
+          new Uint8Array(data),
+          options.readOnly ?? false
+        );
+      } else {
+      }
+    })
+  );
+  conn.addEventListener("close", () => {
+    closeConn(doc2, conn);
+  });
+  {
+    const encoder = createEncoder();
+    writeVarUint(encoder, messageSync);
+    writeSyncStep1(encoder, doc2);
+    send(doc2, conn, toUint8Array(encoder));
+    const awarenessStates = doc2.awareness.getStates();
+    if (awarenessStates.size > 0) {
+      const encoder2 = createEncoder();
+      writeVarUint(encoder2, messageAwareness);
+      writeVarUint8Array(
+        encoder2,
+        encodeAwarenessUpdate(
+          doc2.awareness,
+          Array.from(awarenessStates.keys())
+        )
+      );
+      send(doc2, conn, toUint8Array(encoder2));
+    }
+  }
+}
+
+// partykit/server.ts
+var server_default = {
+  onConnect(ws, room) {
+    return onConnect(ws, room);
+  }
+};
+export {
+  server_default as default
+};
 //# sourceMappingURL=server.js.map

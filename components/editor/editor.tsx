@@ -57,7 +57,6 @@ export default function Editor({ content, projectId, readOnly=false, user }: { c
   const editor = useCreateBlockNote({
     initialContent: content || undefined,
     dictionary: fr,
-    trailingBlock: false,
     tables: {
       splitCells: true,
       cellBackgroundColor: true,
@@ -76,7 +75,7 @@ export default function Editor({ content, projectId, readOnly=false, user }: { c
       editor={editor}
       editable={!readOnly}
       onChange={() => {
-        console.log(JSON.stringify(editor.document, null, 2))
+        // console.log(JSON.stringify(editor.document, null, 2))
         return projectId && syncProject(projectId, editor.document)
       }}
     />
