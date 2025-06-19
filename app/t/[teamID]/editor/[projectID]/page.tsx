@@ -25,11 +25,12 @@ export default async function Page({
     if (!user) return redirect("/auth/login");
 
 
-  const initialContent = project.nodes && JSON.parse(project.nodes);
+  // Le contenu initial est maintenant chargé automatiquement via Yjs
+  // depuis la base de données dans le composant Editor
 
   return (
     <div className="xl:px-40 pt-4">
-      <Editor content={initialContent || undefined} projectId={projectID} user={user}/>
+      <Editor content={undefined} projectId={projectID} user={user}/>
     </div>
   );
 }

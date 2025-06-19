@@ -16,8 +16,6 @@ type Project = Prisma.ProjectGetPayload<object>;
 
 const useExportPDF = () => {
   return useCallback(async (project: Project) => {
-      
-    if (!project.nodes) return toast.error("Document vide");
 
     const exportPromise = exportProject(project.id, BlockNoteSchema.create())
       .then(({ success, data: blob, error }) => {

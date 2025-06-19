@@ -1,10 +1,16 @@
 "use client"
 
-import { signOut } from "next-auth/react"
+import { signOut } from "@/lib/auth-client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { type User } from "next-auth"
+
+interface User {
+  id: string
+  name: string
+  email: string
+  image?: string
+}
 
 interface UserSessionProps {
   user: User

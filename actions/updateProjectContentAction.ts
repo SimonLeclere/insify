@@ -2,11 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 
-export async function updateProject(
+export async function updateProjectContent(
   projectId: string,
-  nodes: object
+  content: Uint8Array
 ) {
-
   const projectIdNum = Number(projectId);
 
   // Validation de l'entrée
@@ -18,11 +17,11 @@ export async function updateProject(
     };
   }
 
-  if (!Array.isArray(nodes)) {
+  if (!(content instanceof Uint8Array)) {
     return {
       success: false,
       data: null,
-      error: "Invalid nodes data provided. It must be an array.",
+      error: "Invalid content data provided. It must be a Uint8Array.",
     };
   }
 
@@ -40,14 +39,15 @@ export async function updateProject(
       };
     }
 
-    // Mise à jour du projet
+    // Mise à jour du projet avec le contenu Yjs
     const project = await prisma.project.update({
       where: {
         id: projectIdNum,
       },
       data: {
-        nodes: JSON.stringify(nodes)
-      },
+        content: Buffer.from(content),
+        updatedAt: new Date()
+      } as any, // Forcer le type temporairement
     });
 
     return {
@@ -58,11 +58,11 @@ export async function updateProject(
 
   } catch (error) {
     // Erreur générale pour tous les autres cas
-    console.error("Unexpected error: ", error);
+    console.error("Unexpected error updating project content: ", error);
     return {
       success: false,
       data: null,
-      error: "An unexpected error occurred while updating the project.",
+      error: "An unexpected error occurred while updating the project content.",
     };
   }
 }

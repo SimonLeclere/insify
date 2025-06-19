@@ -1,4 +1,6 @@
-import { signIn } from "@/lib/auth"
+"use client"
+
+import { signIn } from "@/lib/auth-client"
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -8,11 +10,15 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"form">) {
 
+  const handleGoogleSignIn = async () => {
+    await signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
+
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props} action={async () => {
-      "use server"
-      await signIn("google", { redirectTo: '/' });
-    }}>
+    <form className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Se connecter</h1>
       </div>
@@ -22,7 +28,7 @@ export function LoginForm({
         </span>
       </div>
       <div className="grid gap-6">
-        <Button variant="outline" className="w-full" type="submit">
+        <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
               xmlns="http://www.w3.org/2000/svg"

@@ -1,11 +1,14 @@
 import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/login-form"
-import { auth } from "@/lib/auth"
+import { auth } from "@/lib/auth-better"
 import Image from "next/image"
 import { UserSession } from "@/components/user-session"
+import { headers } from "next/headers"
 
 export default async function LoginPage() {
-  const session = await auth()
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
@@ -21,7 +24,12 @@ export default async function LoginPage() {
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs text-center">
             {session && session.user ? (
-              <UserSession user={session.user} />
+              <UserSession user={{
+                id: session.user.id,
+                name: session.user.name,
+                email: session.user.email,
+                image: session.user.image || undefined
+              }} />
             ) : (
               <LoginForm />
             )}

@@ -7,10 +7,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { Home } from "lucide-react";
-
-const prisma = new PrismaClient();
 
 async function getTeamAndProject(teamId: number, projectId: number) {
   try {

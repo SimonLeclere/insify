@@ -14,17 +14,14 @@ import {
 import "@/app/globals.css";
 import { prisma } from "@/lib/prisma";
 import { CommandMenu } from "@/components/commandk";
-import { SyncProvider } from "@/providers/SyncProvider";
 import { TeamsProvider } from "@/providers/TeamsProvider";
 
 export default async function RootLayout({
   children,
   breadcrumb,
-  syncstatus,
   params,
 }: {
   children: React.ReactNode;
-  syncstatus: React.ReactNode;
   breadcrumb: React.ReactNode;
   params: Promise<{ teamID: string }>;
 }) {
@@ -73,34 +70,31 @@ export default async function RootLayout({
 
   return (
     <SidebarProvider>
-      <SyncProvider>
-        <TeamsProvider initialTeams={user.teams} currentTeam={currentTeamID}>
-          <ProjectsProvider initialProjects={projects}>
-            <ProjectModalProvider currentTeamID={currentTeamID}>
-              <AppSidebar user={user} currentTeamID={currentTeamID} />
-              <SidebarInset className="flex flex-1 flex-col">
-                {/* Navbar */}
-                <header className="flex h-16 shrink-0 items-center justify-between px-4">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <SidebarTrigger className="-ml-1" />
-                    {breadcrumb}
-                  </div>
+      <TeamsProvider initialTeams={user.teams} currentTeam={currentTeamID}>
+        <ProjectsProvider initialProjects={projects}>
+          <ProjectModalProvider currentTeamID={currentTeamID}>
+            <AppSidebar user={user} currentTeamID={currentTeamID} />
+            <SidebarInset className="flex flex-1 flex-col">
+              {/* Navbar */}
+              <header className="flex h-16 shrink-0 items-center justify-between px-4">
+                <div className="flex items-center gap-2 min-w-0">
+                  <SidebarTrigger className="-ml-1" />
+                  {breadcrumb}
+                </div>
 
-                  <div className="flex items-center gap-2">
-                    {syncstatus}
-                    <CommandMenu />
-                  </div>
-                </header>
+                <div className="flex items-center gap-2">
+                  <CommandMenu />
+                </div>
+              </header>
 
-                {/* Contenu dynamique */}
-                <main className="flex flex-1 flex-col gap-4 p-4 pt-0 overflow-auto">
-                  {children}
-                </main>
-              </SidebarInset>
-            </ProjectModalProvider>
-          </ProjectsProvider>
-        </TeamsProvider>
-      </SyncProvider>
+              {/* Contenu dynamique */}
+              <main className="flex flex-1 flex-col gap-4 p-4 pt-0 overflow-auto">
+                {children}
+              </main>
+            </SidebarInset>
+          </ProjectModalProvider>
+        </ProjectsProvider>
+      </TeamsProvider>
     </SidebarProvider>
   );
 }

@@ -92,7 +92,7 @@ export function AppSidebar({
   currentTeamID,
   ...props
 }: AppSidebarProps) {
-  const pathname = usePathname(); // Récupère le chemin actuel
+  const pathname = usePathname();
   const navMain = getNavItems(currentTeamID, pathname);
 
   return (

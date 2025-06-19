@@ -157,6 +157,82 @@ var require_lodash = __commonJS({
   }
 });
 
+// node_modules/y-partykit/dist/chunk-2H6M6QIA.mjs
+var BATCH_SENTINEL = "y-pk-batch";
+var TRACE_ENABLED = false;
+var trace = (...args2) => TRACE_ENABLED && console.log(...args2);
+var handleChunked = (receive) => {
+  let batch;
+  let start;
+  return (message) => {
+    if (typeof message === "string") {
+      return;
+    }
+    if (isBatchSentinel(message.data)) {
+      const marker = parseBatchMarker(message.data);
+      if (marker.type === "start") {
+        batch = [];
+        start = marker;
+      }
+      if (marker.type === "end") {
+        if (batch) {
+          try {
+            assertEquality(start?.id, marker.id, "client id");
+            assertEquality(start?.count, marker.count, "client counts");
+            assertEquality(start?.size, marker.size, "client size");
+            const size2 = batch.reduce(
+              (sum, buffer) => sum + buffer.byteLength,
+              0
+            );
+            const bytes = new Uint8Array(size2);
+            let bytesWritten = 0;
+            for (const chunk2 of batch) {
+              bytes.set(new Uint8Array(chunk2), bytesWritten);
+              bytesWritten += chunk2.byteLength;
+            }
+            assertEquality(marker.count, batch.length, "received batch count");
+            assertEquality(marker.size, bytesWritten, "client size");
+            receive(bytes);
+          } catch (e) {
+            console.error(e);
+            throw e;
+          } finally {
+            batch = void 0;
+            start = void 0;
+          }
+        }
+      }
+    } else if (batch) {
+      batch.push(message.data);
+    } else {
+      receive(new Uint8Array(message.data));
+    }
+  };
+};
+function assertEquality(expected, actual, label) {
+  if (expected !== actual) {
+    throw new Error(
+      `Mismatching ${label}! Expected ${expected}, got ${actual}`
+    );
+  } else {
+    trace(`Matching ${label}: ${expected}`);
+  }
+}
+function isBatchSentinel(msg) {
+  return typeof msg === "string" && msg.startsWith(BATCH_SENTINEL);
+}
+function parseBatchMarker(msg) {
+  const [sentinel, data] = msg.split("#", 2);
+  if (sentinel !== BATCH_SENTINEL) {
+    throw new Error("Unexpected batch marker: " + msg);
+  }
+  const batch = JSON.parse(data);
+  if (batch.type !== "start" && batch.type !== "end") {
+    throw new Error("Unexpected batch data: " + msg);
+  }
+  return batch;
+}
+
 // node_modules/lib0/binary.js
 var BIT1 = 1;
 var BIT2 = 2;
@@ -1064,6 +1140,9 @@ var deepFreeze = (o) => {
   return freeze(o);
 };
 
+// node_modules/lib0/traits.js
+var EqualityTraitSymbol = Symbol("Equality");
+
 // node_modules/lib0/function.js
 var callAll = (fs, args2, i = 0) => {
   try {
@@ -1077,16 +1156,15 @@ var callAll = (fs, args2, i = 0) => {
   }
 };
 var id = (a) => a;
-var equalityStrict = (a, b) => a === b;
 var equalityDeep = (a, b) => {
-  if (a == null || b == null) {
-    return equalityStrict(a, b);
-  }
-  if (a.constructor !== b.constructor) {
-    return false;
-  }
   if (a === b) {
     return true;
+  }
+  if (a == null || b == null || a.constructor !== b.constructor) {
+    return false;
+  }
+  if (a[EqualityTraitSymbol] != null) {
+    return a[EqualityTraitSymbol](b);
   }
   switch (a.constructor) {
     case ArrayBuffer:
@@ -7808,8 +7886,8 @@ glo[importIdentifier] = true;
 
 // node_modules/y-partykit/dist/chunk-YNZY542Q.mjs
 var BINARY_BITS_32 = 4294967295;
-var TRACE_ENABLED = false;
-var trace = (...args2) => TRACE_ENABLED && console.log(...args2);
+var TRACE_ENABLED2 = false;
+var trace2 = (...args2) => TRACE_ENABLED2 && console.log(...args2);
 var keyEncoding = {
   encode(arr) {
     const resultArr = [];
@@ -8046,14 +8124,14 @@ var YPartyKitStorage = class {
     return this._transact(async (db) => {
       const updates = await getLevelUpdates(db, docName);
       const flush = async () => {
-        trace("[compactUpdateLog]", "Compacting document update log!");
+        trace2("[compactUpdateLog]", "Compacting document update log!");
         const { update, sv } = mergeUpdates2(updates.map((u) => u.value));
         await flushDocument(db, docName, update, sv);
       };
-      trace("[compactUpdateLog]", { docName, maxUpdates, maxBytes });
-      trace("[compactUpdateLog]", "Current update count:", updates.length);
+      trace2("[compactUpdateLog]", { docName, maxUpdates, maxBytes });
+      trace2("[compactUpdateLog]", "Current update count:", updates.length);
       if (updates.length > maxUpdates) {
-        trace(
+        trace2(
           "[compactUpdateLog]",
           `Update count exceeds maximum allowed: ${updates.length} > ${maxUpdates}`
         );
@@ -8063,15 +8141,15 @@ var YPartyKitStorage = class {
         (size2, u) => size2 + u.value.byteLength,
         0
       );
-      trace("[compactUpdateLog]", "Current update size:", totalBytes);
+      trace2("[compactUpdateLog]", "Current update size:", totalBytes);
       if (totalBytes > maxBytes && updates.length > 1) {
-        trace(
+        trace2(
           "[compactUpdateLog]",
           `Update total size exceeds maximum allowed: ${totalBytes} > ${maxBytes}`
         );
         return flush();
       }
-      trace("[compactUpdateLog]", "Skipping compacting update log...");
+      trace2("[compactUpdateLog]", "Skipping compacting update log...");
       return Promise.resolve();
     });
   }
@@ -8108,82 +8186,6 @@ var YPartyKitStorage = class {
     return this._transact((db) => storeUpdate(db, docName, update));
   }
 };
-
-// node_modules/y-partykit/dist/chunk-2H6M6QIA.mjs
-var BATCH_SENTINEL = "y-pk-batch";
-var TRACE_ENABLED2 = false;
-var trace2 = (...args2) => TRACE_ENABLED2 && console.log(...args2);
-var handleChunked = (receive) => {
-  let batch;
-  let start;
-  return (message) => {
-    if (typeof message === "string") {
-      return;
-    }
-    if (isBatchSentinel(message.data)) {
-      const marker = parseBatchMarker(message.data);
-      if (marker.type === "start") {
-        batch = [];
-        start = marker;
-      }
-      if (marker.type === "end") {
-        if (batch) {
-          try {
-            assertEquality(start?.id, marker.id, "client id");
-            assertEquality(start?.count, marker.count, "client counts");
-            assertEquality(start?.size, marker.size, "client size");
-            const size2 = batch.reduce(
-              (sum, buffer) => sum + buffer.byteLength,
-              0
-            );
-            const bytes = new Uint8Array(size2);
-            let bytesWritten = 0;
-            for (const chunk2 of batch) {
-              bytes.set(new Uint8Array(chunk2), bytesWritten);
-              bytesWritten += chunk2.byteLength;
-            }
-            assertEquality(marker.count, batch.length, "received batch count");
-            assertEquality(marker.size, bytesWritten, "client size");
-            receive(bytes);
-          } catch (e) {
-            console.error(e);
-            throw e;
-          } finally {
-            batch = void 0;
-            start = void 0;
-          }
-        }
-      }
-    } else if (batch) {
-      batch.push(message.data);
-    } else {
-      receive(new Uint8Array(message.data));
-    }
-  };
-};
-function assertEquality(expected, actual, label) {
-  if (expected !== actual) {
-    throw new Error(
-      `Mismatching ${label}! Expected ${expected}, got ${actual}`
-    );
-  } else {
-    trace2(`Matching ${label}: ${expected}`);
-  }
-}
-function isBatchSentinel(msg) {
-  return typeof msg === "string" && msg.startsWith(BATCH_SENTINEL);
-}
-function parseBatchMarker(msg) {
-  const [sentinel, data] = msg.split("#", 2);
-  if (sentinel !== BATCH_SENTINEL) {
-    throw new Error("Unexpected batch marker: " + msg);
-  }
-  const batch = JSON.parse(data);
-  if (batch.type !== "start" && batch.type !== "end") {
-    throw new Error("Unexpected batch data: " + msg);
-  }
-  return batch;
-}
 
 // node_modules/y-partykit/dist/index.mjs
 var import_lodash = __toESM(require_lodash(), 1);

@@ -30,13 +30,13 @@ export default async function HomePage() {
 
   if (!user) return notFound();
 
-    // find the user's default team
-    const defaultTeam = user.teams.find((team) => {
-        return team.TeamUser.find(
-        (u) => u.userId === user.id && u.role === "owner"
-        );
-    });
+  // find the user's default team
+  const defaultTeam = user.teams.find((team) => {
+    return team.TeamUser.find(
+      (u) => u.userId === user.id && u.role === "owner"
+    );
+  });
 
-    if (defaultTeam) return redirect(`/t/${defaultTeam.id}`);
-    return notFound()
+  if (defaultTeam) return redirect(`/t/${defaultTeam.id}`);
+  return notFound()
 }

@@ -51,7 +51,7 @@ export const ProjectsProvider = ({ children, initialProjects }: { children: Reac
   const visibleProjects = allProjects.filter(p => !p.deletedAt).slice(0, visibleCount);
   const hasMore = allProjects.filter(p => !p.deletedAt).length > visibleCount;
 
-  const allUserProjects = allProjects.filter(p => !p.deletedAt)
+  const allUserProjects = allProjects.filter(p => !p.deletedAt);
 
   return (
     <ProjectsContext.Provider value={{ visibleProjects, allUserProjects, addProject, removeProject, restoreProject, loadMoreProjects, hasMore }}>

@@ -1,19 +1,19 @@
 // useAuth.ts
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export function useAuth(redirectTo: string = "/auth/login") {
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "unauthenticated") {
+    if (!isPending && !session) {
       router.push(redirectTo); // Redirection côté client
     }
-  }, [status, router, redirectTo]);
+  }, [session, isPending, router, redirectTo]);
 
-  return { session, status };
+  return { session, status: isPending ? "loading" : session ? "authenticated" : "unauthenticated" };
 }

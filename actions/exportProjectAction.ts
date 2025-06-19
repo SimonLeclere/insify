@@ -6,6 +6,7 @@ import { PDFExporter, pdfDefaultSchemaMappings } from "@blocknote/xl-pdf-exporte
 import * as ReactPDF from "@react-pdf/renderer";
 import { BlockNoteSchema } from "@blocknote/core";
 import { DefaultBlockSchema as b, DefaultInlineContentSchema as i, DefaultStyleSchema as s } from '@blocknote/core'
+import * as Y from "yjs";
 
 export async function exportProject(projectId: number, schema: BlockNoteSchema<b,i,s>) {
   if (!projectId) {
@@ -38,13 +39,27 @@ export async function exportProject(projectId: number, schema: BlockNoteSchema<b
       return { success: false, data: null, error: "Manque de permissions." };
     }
 
-    if (!project.nodes) return { success: false, data: null, error: "Projet vide." };
+    if (!project.content) return { success: false, data: null, error: "Projet vide." };
 
-    const exporter = new PDFExporter(schema, pdfDefaultSchemaMappings);
-    const pdfDocument = await exporter.toReactPDFDocument(JSON.parse(project.nodes));
-    const pdfBlob = await ReactPDF.pdf(pdfDocument).toBlob();
-
-    return { success: true, data: pdfBlob, error: null };
+    // Convertir le contenu Yjs en document BlockNote
+    try {
+      const doc = new Y.Doc();
+      Y.applyUpdate(doc, new Uint8Array(project.content));
+      const fragment = doc.getXmlFragment("document-store");
+      
+      // Pour l'instant, retournons une erreur car nous devons implémenter la conversion Yjs -> BlockNote
+      return { success: false, data: null, error: "Export temporairement indisponible - conversion Yjs en cours de développement." };
+      
+      // TODO: Implémenter la conversion du fragment XML Yjs vers le format BlockNote
+      // blockNoteDocument = convertYjsToBlockNote(fragment);
+      // const exporter = new PDFExporter(schema, pdfDefaultSchemaMappings);
+      // const pdfDocument = await exporter.toReactPDFDocument(blockNoteDocument);
+      // const pdfBlob = await ReactPDF.pdf(pdfDocument).toBlob();
+      // return { success: true, data: pdfBlob, error: null };
+    } catch (error) {
+      console.error("Erreur lors de la conversion du contenu Yjs:", error);
+      return { success: false, data: null, error: "Erreur lors de la conversion du contenu." };
+    }
     
   } catch (error) {
     console.error("Erreur lors l'exportation du projet :", error);

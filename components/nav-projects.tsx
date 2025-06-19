@@ -140,7 +140,7 @@ export function NavProjects({ teamId }: { teamId: number }) {
         </button>
       </SidebarGroupLabel>
       <SidebarMenu>
-        <AnimatePresence>
+        <AnimatePresence key={visibleProjects.length}>
           {visibleProjects.map((item, index) => {
             const IconsMap = Icons as unknown as Record<string, LucideIcon>;
             const Icon = (item.icon && IconsMap[item.icon]) || IconsMap["Book"];

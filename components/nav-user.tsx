@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Prisma } from "@prisma/client"
-import { signOut } from "next-auth/react"
+import { signOut } from "@/lib/auth-client"
 
 type UserWithTeams = Prisma.UserGetPayload<{
   include: {
