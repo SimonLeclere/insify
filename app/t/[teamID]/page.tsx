@@ -38,7 +38,6 @@ export default function Page() {
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
-      Bouton pour créer un nouveau projet
       <div>
         <h1 className="text-2xl font-semibold">Bienvenue sur INSify</h1>
         <p className="text-muted-foreground">

@@ -1,0 +1,38 @@
+Nom du projet : Insify
+
+Description générale :
+Insify est une application web collaborative de gestion de projets et de documentation, inspirée par l'expérience utilisateur de Vercel et Notion. Elle permet à des équipes de créer, organiser et éditer des projets, avec une gestion fine des droits, des fonctionnalités avancées d'édition, et une interface moderne basée sur Next.js, React, Prisma, BlockNoteJS et Shadcn-UI.
+
+Objectifs principaux :
+- Permettre à des équipes de collaborer sur des projets, avec gestion des membres et des rôles (owner, etc).
+- Offrir une expérience d'édition riche (éditeur dynamique, export PDF, historique, etc).
+- Proposer une navigation fluide et moderne avec sidebar, topbar, et pages de settings inspirées de Vercel.
+- Gérer l'authentification (auth.js, Google, etc) et la sécurité des accès.
+- Fournir une interface responsive et accessible, adaptée aux usages desktop et mobile.
+
+Fonctionnalités clés :
+- Authentification sécurisée (auth.js, Google, etc).
+- Gestion des équipes et des projets (création, suppression, export, etc).
+- Sidebar de navigation persistante, topbar avec menu de commandes et breadcrumb.
+- Page de paramètres (settings) avec navigation par sections (pour l'instant Général, Fonctionnalités, Apparence, mais peut être modifié)
+- Éditeur dynamique pour le contenu des projets.
+- Export PDF, historique des modifications, gestion des fonctionnalités avancées.
+- Responsive design
+- Utilisation de Prisma pour la gestion des données et migrations.
+- Architecture modulaire avec providers (TeamsProvider, ProjectsProvider, etc).
+
+Stack technique :
+- Next.js (app router)
+- React (client components, hooks)
+- Prisma (ORM, migrations)
+- Shadcn-UI (UI components)
+- Auth.js (authentification)
+- Tailwind CSS
+
+Public cible :
+- Équipes tech, startups, agences, ou toute organisation ayant besoin de collaborer sur des projets et de documenter leur travail dans un espace partagé, moderne et sécurisé.
+
+Résumé UX/UI :
+- Navigation principale par sidebar (fixe sur desktop, drawer sur mobile), topbar avec actions rapides.
+- Pages de settings avec sections, scrollspy, et composants UI cohérents.
+- Expérience utilisateur inspirée de Vercel (clarté, rapidité, accessibilité).

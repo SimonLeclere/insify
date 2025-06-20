@@ -18,7 +18,7 @@ export function LoginForm({
   };
 
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form className={cn("flex flex-col gap-6 z-100", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Se connecter</h1>
       </div>

@@ -49,4 +49,5 @@ Simon développe un éditeur de texte en ligne utilisant Next.js et ShadCN UI. L
 
 **idées** :
 
-1. Générer des liens d'invitation pour ajouter facilement un utilisateur à une équipe
+1. Générer des liens d'invitation pour ajouter facilement un utilisateur à une équipe.
+2. Utiliser l'IA pour ajouter automatiquement des tags au documents pour faciliter la recherche.

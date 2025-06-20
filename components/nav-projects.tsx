@@ -140,7 +140,7 @@ export function NavProjects({ teamId }: { teamId: number }) {
         </button>
       </SidebarGroupLabel>
       <SidebarMenu>
-        <AnimatePresence key={visibleProjects.length}>
+        <AnimatePresence>
           {visibleProjects.map((item, index) => {
             const IconsMap = Icons as unknown as Record<string, LucideIcon>;
             const Icon = (item.icon && IconsMap[item.icon]) || IconsMap["Book"];
@@ -263,7 +263,7 @@ export function NavProjects({ teamId }: { teamId: number }) {
           {!hasMore && noProjects && (
             <motion.div
               layout
-              key="no-projects"
+              key={`no-projects-${visibleProjects.length}`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}

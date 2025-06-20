@@ -6,8 +6,10 @@ import { useTheme } from "next-themes";
 
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/shadcn/style.css";
+import "@blocknote/xl-ai/style.css"; // add the AI stylesheet
 
 import { fr } from "./fr";
+
 import { extensions } from "./extensions"
 
 import { updateProjectContent } from "@/actions/updateProjectContentAction";
@@ -33,7 +35,7 @@ const colors = [
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function Editor({ content, projectId, readOnly=false, user }: { content: any, projectId?: string, readOnly?: boolean, user?: User }) {
+export default function Editor({ content, projectId, readOnly = false, user }: { content: any, projectId?: string, readOnly?: boolean, user?: User }) {
   // Références pour les objets Yjs
   const docRef = useRef<Y.Doc | null>(null);
   const providerRef = useRef<YPartyKitProvider | null>(null);
@@ -71,7 +73,7 @@ export default function Editor({ content, projectId, readOnly=false, user }: { c
   }, [projectId]);
 
   let colabConfig;
-  
+
   if (projectId && user) {
     const WS_URL = process.env.NEXT_PUBLIC_PARTYKIT_URL || "ws://0.0.0.0:1999/rooms/insify";
     const doc = new Y.Doc();
@@ -118,7 +120,6 @@ export default function Editor({ content, projectId, readOnly=false, user }: { c
     _tiptapOptions: {
       extensions: extensions,
     },
-
     collaboration: projectId ? colabConfig : undefined
   });
 

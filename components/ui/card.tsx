@@ -7,7 +7,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-4 sm:py-6 shadow-sm w-full max-w-full sm:max-w-2xl", // Ajout w-full et max-w-full pour mobile, sm:max-w-2xl pour desktop
         className
       )}
       {...props}
@@ -49,7 +49,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
-      className={cn("px-6", className)}
+      className={cn("px-3 sm:px-6", className)} // padding réduit sur mobile
       {...props}
     />
   )

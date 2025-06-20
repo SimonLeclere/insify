@@ -58,9 +58,9 @@ const getNavItems = (teamID: number | null, pathname: string | null) => [
     icon: Settings2,
     isActive: pathname?.startsWith(`${baseURL}/${teamID}/settings`),
     items: [
-      { title: "Général", url: `${baseURL}/${teamID}/settings/general` },
-      { title: "Apparence", url: `${baseURL}/${teamID}/settings/appearance` },
-      { title: "Équipe", url: `${baseURL}/${teamID}/settings/team` },
+      { title: "Général", url: `${baseURL}/${teamID}/settings#general` },
+      { title: "Fonctionnalités", url: `${baseURL}/${teamID}/settings#features` },
+      { title: "Apparence", url: `${baseURL}/${teamID}/settings#appearance` },
     ],
   },
 ];
