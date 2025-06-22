@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { usePathname } from "next/navigation";
-import { Prisma } from "@prisma/client";
 import { BookOpen, Settings2, File, Home } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -17,83 +16,56 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-const baseURL = "/t"; // Base des URLs en fonction des équipes
-
-const getNavItems = (teamID: number | null, pathname: string | null) => [
+const getNavItems = (pathname: string | null) => [
   {
     title: "Accueil",
-    url: `${baseURL}/${teamID}`,
+    url: `/`,
     icon: Home,
-    isActive: pathname === `${baseURL}/${teamID}`,
+    isActive: pathname === `/`,
     items: [
-      { title: "Projets", url: `${baseURL}/${teamID}/projects` },
-      { title: "Partages", url: `${baseURL}/${teamID}/projects` },
-      { title: "Statistiques", url: `${baseURL}/${teamID}/stats` },
+      { title: "Projets", url: `/projects` },
+      { title: "Partages", url: `/projects` },
+      { title: "Statistiques", url: `/stats` },
     ],
   },
   {
     title: "Modèles",
-    url: `${baseURL}/${teamID}/templates`,
+    url: `/templates`,
     icon: File,
-    isActive: pathname?.startsWith(`${baseURL}/${teamID}/templates`),
+    isActive: pathname?.startsWith(`/templates`),
     items: [
-      { title: "Galerie publique", url: `${baseURL}/${teamID}/templates/public` },
-      { title: "Mes modèles", url: `${baseURL}/${teamID}/templates/mine` },
+      { title: "Galerie publique", url: `/templates/public` },
+      { title: "Mes modèles", url: `/templates/mine` },
     ],
   },
   {
     title: "Documentation",
-    url: `${baseURL}/${teamID}/doc`,
+    url: `/doc`,
     icon: BookOpen,
-    isActive: pathname?.startsWith(`${baseURL}/${teamID}/doc`),
+    isActive: pathname?.startsWith(`/doc`),
     items: [
-      { title: "Introduction", url: `${baseURL}/${teamID}/docs/introduction` },
-      { title: "Tutoriels", url: `${baseURL}/${teamID}/docs/tutorials` },
-      { title: "Nouveautés", url: `${baseURL}/${teamID}/docs/changelog` },
+      { title: "Introduction", url: `/docs/introduction` },
+      { title: "Tutoriels", url: `/docs/tutorials` },
+      { title: "Nouveautés", url: `/docs/changelog` },
     ],
   },
   {
     title: "Paramètres",
-    url: `${baseURL}/${teamID}/settings`,
+    url: `/settings`,
     icon: Settings2,
-    isActive: pathname?.startsWith(`${baseURL}/${teamID}/settings`),
+    isActive: pathname?.startsWith(`/settings`),
     items: [
-      { title: "Général", url: `${baseURL}/${teamID}/settings#general` },
-      { title: "Fonctionnalités", url: `${baseURL}/${teamID}/settings#features` },
-      { title: "Apparence", url: `${baseURL}/${teamID}/settings#appearance` },
+      { title: "Compte", url: `/settings#account` },
+      { title: "Général", url: `/settings#general` },
+      { title: "Apparence", url: `/settings#appearance` },
+      { title: "IA", url: `/settings#ai` },
     ],
   },
 ];
 
-type UserWithTeams = Prisma.UserGetPayload<{
-  include: {
-    teams: {
-      select: {
-        id: true;
-        name: true;
-        TeamUser: {
-          select: {
-            userId: true;
-            role: true;
-          };
-        };
-      };
-    };
-  };
-}>;
-
-type AppSidebarProps = {
-  user: UserWithTeams | null;
-  currentTeamID: number;
-};
-
-export function AppSidebar({
-  user,
-  currentTeamID,
-  ...props
-}: AppSidebarProps) {
+export function AppSidebar({ ...props }) {
   const pathname = usePathname();
-  const navMain = getNavItems(currentTeamID, pathname);
+  const navMain = getNavItems(pathname);
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -102,10 +74,10 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navMain} />
-        <NavProjects teamId={currentTeamID} />
+        <NavProjects />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

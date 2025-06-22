@@ -1,6 +1,6 @@
 import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/login-form"
-import { auth } from "@/lib/auth-better"
+import { auth } from "@/lib/auth"
 import Image from "next/image"
 import { UserSession } from "@/components/user-session"
 import { headers } from "next/headers"

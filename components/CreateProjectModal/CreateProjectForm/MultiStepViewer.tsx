@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { CreateProjectFormValues } from "./types";
 import {
@@ -43,7 +43,16 @@ export default function MultiStepViewer({ form }: MultiStepViewerProps) {
                   Nom du projet<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="Machine learning - TD 1" {...field} />
+                  <Input
+                    placeholder="Machine learning - TD 1"
+                    {...field}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !isLastStep) {
+                        e.preventDefault();
+                        goToNext();
+                      }
+                    }}
+                  />
                 </FormControl>
                 {/* Message d'erreur si le champ est vide */}
                 <FormMessage>
@@ -92,7 +101,7 @@ export default function MultiStepViewer({ form }: MultiStepViewerProps) {
         />
         <FormField
           control={form.control}
-          name="team"
+          name="organizationId"
           render={({ field }) => {
             return (
               <FormItem>
@@ -151,6 +160,12 @@ export default function MultiStepViewer({ form }: MultiStepViewerProps) {
                           id={value}
                           className="peer sr-only"
                           disabled={disabled}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && !isLastStep) {
+                              e.preventDefault();
+                              goToNext();
+                            }
+                          }}
                         />
                         <Label
                           htmlFor={value}
@@ -218,8 +233,32 @@ export default function MultiStepViewer({ form }: MultiStepViewerProps) {
   // Récupérer le contenu de l'étape courante
   const current = stepFormElements[currentStep];
 
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (isLastStep && submitButtonRef.current) {
+      submitButtonRef.current.focus();
+    }
+  }, [isLastStep]);
+
   return (
-    <div className="flex flex-col gap-2 pt-3">
+    <div
+      className="flex flex-col gap-2 pt-3"
+      onKeyDown={(e) => {
+        // On ignore si Entrée est pressé dans un input ou textarea
+        const tag = (e.target as HTMLElement).tagName;
+        if (
+          e.key === "Enter" &&
+          !isLastStep &&
+          tag !== "INPUT" &&
+          tag !== "TEXTAREA" &&
+          tag !== "BUTTON"
+        ) {
+          e.preventDefault();
+          goToNext();
+        }
+      }}
+    >
       <div className="flex-col-start gap-1">
         <span>
           Étape {steps.indexOf(currentStep) + 1} sur {steps.length}
@@ -257,12 +296,13 @@ export default function MultiStepViewer({ form }: MultiStepViewerProps) {
           <Button
             size="sm"
             type="submit"
+            ref={submitButtonRef}
             onClick={(e) => form.formState.isSubmitting && e.preventDefault()}
           >
             {form.formState.isSubmitting ? (
               <Loader2 className="w-4 h-4 animate-spin mr-2" />
             ) : null}
-            Valider et Soumettre
+            Valider
           </Button>
         ) : (
           <Button

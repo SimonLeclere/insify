@@ -1,7 +1,7 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 import { ThemeProvider } from "@/providers/themeProvider";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
+import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,11 +10,8 @@ export const metadata = {
   description: "Un éditeur de texte pour générer des sujets de TD",
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode; }) {
+
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={`${inter.className} flex h-screen`}>
@@ -24,7 +21,7 @@ export default async function RootLayout({
           enableSystem
         >
           {children}
-          <Toaster richColors/>          
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>

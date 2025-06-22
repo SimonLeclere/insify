@@ -1,7 +1,5 @@
 import { useCallback } from "react";
 import { toast } from "sonner";
-import { exportProject } from "@/actions/exportProjectAction";
-import { BlockNoteSchema } from "@blocknote/core";
 import { Prisma } from "@prisma/client";
 
 const sanitizeFilename = (title: string) => {
@@ -17,28 +15,14 @@ type Project = Prisma.ProjectGetPayload<object>;
 const useExportPDF = () => {
   return useCallback(async (project: Project) => {
 
-    const exportPromise = exportProject(project.id, BlockNoteSchema.create())
-      .then(({ success, data: blob, error }) => {
-        if (!success || !blob) throw error;
-
-        const safeTitle = sanitizeFilename(project.name) || "document";
-
-        // Déclenche le téléchargement
-        const a = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        
-        a.href = url;
-        a.download = `${safeTitle}.pdf`;
-        a.click();
-        URL.revokeObjectURL(url);
-
-        return "Exportation réussie 🎉";
-      });
+    const exportPromise = new Promise<string>(async (resolve, reject) => {
+      reject("Exportation non implémentée pour le moment.");
+    });
 
     toast.promise(exportPromise, {
       loading: "Exportation en cours...",
       success: (message) => message,
-      error: "Échec de l'exportation ❌",
+      error: (error) => error,
     });
   }, []);
 };

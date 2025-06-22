@@ -1,61 +1,115 @@
 "use server";
 
-import { getServerAuth } from "@/hooks/serverAuth";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-export async function deleteProject(projectId: number) {
-  if (!projectId) {
-    return { success: false, data: null, error: "Aucun projet sélectionné." };
-  }
-
+export async function deleteProject(projectId: string) {
+  "use server";
   try {
-    const session = await getServerAuth();
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
     if (!session) {
-      return { success: false, data: null, error: "Utilisateur non connecté." };
+      return { success: false, data: null, error: "User not authenticated." };
     }
 
-    const userId = session?.user?.id;
-
-    const project = await prisma.project.findUnique({
-      where: { id: projectId },
+    if (!projectId) {
+      return { success: false, data: null, error: "The selected project does not exist or does not belong to your organizations." };
+    }
+    
+    const userOrganizations = await auth.api.listOrganizations({
+      headers: await headers(),
     });
+
+    const project = await prisma.project.findFirst({
+      where: { id: projectId, organizationId: { in: userOrganizations.map(org => org.id) } },
+    });
+
     if (!project) {
-      return {
-        success: false,
-        data: null,
-        error: "Le projet sélectionné n'existe pas.",
-      };
+      return { success: false, data: null, error: "The selected project does not exist or does not belong to your organizations." };
     }
 
-    const teamUser = await prisma.teamUser.findFirst({
-      where: { teamId: project.teamId, userId: userId },
+    const organization = userOrganizations.find(org => org.id === project.organizationId);
+
+    const hasPermission = await auth.api.hasPermission({
+      headers: await headers(),
+      body: {
+        organizationId: organization?.id,
+        permissions: {
+          project: ["delete"],
+        }
+      }
     });
-    if (!teamUser) {
-      return { success: false, data: null, error: "Manque de permissions." };
+
+    if (!hasPermission.success) {
+      return { success: false, data: null, error: "Invalid permissions." };
     }
 
     const deletedProject = await prisma.project.update({
       where: { id: projectId },
-      data: { deletedAt: new Date() }, // Marquer comme supprimé
+      data: { deletedAt: new Date() },
     });
 
     return { success: true, data: deletedProject, error: null };
+
   } catch (error) {
-    console.error("Erreur lors de la suppression du projet :", error);
-    return { success: false, data: null, error: "Erreur inconnue." };
+    console.error("Error deleting project:", error);
+    return { success: false, data: null, error: "Unknown error." };
   }
 }
 
-export async function restoreProject(projectId: number) {
+export async function restoreProject(projectId: string) {
+  "use server";
   try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) {
+      return { success: false, data: null, error: "User not authenticated." };
+    }
+
+    if (!projectId) {
+      return { success: false, data: null, error: "The selected project does not exist or does not belong to your organizations." };
+    }
+    
+    const userOrganizations = await auth.api.listOrganizations({
+      headers: await headers(),
+    });
+
+    const project = await prisma.project.findFirst({
+      where: { id: projectId, organizationId: { in: userOrganizations.map(org => org.id) } },
+    });
+
+    if (!project) {
+      return { success: false, data: null, error: "The selected project does not exist or does not belong to your organizations." };
+    }
+
+    const organization = userOrganizations.find(org => org.id === project.organizationId);
+
+    const hasPermission = await auth.api.hasPermission({
+      headers: await headers(),
+      body: {
+        organizationId: organization?.id,
+        permissions: {
+          project: ["delete"]
+        }
+      }
+    });
+
+    if (!hasPermission.success) {
+      return { success: false, data: null, error: "Invalid permissions." };
+    }
+
     const restoredProject = await prisma.project.update({
       where: { id: projectId },
-      data: { deletedAt: null }, // Restaurer le projet
+      data: { deletedAt: null },
     });
 
     return { success: true, data: restoredProject, error: null };
+
   } catch (error) {
-    console.error("Erreur lors de la restauration du projet :", error);
-    return { success: false, data: null, error: "Impossible de restaurer." };
+    console.error("Error restoring project:", error);
+    return { success: false, data: null, error: "Unknown error." };
   }
 }

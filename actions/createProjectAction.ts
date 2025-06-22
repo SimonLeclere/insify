@@ -1,58 +1,67 @@
 "use server";
 
 import { CreateProjectFormValues } from "@/components/CreateProjectModal/CreateProjectForm/types";
-import { getServerAuth } from "@/hooks/serverAuth";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 
 export async function createProjectAction(data: CreateProjectFormValues) {
+  "use server";
+  
   try {
+    // Récupération de la session utilisateur
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
+    
+    if (!session) {
+      return { success: false, data: null, error: "User not authenticated." };
+    }
+
     // Vérification du nom du projet
     if (!data.projectName || data.projectName.trim().length === 0) {
       return {
         success: false,
         data: null,
-        error: "Le nom du projet est requis.",
+        error: "Project name is required.",
       };
     }
 
-    // Vérification de l'ID de l'équipe
-    const teamId = parseInt(data.team, 10);
-    if (isNaN(teamId)) {
-      return { success: false, data: null, error: "Equipe invalide." };
+    // Vérification de l'ID de l'organisation
+    if (!data.organizationId) {
+      return { success: false, data: null, error: "Invalid organization." };
     }
 
-    // Vérification de l'existence de l'équipe
-    const team = await prisma.team.findUnique({
-      where: { id: teamId },
+    // Vérification de l'existence de l'organisation
+    const userOrganizations = await auth.api.listOrganizations({
+      headers: await headers(),
     });
-    if (!team) {
+
+    const organization = userOrganizations.find(org => org.id === data.organizationId);
+
+    if (!organization) {
       return {
         success: false,
         data: null,
-        error: "L'équipe spécifiée n'existe pas.",
+        error: "Organization not found.",
       };
     }
 
-    // Récupérer l'ID de l'utilisateur connecté
-    const session = await getServerAuth();
-    if (!session) {
-      return { success: false, data: null, error: "Utilisateur non connecté." };
-    }
-
-    const userId = session?.user?.id;
-
-    // Vérifier que l'utilisateur est membre de l'équipe
-    const teamUser = await prisma.teamUser.findFirst({
-      where: {
-        teamId: teamId,
-        userId: userId,
-      },
+    // Vérification de la permission 'create' sur le projet dans l'organisation
+    const hasPermission = await auth.api.hasPermission({
+      headers: await headers(),
+      body: {
+        organizationId: organization.id,
+        permissions: {
+          project: ["create"]
+        }
+      }
     });
-    if (!teamUser) {
+    if (!hasPermission.success) {
       return {
         success: false,
         data: null,
-        error: "Vous n'êtes pas membre de cette équipe.",
+        error: "Invalid permissions.",
       };
     }
 
@@ -62,17 +71,18 @@ export async function createProjectAction(data: CreateProjectFormValues) {
         name: data.projectName,
         description: data.description,
         icon: data.icon || "Book",
-        team: { connect: { id: teamId } },
-        creator: { connect: { id: teamUser.id } },
+        organizationId: data.organizationId,
+        createdById: session.user.id,
+        updatedById: session.user.id,
       },
     });
     return { success: true, data: project, error: null };
   } catch (error) {
-    console.error("Erreur lors de la création du projet :", error);
+    console.error("Error creating project:", error);
     return {
       success: false,
       data: null,
-      error: "Une erreur est survenue lors de la création du projet.",
+      error: "An error occurred while creating the project.",
     };
   }
 }

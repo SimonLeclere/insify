@@ -28,49 +28,26 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Prisma } from "@prisma/client"
-import { signOut } from "@/lib/auth-client"
+import { useSession, signOut } from "@/lib/auth-client"
 
-type UserWithTeams = Prisma.UserGetPayload<{
-  include: {
-    teams: {
-      select: {
-        id: true;
-        name: true;
-        TeamUser: {
-          select: {
-            role: true;
-          };
-        };
-      };
-    };
-  };
-}>;
+export function NavUser() {
+  const { isMobile } = useSidebar()
+  const { data, isPending } = useSession();
+  const user = data?.user;
 
-type NavUserProps = {
-  user: UserWithTeams | null;
-};
-
-const getInitials = (firstName?: string | null, lastName?: string | null, name?: string) => {
-  if (firstName && lastName) {
-    return `${firstName[0]}${lastName[0]}`.toUpperCase();
-  }
-  return name ? name[0].toUpperCase() : "";
-};
-
-export function NavUser({ user }: NavUserProps) {
-  const { isMobile } = useSidebar()  
-
-  if (!user) {
+  if (!user || isPending) {
     return (
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton size="lg" className="flex items-center space-x-4">
-            <Skeleton className="h-8 w-8 rounded-lg" />
-            <div className="space-y-2 flex-1">
-              <Skeleton className="h-4 w-[150px]" />
-              <Skeleton className="h-3 w-[100px]" />
+          <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+            <Avatar className="h-8 w-8 rounded-lg">
+              <Skeleton className="h-8 w-8 rounded-lg" />
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight gap-1">
+              <Skeleton className="h-4 w-[100px]" />
+              <Skeleton className="h-3 w-[150px]" />
             </div>
+            <ChevronsUpDown className="ml-auto size-4 opacity-50 animate-pulse" />
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
@@ -87,12 +64,12 @@ export function NavUser({ user }: NavUserProps) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user?.image || ''} alt={user.name || ''} />
-                <AvatarFallback className="rounded-lg">{getInitials(user?.firstName, user?.lastName, user?.name)}</AvatarFallback>
+                <AvatarImage src={user?.image || ''} alt={user?.name || ''} />
+                <AvatarFallback className="rounded-lg">{user?.name}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">{user?.name}</span>
+                <span className="truncate text-xs">{user?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -106,12 +83,12 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.image || ''} alt={user.name || ''} />
-                  <AvatarFallback className="rounded-lg">{getInitials(user?.firstName, user?.lastName, user?.name)}</AvatarFallback>
+                  <AvatarImage src={user?.image || ''} alt={user?.name || ''} />
+                  <AvatarFallback className="rounded-lg">{user?.name?.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-medium">{user?.name}</span>
+                  <span className="truncate text-xs">{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

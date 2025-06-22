@@ -1,5 +1,5 @@
-// src/components/CreateProjectForm/CreateProjectForm.tsx
 "use client";
+
 import React from "react";
 import { useForm } from "react-hook-form";
 import { CreateProjectFormValues } from "./types";
@@ -9,26 +9,23 @@ import MultiStepViewer from "./MultiStepViewer";
 import { toast } from "sonner";
 import { useProjects } from "@/providers/ProjectsContext";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 
-type CreateProjectFormProps = {
-  currentTeamID: number;
-  onClose: () => void;
-};
+type CreateProjectFormProps = { onClose: () => void; };
 
-export default function CreateProjectForm({
-  currentTeamID,
-  onClose,
-}: CreateProjectFormProps) {
+export default function CreateProjectForm({ onClose }: CreateProjectFormProps) {
   const { addProject } = useProjects();
   const router = useRouter();
+
+  const { data: activeOrganization, isPending } = authClient.useActiveOrganization()
 
   const projectForm = useForm<CreateProjectFormValues>({
     defaultValues: {
       icon: "Book",
       projectName: "",
       description: "",
-      team: currentTeamID.toString(),
+      organizationId: activeOrganization?.id,
       template: "blank",
     },
     mode: "onChange",
@@ -47,6 +44,10 @@ export default function CreateProjectForm({
     },
   });
 
+  if (isPending || !activeOrganization) {
+    return null;
+  }
+
   const { handleSubmit } = projectForm;
 
   const onSubmit = async (formData: CreateProjectFormValues) => {
@@ -58,7 +59,7 @@ export default function CreateProjectForm({
         resolve(data);
         addProject(data);
 
-        router.push(`/t/${data.teamId}/editor/${data.id}`);
+        router.push(`/editor/${data.id}`);
       } else {
         reject(error);
       }
@@ -67,10 +68,23 @@ export default function CreateProjectForm({
     await toast.promise(promise, {
       loading: "Création du projet...",
       success: "Projet créé avec succès !",
-      error: (error) => ({
-        message: `Erreur lors de la création du projet`,
-        description: error,
-      }),
+      error: (error) => {
+        if (error === "User not authenticated.") {
+          return {
+            message: "Vous n'êtes pas connecté.",
+            action: {
+              label: "Se reconnecter",
+              onClick: () => {
+                router.push("/auth/login");
+              }
+            },
+          };
+        }
+        return {
+          message: `Erreur lors de la création du projet`,
+          description: error === "Invalid permissions." ? "Permissions insuffisantes" : null,
+        };
+      },
     });
   };
 

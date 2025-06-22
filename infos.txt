@@ -19,7 +19,7 @@ Fonctionnalités clés :
 - Export PDF, historique des modifications, gestion des fonctionnalités avancées.
 - Responsive design
 - Utilisation de Prisma pour la gestion des données et migrations.
-- Architecture modulaire avec providers (TeamsProvider, ProjectsProvider, etc).
+- Architecture modulaire avec providers (ProjectsProvider, etc).
 
 Stack technique :
 - Next.js (app router)

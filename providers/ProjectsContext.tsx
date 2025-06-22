@@ -9,8 +9,8 @@ type ProjectsContextType = {
   allUserProjects: Project[];
   visibleProjects: Project[];
   addProject: (newProject: Project) => void;
-  removeProject: (projectID: number) => void;
-  restoreProject: (projectID: number) => void;
+  removeProject: (projectID: string) => void;
+  restoreProject: (projectID: string) => void;
   loadMoreProjects: () => void;
   hasMore: boolean;
 };
@@ -26,7 +26,7 @@ export const ProjectsProvider = ({ children, initialProjects }: { children: Reac
     setVisibleCount((prev) => prev + 1);
   };
 
-  const removeProject = (projectID: number) => {
+  const removeProject = (projectID: string) => {
     setAllProjects((prevProjects) =>
       prevProjects.map((p) =>
         p.id === projectID ? { ...p, deletedAt: new Date() } : p
@@ -34,8 +34,8 @@ export const ProjectsProvider = ({ children, initialProjects }: { children: Reac
     );
     setVisibleCount((prev) => (prev - 1 <= 5 ? 5 : prev - 1));
   };
-  
-  const restoreProject = (projectID: number) => {
+
+  const restoreProject = (projectID: string) => {
     setAllProjects((prevProjects) =>
       prevProjects.map((p) =>
         p.id === projectID ? { ...p, deletedAt: null } : p

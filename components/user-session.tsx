@@ -27,7 +27,7 @@ export function UserSession({ user }: UserSessionProps) {
     <div className="flex flex-col items-center gap-4">
       <Avatar className="h-8 w-8 rounded-lg">
         <AvatarImage src={user.image || ""} alt={user.name || ""} />
-        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+        <AvatarFallback className="rounded-lg">{user.name.charAt(0)}</AvatarFallback>
       </Avatar>
       <p className="text-lg font-medium">
         Vous êtes connecté en tant que <br />

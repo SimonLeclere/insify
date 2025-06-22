@@ -1,6 +1,7 @@
 "use client"
 
 import { ChevronRight, type LucideIcon } from "lucide-react"
+import { useState } from "react"
 
 import {
   Collapsible,
@@ -32,15 +33,19 @@ export function NavMain({
     }[]
   }[]
 }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(
+    items.findIndex((item) => item.isActive)
+  )
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Menu</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
+        {items.map((item, idx) => (
           <Collapsible
             key={item.title}
             asChild
-            defaultOpen={item.isActive}
+            open={openIndex === idx}
+            onOpenChange={(open) => setOpenIndex(open ? idx : null)}
             className="group/collapsible"
           >
             <SidebarMenuItem>

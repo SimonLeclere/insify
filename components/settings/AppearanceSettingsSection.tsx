@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,8 +22,7 @@ export default function AppearanceSettingsSection() {
             </RadioGroup>
           </div>
           <div>
-            <label className="block mb-1 font-medium">Couleur d'accentuation</label>
-            {/* TODO: Color picker ou select de couleurs */}
+            <label className="block mb-1 font-medium">Couleur d&apos;accentuation</label>
             <Select>
               <SelectTrigger>
                 <SelectValue placeholder="Choisir une couleur" />

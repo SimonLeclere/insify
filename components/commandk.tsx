@@ -29,7 +29,7 @@ const IconsMap = Icons as unknown as Record<string, Icons.LucideIcon>;
 import { useProjectModal } from "@/components/CreateProjectModal/ProjectModalProvider";
 import { useProjects } from "@/providers/ProjectsContext";
 import { useRouter } from "next/navigation";
-import { useTeams } from "@/providers/TeamsProvider";
+import { authClient } from "@/lib/auth-client";
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
@@ -39,7 +39,9 @@ export function CommandMenu() {
   const { openModal: openCreateProjectModal } = useProjectModal();
   const { theme, setTheme } = useTheme();
   const { allUserProjects } = useProjects();
-  const { teams, currentTeamID } = useTeams();
+
+  const { data: organizations } = authClient.useListOrganizations();
+  // const { data: activeOrganization } = authClient.useActiveOrganization(); // TODO, highlight active organization in command menu
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -109,7 +111,7 @@ export function CommandMenu() {
                     keywords={["%"]}
                     onSelect={() =>
                       runCommand(() =>
-                        router.push(`/t/${p.teamId}/editor/${p.id}`)
+                        router.push(`/editor/${p.id}`)
                       )
                     }
                   >
@@ -135,16 +137,20 @@ export function CommandMenu() {
 
           <CommandGroup heading="Équipes">
             {search?.trim().startsWith("$") &&
-              teams?.map((t) => {
+              organizations?.map((o) => {
                 return (
                   <CommandItem
-                    key={`team-${t.id}`}
+                    key={`organization-${o.id}`}
                     keywords={["%"]}
-                    onSelect={() => runCommand(() => router.push(`/t/${t.id}`))}
+                    onSelect={() => runCommand(async () => {
+                      await authClient.organization.setActive({
+                        organizationId: o.id,
+                      })
+                    })}
                   >
                     <Icons.UsersRound />
-                    <span>{t.name}</span>
-                    <span className="sr-only">$ {t.name}</span>
+                    <span>{o.name}</span>
+                    <span className="sr-only">$ {o.name}</span>
                   </CommandItem>
                 );
               })}
@@ -179,7 +185,7 @@ export function CommandMenu() {
                 <CommandItem
                   keywords={[">"]}
                   onSelect={() =>
-                    runCommand(() => router.push(`/t/${currentTeamID}`))
+                    runCommand(() => router.push(`/`))
                   }
                 >
                   <Icons.Home />
@@ -189,7 +195,7 @@ export function CommandMenu() {
                 <CommandItem
                   keywords={[">"]}
                   onSelect={() =>
-                    runCommand(() => router.push(`/t/${currentTeamID}/projects`))
+                    runCommand(() => router.push(`/projects`))
                   }
                 >
                   <LayoutGrid />
@@ -199,7 +205,7 @@ export function CommandMenu() {
                 <CommandItem
                   keywords={[">"]}
                   onSelect={() =>
-                    runCommand(() => router.push(`/t/${currentTeamID}/docs/introduction`))
+                    runCommand(() => router.push(`/docs/introduction`))
                   }
                 >
                   <Icons.BookOpen />

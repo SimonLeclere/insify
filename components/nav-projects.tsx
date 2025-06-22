@@ -41,7 +41,7 @@ import useExportPDF from "@/hooks/useExportPDF";
 
 type Project = Prisma.ProjectGetPayload<object>;
 
-export function NavProjects({ teamId }: { teamId: number }) {
+export function NavProjects() {
   const { isMobile } = useSidebar();
   const { openModal } = useProjectModal();
   const { projectID: activeProjectId } = useParams<{ projectID: string }>();
@@ -92,13 +92,15 @@ export function NavProjects({ teamId }: { teamId: number }) {
     setConfirmOpen(false);
 
     const promise = new Promise(async (resolve, reject) => {
-      const { success, data, error } = await deleteProject(project.id);
+      const result = await deleteProject(project.id);
+      console.log("Delete project result:", result);
+      const { success, data, error } = result;
       if (success && data) {
         resolve(data);
         removeProject(project.id);
 
         if (project.id.toString() === activeProjectId) {
-          router.push(`/t/${teamId}`); // Rediriger vers l'accueil de l'équipe
+          router.push(`/`);
         }
 
       } else {
@@ -123,14 +125,30 @@ export function NavProjects({ teamId }: { teamId: number }) {
           },
         },
       }),
-      error: "Erreur lors de la suppression du projet",
+      error: (error) => {
+        if (error === "User not authenticated.") {
+          return {
+            message: "Vous n'êtes pas connecté.",
+            action: {
+              label: "Se reconnecter",
+              onClick: () => {
+                router.push("/auth/login");
+              }
+            },
+          };
+        }
+        return {
+          message: `Erreur lors de la suppression du projet`,
+          description: error === "Invalid permissions." ? "Permissions insuffisantes" : null,
+        };
+      },
     });
   };
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>
-        Projets
+        Projets récents
         <button
           className="ml-auto text-sidebar-foreground/70 cursor-pointer hover:bg-sidebar-accent p-1 rounded-md"
           onClick={openModal}
@@ -166,7 +184,7 @@ export function NavProjects({ teamId }: { teamId: number }) {
                   }
                 >
                   <SidebarMenuButton asChild>
-                    <Link href={`/t/${item.teamId}/editor/${item.id}`}>
+                    <Link href={`/editor/${item.id}`}>
                       <Icon />
                       <span>{item.name}</span>
                     </Link>

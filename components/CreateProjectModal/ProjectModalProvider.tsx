@@ -9,12 +9,11 @@ type ProjectModalContextType = {
 
 type TeamSwitcherProps = {
   children: ReactNode;
-  currentTeamID: number;
 }
 
 const ProjectModalContext = createContext<ProjectModalContextType | undefined>(undefined);
 
-export function ProjectModalProvider({ currentTeamID, children }: TeamSwitcherProps) {
+export function ProjectModalProvider({ children }: TeamSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
@@ -23,8 +22,7 @@ export function ProjectModalProvider({ currentTeamID, children }: TeamSwitcherPr
   return (
     <ProjectModalContext.Provider value={{ openModal }}>
       {children}
-      {/* Le modal est rendu ici et son état est géré par le provider */}
-      <CreateProjectModal isOpen={isOpen} onClose={closeModal} currentTeamID={currentTeamID} />
+      <CreateProjectModal isOpen={isOpen} onClose={closeModal} />
     </ProjectModalContext.Provider>
   );
 }

@@ -17,39 +17,56 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { Prisma } from "@prisma/client"
-import { useRouter } from "next/navigation"
-import { useTeams } from "@/providers/TeamsProvider"
-
-type TeamWithTeamUsers = Prisma.TeamGetPayload<{
-  include: {
-    TeamUser: true;
-  };
-}>
+import { Organization } from "@/lib/auth"
+import { authClient } from "@/lib/auth-client"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Avatar } from "./ui/avatar"
 
 type TeamSwitcherProps = {
-  onChange?: (team: TeamWithTeamUsers) => void;
+  onChange?: (organization: Organization) => void;
 };
+
+const rolesTranslation = {
+  ownerRole: "Propriétaire",
+  adminRole: "Administrateur",
+  memberRole: "Membre",
+}
 
 export function TeamSwitcher({ onChange }: TeamSwitcherProps) {
 
   const { isMobile } = useSidebar()
-  const { teams, currentTeamID, setCurrentTeamID } = useTeams()
-  const router = useRouter();
-  
-  const [activeTeam, setActiveTeam] = React.useState(teams && (teams.find(x => x.id === currentTeamID) || teams[0]))
 
-  const changeTeam = (team: TeamWithTeamUsers) => {
-    setActiveTeam(team)
-    if (onChange) onChange(team)
+  const { data: organizations } = authClient.useListOrganizations();
+  const { data: activeOrganization, isPending: isActiveOrgPending } = authClient.useActiveOrganization();
+  const { data: activeMember, isPending: isMemberPending } = authClient.useActiveMember();
+
+
+  const changeTeam = async (organization: Organization) => {
+    if (onChange) onChange(organization);
     else {
-      setCurrentTeamID(team.id)
-      router.push(`/t/${team.id}`);
+      await authClient.organization.setActive({
+        organizationId: organization.id,
+      })
     }
   };
 
-  if (!teams || !activeTeam) {
-    return null
+  if (!activeOrganization || !organizations || !activeMember || isActiveOrgPending || isMemberPending) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+            <Avatar className="h-8 w-8 rounded-lg">
+              <Skeleton className="h-8 w-8 rounded-lg" />
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight gap-1">
+              <Skeleton className="h-4 w-[120px]" />
+              <Skeleton className="h-3 w-[80px]" />
+            </div>
+            <ChevronsUpDown className="ml-auto size-4 opacity-50 animate-pulse" />
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
   }
 
   return (
@@ -65,8 +82,8 @@ export function TeamSwitcher({ onChange }: TeamSwitcherProps) {
                 <GalleryVerticalEnd className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{activeTeam.name}</span>
-                <span className="truncate text-xs">{"Etudiant"}</span>
+                <span className="truncate font-medium">{activeOrganization.name}</span>
+                <span className="truncate text-xs">{rolesTranslation[activeMember?.role as keyof typeof rolesTranslation]}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -80,16 +97,16 @@ export function TeamSwitcher({ onChange }: TeamSwitcherProps) {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Teams
             </DropdownMenuLabel>
-            {teams.map((team) => (
+            {organizations.map((organization) => (
               <DropdownMenuItem
-                key={team.name}
-                onClick={() => changeTeam(team)}
+                key={organization.name}
+                onClick={() => changeTeam(organization)}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-xs border">
                   <GalleryVerticalEnd className="size-4 shrink-0" />
                 </div>
-                {team.name}
+                {organization.name}
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />

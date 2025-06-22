@@ -4,10 +4,9 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'INSify',
-    short_name: 'INSify',
-    description: 'A notion-like editor made for fun',
-    start_url: '/t/1',
+    name: process.env.APP_NAME,
+    short_name: process.env.APP_NAME,
+    description: 'A notion-like editor, built with BlockNoteJS.',
     display: 'standalone',
     lang: "fr",
     theme_color: "#ffffff",

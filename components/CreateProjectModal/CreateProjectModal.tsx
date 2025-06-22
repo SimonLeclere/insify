@@ -13,10 +13,10 @@ import CreateProjectForm from "@/components/CreateProjectModal/CreateProjectForm
 type CreateProjectModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  currentTeamID: number;
 };
 
-export default function CreateProjectModal({ isOpen, onClose, currentTeamID }: CreateProjectModalProps) {
+export default function CreateProjectModal({ isOpen, onClose }: CreateProjectModalProps) {
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="transition-transform">
@@ -25,7 +25,7 @@ export default function CreateProjectModal({ isOpen, onClose, currentTeamID }: C
             <DialogTitle>Créer un projet</DialogTitle>
           </DialogHeader>
         </VisuallyHidden>
-        <CreateProjectForm currentTeamID={currentTeamID} onClose={onClose} />
+        <CreateProjectForm onClose={onClose} />
       </DialogContent>
     </Dialog>
   );

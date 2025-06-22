@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function AISettingsSection() {

@@ -1,6 +1,4 @@
-import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -13,7 +11,7 @@ export default function GeneralSettingsSection() {
         </CardHeader>
         <CardContent className="space-y-6">
           <div>
-            <label className="block mb-1 font-medium">Langue de l'interface</label>
+            <label className="block mb-1 font-medium">Langue de l&apos;interface</label>
             <Select>
               <SelectTrigger>
                 <SelectValue placeholder="Choisir une langue" />
@@ -25,7 +23,7 @@ export default function GeneralSettingsSection() {
             </Select>
           </div>
           <div className="flex items-center justify-between">
-            <span>Afficher le bouton "Affichage markdown brut"</span>
+            <span>Afficher le bouton &quot;Affichage markdown brut&quot;</span>
             <Switch />
           </div>
           <div className="flex items-center justify-between">
