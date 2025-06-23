@@ -110,8 +110,7 @@ export const auth = betterAuth({
     }),
     admin(),
     oAuthProxy({
-      productionURL: process.env.NEXT_PUBLIC_PRODUCTION_URL,
-      currentURL: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:4242",
+      productionURL: process.env.NEXT_PUBLIC_PRODUCTION_URL
     }),
     nextCookies(),
   ],

@@ -24,7 +24,7 @@ export function RandomHint() {
 	const splittedText = hint.split(" ");
 	const pullupVariant = {
 		initial: { y: 20, opacity: 0 },
-		animate: (i: number): any => ({
+		animate: (i: number) => ({
 			y: 0,
 			opacity: 1,
 			transition: {
