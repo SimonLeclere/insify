@@ -16,6 +16,11 @@ export const auth = betterAuth({
 
   appName: process.env.NEXT_PUBLIC_APP_NAME || "INSify",
 
+  trustedOrigins: [
+    process.env.NEXT_PUBLIC_PRODUCTION_URL || "",
+    process.env.NEXT_PUBLIC_BASE_URL || "",
+  ],
+
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -110,7 +115,8 @@ export const auth = betterAuth({
     }),
     admin(),
     oAuthProxy({
-      productionURL: process.env.NEXT_PUBLIC_PRODUCTION_URL
+      productionURL: process.env.NEXT_PUBLIC_PRODUCTION_URL,
+      currentURL: process.env.NEXT_PUBLIC_BASE_URL,
     }),
     nextCookies(),
   ],
@@ -134,7 +140,7 @@ export const auth = betterAuth({
       mapProfileToUser: (profile) => {
         return {
           firstName: profile.name.split(" ")[0],
-          lastName: profile.name.split(" ")[1],
+          lastName: profile.name.split(" ")[1] || "",
         };
       },
     },

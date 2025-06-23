@@ -4,7 +4,7 @@ import { organizationClient, adminClient, inferAdditionalFields } from "better-a
 import { ac, owner as ownerRole, admin as adminRole, member as memberRole } from "@/lib/permissions"
 
 export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:4242",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   plugins: [
     organizationClient({
       ac,

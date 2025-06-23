@@ -89,13 +89,13 @@ export default function AccountSettingsSection() {
         </CardHeader>
         <CardContent className="space-y-8">
           {/* Infos utilisateur */}
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
             {/* Avatar */}
-            <Avatar className="w-16 h-16 text-xl font-bold">
+            <Avatar className="w-30 h-30 sm:w-16 sm:h-16 text-xl font-bold">
               <AvatarImage src={user?.image || ''} alt={user?.name || ''} />
               <AvatarFallback className="rounded-lg">{user?.name}</AvatarFallback>
             </Avatar>
-            <div className="flex-1 space-y-1">
+            <div className="flex-1 space-y-1 text-center sm:text-left">
               {edit ? (
                 <div className="flex gap-2">
                   <Input className="w-30 h-7" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Prénom" />
@@ -141,32 +141,35 @@ export default function AccountSettingsSection() {
                 const connectedCount = providers.filter(p => p.connected).length;
                 return (
                   <div key={provider.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 p-3 rounded-lg border bg-muted/30 w-full">
-                    
+                    <div className="flex items-center gap-2 w-full sm:w-auto flex-1">
                     {/* TODO: Logo placeholder */}
-                    <Avatar className="w-8 h-8 rounded-lg flex-shrink-0 mx-0 sm:mx-2 mb-2 sm:mb-0 flex items-center justify-center">
+                    <Avatar className="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center self-center">
                       {provider.icon || <span className="text-lg">{provider.name[0]}</span>}
                     </Avatar>
-                    {/* Provider name and email */}
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium">{provider.name}</div>
-                      <div className="text-xs text-muted-foreground truncate">
-                        {provider.connected
-                          ? provider.email || user?.email
-                          : `Connectez votre compte ${provider.name}`}
+                      {/* Provider name and email */}
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium">{provider.name}</div>
+                        <div className="text-xs text-muted-foreground truncate">
+                          {provider.connected
+                            ? provider.email || user?.email
+                            : `Connectez votre compte ${provider.name}`}
+                        </div>
                       </div>
                     </div>
-                    {provider.connected ? (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        disabled={connectedCount === 1}
-                        className="text-destructive border-destructive w-full sm:w-auto"
-                      >
-                        Déconnecter
-                      </Button>
-                    ) : (
-                      <Button size="sm" className="w-full sm:w-auto">Connecter</Button>
-                    )}
+                    <div className="w-full sm:w-auto sm:ml-auto flex-shrink-0">
+                      {provider.connected ? (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={connectedCount === 1}
+                          className="text-destructive border-destructive w-full sm:w-auto"
+                        >
+                          Déconnecter
+                        </Button>
+                      ) : (
+                        <Button size="sm" className="w-full sm:w-auto">Connecter</Button>
+                      )}
+                    </div>
                   </div>
                 );
               })}

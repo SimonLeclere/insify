@@ -130,7 +130,7 @@ export default function SettingsPage() {
         </nav>
       </aside>
       {/* Main Content */}
-      <main ref={mainRef} className="flex-1 h-full overflow-y-auto p-2 md:p-8 space-y-12 md:space-y-24">
+      <main ref={mainRef} className="flex-1 h-full overflow-y-auto md:p-8 space-y-12 md:space-y-24">
         <div ref={accountRef}><AccountSettingsSection /></div>
         <div ref={generalRef}><GeneralSettingsSection /></div>
         <div ref={appearanceRef}><AppearanceSettingsSection /></div>
