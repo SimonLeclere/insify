@@ -59,4 +59,4 @@ Simon développe un éditeur de texte en ligne utilisant Next.js et ShadCN UI. L
 Dans un dossier llm/ par exemple, mettre un fichier par topic avec des instructions sur comment je veux que l'ia développpe. Comme ca Copilot génèrera toujours du bon code (ex: comment récupérer un utilisateur, comment récupérer la session, comment organiser le projet, me demander de rajouter un composant shadcn si besoin, ex)
 
 **TODO**:
-https://www.better-auth.com/docs/concepts/users-accounts#token-encryption
+https://www.better-auth.com/docs/concepts/users-accounts#token-encryption ?
