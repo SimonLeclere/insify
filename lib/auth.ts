@@ -3,6 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma"
 import { nextCookies } from "better-auth/next-js";
 import { organization } from "better-auth/plugins/organization"
 import { admin } from "better-auth/plugins/admin"
+import { oAuthProxy } from "better-auth/plugins/oauth-proxy"
 import { prisma } from "./prisma"
 import {
   ac,
@@ -108,6 +109,10 @@ export const auth = betterAuth({
       }
     }),
     admin(),
+    oAuthProxy({
+      productionURL: process.env.NEXT_PUBLIC_PRODUCTION_URL,
+      currentURL: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:4242",
+    }),
     nextCookies(),
   ],
 
@@ -115,6 +120,7 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      redirectURI: "https://simonsnotion.vercel.app/api/auth/callback/google",
       mapProfileToUser: (profile) => {
         return {
           firstName: profile.given_name,
@@ -125,6 +131,7 @@ export const auth = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      redirectURI: "https://simonsnotion.vercel.app/api/auth/callback/github",
       mapProfileToUser: (profile) => {
         return {
           firstName: profile.name.split(" ")[0],
