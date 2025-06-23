@@ -1,8 +1,10 @@
 "use client";
 
 import { CreateProjectButton } from "@/components/createProjectButton";
+import { RandomHint } from "@/components/RandomHint";
 import { Separator } from "@/components/ui/separator";
 import { useProjects } from "@/providers/ProjectsContext";
+import { useUserSettings } from "@/providers/UserSettingsContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
@@ -35,6 +37,7 @@ export default function Page() {
   const router = useRouter();
 
   const projectsToShow = visibleProjects.slice(0, 3);
+  const { settings, loading } = useUserSettings();
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
@@ -46,16 +49,15 @@ export default function Page() {
         <CreateProjectButton />
       </div>
 
-      {/* Separator */}
-      <Separator className="w-full max-w-md" />
+      {projectsToShow.length > 0 && <>
+        <Separator className="w-full max-w-md" />
 
-      {/* Liste des projets récents */}
-      <div className="w-full max-w-md">
-        <h2 className="text-lg font-medium">Projets récents</h2>
-        {projectsToShow.length > 0 ? (
+        {/* Liste des projets récents */}
+        <div className="w-full max-w-md">
+          <h2 className="text-lg font-medium">Projets récents</h2>
           <ul className="mt-2 space-y-2">
             <AnimatePresence>
-              {projectsToShow.map((project) => (
+              {projectsToShow.map((project, index) => (
                 <motion.div
                   key={project.id}
                   layout
@@ -65,6 +67,7 @@ export default function Page() {
                   transition={{
                     duration: 0.3,
                     ease: "easeOut",
+                    delay: index * 0.05, // Décalage progressif comme dans nav-projects
                   }}
                 >
                   <li
@@ -82,10 +85,27 @@ export default function Page() {
               ))}
             </AnimatePresence>
           </ul>
-        ) : (
-          <p className="mt-2 text-muted-foreground">Aucun projet récent</p>
-        )}
+        </div>
+      </>
+      }
+
+      {/* TODO: placer l'astuce par rapport au bas de la div */}
+      <div className="w-full max-w-md min-h-[48px] flex items-center justify-center">
+        <AnimatePresence>
+          {!loading && settings?.homepageHints && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
+              className="w-full"
+            >
+              <RandomHint />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
     </div>
   );
 }

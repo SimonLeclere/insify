@@ -26,6 +26,7 @@ export const auth = betterAuth({
 
           const u = user as typeof user & { firstName: string, lastName: string };
 
+          // Create a personal team for the user
           const name = `Équipe de ${u.firstName}`;
           const slug = `personal-${u.id}`;
 
@@ -43,6 +44,14 @@ export const auth = betterAuth({
           });
 
           console.log(`✅ Created team "${organization.name}" for user ${u.email}`);
+
+          // Create a Settings record for the user
+          await prisma.settings.create({
+            data: {
+              userId: u.id,
+            }
+          });
+          console.log(`✅ Created settings for user ${u.email}`);
         }
       }
     },

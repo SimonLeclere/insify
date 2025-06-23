@@ -29,13 +29,17 @@ import {
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useSession, signOut } from "@/lib/auth-client"
+import { useRouter } from "next/navigation"
+import { useMounted } from "@/hooks/use-mounted"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
+  const router = useRouter()
   const { data, isPending } = useSession();
   const user = data?.user;
+  const mounted = useMounted();
 
-  if (!user || isPending) {
+  if (!mounted || !user || isPending) {
     return (
       <SidebarMenu>
         <SidebarMenuItem>
@@ -65,7 +69,7 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user?.image || ''} alt={user?.name || ''} />
-                <AvatarFallback className="rounded-lg">{user?.name}</AvatarFallback>
+                <AvatarFallback className="rounded-lg">{user?.name?.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user?.name}</span>
@@ -104,7 +108,15 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className={"cursor-pointer"} onClick={() => signOut()}>
+            <DropdownMenuItem className={"cursor-pointer"} onClick={async () => {
+              await signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.push("/login"); // redirect to login page
+                  },
+                },
+              });
+            }}>
               <LogOut />
               Se déconnecter
             </DropdownMenuItem>

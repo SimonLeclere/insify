@@ -51,6 +51,9 @@ Simon développe un éditeur de texte en ligne utilisant Next.js et ShadCN UI. L
 
 1. Générer des liens d'invitation pour ajouter facilement un utilisateur à une équipe.
 2. Utiliser l'IA pour ajouter automatiquement des tags au documents pour faciliter la recherche. Ou alors laisser l'utilisateur créer des groupes, et offrir une option pour ranger automatiquement le document dans le bon groupe ?
+3. Options pour afficher les curseurs quand on collabore (yjs + perfect cursors)
+4. Vue "read-only" accessible sans se connecter, avec la possibilité de demander l'accès en écriture si besoin
+5. Centre de notifications avec qui a modifié quoi, nouveautés dans l'app, invitations, demandes d'accès, etc.
 
 **Idée pour dev** :
 Dans un dossier llm/ par exemple, mettre un fichier par topic avec des instructions sur comment je veux que l'ia développpe. Comme ca Copilot génèrera toujours du bon code (ex: comment récupérer un utilisateur, comment récupérer la session, comment organiser le projet, me demander de rajouter un composant shadcn si besoin, ex)

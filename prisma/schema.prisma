@@ -57,10 +57,11 @@ model Settings {
 
   // Appearance settings
   accentColor String? // 'blue', 'green', etc.
+  homepageHints Boolean? @default(true)
   editorFont  String? // 'inter', 'roboto', 'mono', etc.
 
   // General settings
-  language        String? // 'fr', 'en', etc.
+  language        String?  @default("en")
   showRawMarkdown Boolean? @default(false)
   showToc         Boolean? @default(true)
   developerMode   Boolean? @default(false)

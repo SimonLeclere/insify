@@ -1,7 +1,8 @@
 import "@/app/globals.css";
-import { ThemeProvider } from "@/providers/themeProvider";
+import { ThemeProvider } from "@/providers/ThemeContext";
 import { Toaster } from "@/components/ui/sonner";
 import { Inter } from "next/font/google";
+import { UserSettingsProvider } from "@/providers/UserSettingsContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           defaultTheme="system"
           enableSystem
         >
-          {children}
+          <UserSettingsProvider>
+            {children}
+          </UserSettingsProvider>
           <Toaster richColors />
         </ThemeProvider>
       </body>
