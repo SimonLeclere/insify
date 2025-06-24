@@ -18,6 +18,7 @@ import { useRef } from "react";
 import debounce from "lodash.debounce";
 import { User } from "better-auth";
 import type { Project } from "@prisma/client";
+import { MobileToolbar } from "./MobileToolbar";
 
 const colors = [ "#958DF1", "#F98181", "#FBBC88", "#FAF594", "#70CFF8", "#94FADB", "#B9F18D" ];
 
@@ -99,6 +100,9 @@ export default function Editor({ project, user }: { project?: Project, user?: Us
     <BlockNoteView
       editor={editor}
       theme={resolvedTheme === "dark" ? "dark" : "light"}
-    />
+      formattingToolbar={false}
+    >
+      <MobileToolbar />
+    </BlockNoteView>
   );
 }

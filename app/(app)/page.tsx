@@ -40,72 +40,62 @@ export default function Page() {
   const { settings, loading } = useUserSettings();
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
-      <div>
-        <h1 className="text-2xl font-semibold">Bienvenue sur INSify</h1>
-        <p className="text-muted-foreground">
-          Créez un nouveau projet pour commencer
-        </p>
-        <CreateProjectButton />
-      </div>
-
-      {projectsToShow.length > 0 && <>
-        <Separator className="w-full max-w-md" />
-
-        {/* Liste des projets récents */}
-        <div className="w-full max-w-md">
-          <h2 className="text-lg font-medium">Projets récents</h2>
-          <ul className="mt-2 space-y-2">
-            <AnimatePresence>
-              {projectsToShow.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{
-                    duration: 0.3,
-                    ease: "easeOut",
-                    delay: index * 0.05, // Décalage progressif comme dans nav-projects
-                  }}
-                >
-                  <li
-                    className="flex items-center justify-between rounded-lg border p-3 transition hover:bg-muted/50 cursor-pointer"
-                    onClick={() =>
-                      router.push(`/editor/${project.id}`)
-                    }
-                  >
-                    <span>{project.name}</span>
-                    <span className="text-sm text-muted-foreground">
-                      {formatRelativeDate(project.updatedAt)}
-                    </span>
-                  </li>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </ul>
+    <div className="grid [grid-template-rows:1fr_auto_1fr] h-screen justify-items-center">
+      <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center row-start-2">
+        <div>
+          <h1 className="text-2xl font-semibold">Bienvenue sur INSify</h1>
+          <p className="text-muted-foreground">
+            Créez un nouveau projet pour commencer
+          </p>
+          <CreateProjectButton />
         </div>
-      </>
-      }
 
-      {/* TODO: placer l'astuce par rapport au bas de la div */}
-      <div className="w-full max-w-md min-h-[48px] flex items-center justify-center">
-        <AnimatePresence>
-          {!loading && settings?.homepageHints && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
-              className="w-full"
-            >
-              <RandomHint />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {projectsToShow.length > 0 && <>
+          <Separator className="w-full max-w-md" />
+
+          <div className="w-full max-w-md">
+            <h2 className="text-lg font-medium">Projets récents</h2>
+            <ul className="mt-2 space-y-2">
+              <AnimatePresence>
+                {projectsToShow.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    layout
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{
+                      duration: 0.3,
+                      ease: "easeOut",
+                      delay: index * 0.05,
+                    }}
+                  >
+                    <li
+                      className="flex items-center justify-between rounded-lg border p-3 transition hover:bg-muted/50 cursor-pointer"
+                      onClick={() =>
+                        router.push(`/editor/${project.id}`)
+                      }
+                    >
+                      <span>{project.name}</span>
+                      <span className="text-sm text-muted-foreground">
+                        {formatRelativeDate(project.updatedAt)}
+                      </span>
+                    </li>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </ul>
+          </div>
+        </>
+        }
       </div>
 
+      {
+        !loading && settings?.homepageHints &&
+          <div className="row-start-3 self-center">
+            <RandomHint />
+          </div>
+      }
     </div>
   );
 }
