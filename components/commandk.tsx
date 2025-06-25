@@ -70,7 +70,7 @@ export function CommandMenu() {
         onClick={() => setOpen(true)}
       >
         <Search />
-        <span className="sr-only">Accueil</span>
+        <span className="sr-only">Search</span>
       </Button>
 
       <Button

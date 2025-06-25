@@ -90,7 +90,7 @@ export default function SettingsPage() {
   return (
     <div className="flex h-[calc(100vh-64px)] overflow-hidden">
       {/* Sidebar Navigation */}
-      <aside id="settings-sidebar" className="hidden md:block w-64 sticky top-0 border-r p-6 bg-background flex-shrink-0 h-full">
+      <aside id="settings-sidebar" className="hidden lg:block w-64 sticky top-0 border-r p-6 bg-background flex-shrink-0 h-full">
         <nav className="flex flex-col gap-2">
           <button
             className={`text-left px-3 py-2 rounded text-sm hover:bg-muted transition-colors ${activeSection === "account" ? "bg-muted font-semibold font-sans" : "font-normal font-sans"}`}
