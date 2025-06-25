@@ -20,7 +20,13 @@ export function UserSession({ user }: UserSessionProps) {
   const router = useRouter()
 
   const handleSignOut = async () => {
-    await signOut()
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login"); // redirect to login page
+        },
+      },
+    })
   }
 
   return (

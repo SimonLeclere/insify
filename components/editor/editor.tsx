@@ -19,6 +19,7 @@ import debounce from "lodash.debounce";
 import { User } from "better-auth";
 import type { Project } from "@prisma/client";
 import { MobileToolbar } from "./MobileToolbar";
+import { useProjects } from "@/providers/ProjectsContext";
 
 const colors = [ "#958DF1", "#F98181", "#FBBC88", "#FAF594", "#70CFF8", "#94FADB", "#B9F18D" ];
 
@@ -30,11 +31,13 @@ export default function Editor({ project, user }: { project?: Project, user?: Us
   const docRef = useRef<Y.Doc | null>(null);
   const providerRef = useRef<YPartyKitProvider | null>(null);
   const { resolvedTheme } = useTheme();
+  const { resetUpdateDate } = useProjects();
 
   // Fonction debounced pour sauvegarder le contenu Yjs
   const debouncedSave = debounce(async (projectId: string, update: Uint8Array) => {
     try {
       const result = await updateProjectContent(projectId, update);
+      resetUpdateDate(projectId);
       if (!result.success) {
         console.error("Erreur lors de la sauvegarde:", result.error);
       }

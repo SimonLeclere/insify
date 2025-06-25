@@ -112,7 +112,7 @@ export function NavUser() {
               await signOut({
                 fetchOptions: {
                   onSuccess: () => {
-                    router.push("/login"); // redirect to login page
+                    router.push("/auth/login");
                   },
                 },
               });

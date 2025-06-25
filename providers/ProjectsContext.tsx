@@ -13,6 +13,7 @@ type ProjectsContextType = {
   restoreProject: (projectID: string) => void;
   loadMoreProjects: () => void;
   hasMore: boolean;
+  resetUpdateDate: (projectID: string) => void;
 };
 
 const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
@@ -48,13 +49,21 @@ export const ProjectsProvider = ({ children, initialProjects }: { children: Reac
     setVisibleCount((prev) => prev + 5);
   };
 
+  const resetUpdateDate = (projectID: string) => {
+    setAllProjects((prevProjects) =>
+      prevProjects.map((p) =>
+        p.id === projectID ? { ...p, updatedAt: new Date() } : p
+      )
+    );
+  };
+
   const visibleProjects = allProjects.filter(p => !p.deletedAt).slice(0, visibleCount);
   const hasMore = allProjects.filter(p => !p.deletedAt).length > visibleCount;
 
   const allUserProjects = allProjects.filter(p => !p.deletedAt);
 
   return (
-    <ProjectsContext.Provider value={{ visibleProjects, allUserProjects, addProject, removeProject, restoreProject, loadMoreProjects, hasMore }}>
+    <ProjectsContext.Provider value={{ visibleProjects, allUserProjects, addProject, removeProject, restoreProject, loadMoreProjects, hasMore, resetUpdateDate }}>
       {children}
     </ProjectsContext.Provider>
   );

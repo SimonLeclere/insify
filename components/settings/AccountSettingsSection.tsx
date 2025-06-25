@@ -1,33 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GoogleIcon } from "../providersLogos/Google";
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
+import { useAccounts } from "@/hooks/useAccounts";
+import { GithubIcon } from "../providersLogos/Github";
+import { useSearchParams } from 'next/navigation'
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const providers = [
-    { id: "google", name: "Google", email: "simon@gmail.com", connected: true, icon: <GoogleIcon /> },
-    { id: "github", name: "GitHub", email: null, connected: false },
-  ]
+const providers = {
+  google: {
+    name: "Google",
+    icon: <GoogleIcon className="w-4 h-4" />
+  },
+  github: {
+    name: "GitHub",
+    icon: <GithubIcon className="w-4 h-4" />
+  },
+};
 
 export default function AccountSettingsSection() {
 
-  const { data: session, isPending } = authClient.useSession()
-  
+  const { data: session, isPending: isSessionPending } = authClient.useSession()
+  const { data: accounts, isLoading: isAccountsListLoading, linkAccount, unlinkAccount } = useAccounts();
+
   const user = session?.user;
-  
+
   const [edit, setEdit] = useState(false);
   const [firstName, setFirstName] = useState(user?.firstName);
   const [lastName, setLastName] = useState(user?.lastName);
-  const allEmails = providers.map(p => p.email).filter(Boolean);
-  const [selectedEmail, setSelectedEmail] = useState(user?.email || allEmails[0] || "");
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname()
+  const connected = searchParams.get("connected");
   
-  if (isPending) {
+  useEffect(() => {
+    if (connected === "true") {
+      toast.success("Compte connecté avec succès !");
+      const newSearchParams = new URLSearchParams(searchParams.toString());
+      newSearchParams.delete("connected");
+      const newUrl = `${pathname}?${newSearchParams.toString()}${window.location.hash}`;
+      router.push(newUrl);
+    }
+  }, [connected, searchParams, isAccountsListLoading]);
+
+
+  if (isSessionPending) {
     return (
       <section id="account" className="scroll-mt-24">
         <Card className="max-w-2xl">
@@ -77,7 +102,7 @@ export default function AccountSettingsSection() {
     );
   }
 
-  if (!session || (!user && !isPending)) {
+  if (!session || (!user && !isSessionPending)) {
     return redirect("/auth/login");
   }
 
@@ -104,22 +129,7 @@ export default function AccountSettingsSection() {
               ) : (
                 <div className="font-medium text-lg">{user?.firstName} {user?.lastName}</div>
               )}
-              {edit ? (
-                <Select value={selectedEmail} onValueChange={setSelectedEmail}>
-                  <SelectTrigger className="w-56 h-7 text-sm">
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {providers.map((provider) => (
-                      provider.email ? (
-                        <SelectItem key={provider.email} value={provider.email}>{provider.email}</SelectItem>
-                      ) : null
-                    ))}
-                  </SelectContent>
-                </Select>
-              ) : (
-                <div className="text-muted-foreground text-sm">{user?.email}</div>
-              )}
+              <div className="text-muted-foreground text-sm">{user?.email}</div>
             </div>
             {edit ? (
               <div className="flex gap-2">
@@ -137,37 +147,63 @@ export default function AccountSettingsSection() {
           <div>
             <div className="font-medium mb-2">Méthodes de connexion</div>
             <div className="space-y-2">
-              {providers.map((provider) => {
-                const connectedCount = providers.filter(p => p.connected).length;
+              {Object.values(providers).map((provider) => {
+
+                const connected = accounts?.find(acc => acc.provider === provider.name.toLowerCase());
+
                 return (
-                  <div key={provider.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 p-3 rounded-lg border bg-muted/30 w-full">
+                  <div key={provider.name} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 p-3 rounded-lg border bg-muted/30 w-full">
                     <div className="flex items-center gap-2 w-full sm:w-auto flex-1">
-                    {/* TODO: Logo placeholder */}
-                    <Avatar className="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center self-center">
-                      {provider.icon || <span className="text-lg">{provider.name[0]}</span>}
-                    </Avatar>
-                      {/* Provider name and email */}
+                      <Avatar className="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center self-center">
+                        {provider.icon || <span className="text-lg">{provider.name[0]}</span>}
+                      </Avatar>
                       <div className="flex-1 min-w-0">
                         <div className="font-medium">{provider.name}</div>
                         <div className="text-xs text-muted-foreground truncate">
-                          {provider.connected
-                            ? provider.email || user?.email
+                          {connected
+                            ? `Connecté depuis le ${new Date(connected.createdAt).toLocaleDateString("fr-FR", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric"
+                            })}`
                             : `Connectez votre compte ${provider.name}`}
                         </div>
                       </div>
                     </div>
                     <div className="w-full sm:w-auto sm:ml-auto flex-shrink-0">
-                      {provider.connected ? (
+                      {connected ? (
                         <Button
                           size="sm"
                           variant="outline"
-                          disabled={connectedCount === 1}
+                          disabled={accounts?.length === 1}
+                          onClick={async () => {
+                            const { success, error } = await unlinkAccount({ providerId: provider.name.toLowerCase() });
+                            if (!success) {
+                              toast.error(error || "Erreur lors de la déconnexion");
+                            } else {
+                              toast.success("Compte déconnecté avec succès");
+                            }
+                          }}
                           className="text-destructive border-destructive w-full sm:w-auto"
                         >
                           Déconnecter
                         </Button>
                       ) : (
-                        <Button size="sm" className="w-full sm:w-auto">Connecter</Button>
+                        <Button
+                          size="sm"
+                          className="w-full sm:w-auto"
+                          onClick={async () => {
+                            const { success, error } = await linkAccount({
+                              provider: provider.name.toLowerCase(),
+                              callbackURL: process.env.NEXT_PUBLIC_BASE_URL + "/settings?connected=true#account"
+                            });
+                            if (!success) {
+                              toast.error(error || "Erreur lors de la connexion");
+                            }
+                          }}
+                        >
+                          Connecter
+                        </Button>
                       )}
                     </div>
                   </div>
