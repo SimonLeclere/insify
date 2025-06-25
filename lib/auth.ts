@@ -138,9 +138,10 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
       redirectURI: "https://simonsnotion.vercel.app/api/auth/callback/github",
       mapProfileToUser: (profile) => {
+        const [firstName = "", lastName = ""] = (profile.name || "").split(" ");
         return {
-          firstName: profile.name.split(" ")[0],
-          lastName: profile.name.split(" ")[1] || "",
+          firstName,
+          lastName,
         };
       },
     },

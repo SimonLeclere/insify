@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import AccountSettingsSection from "@/components/settings/AccountSettingsSection";
+import AccountSettingsSection from "@/components/settings/accountSettings/AccountSettingsSection";
 import GeneralSettingsSection from "@/components/settings/GeneralSettingsSection";
 import AppearanceSettingsSection from "@/components/settings/AppearanceSettingsSection";
 import AISettingsSection from "@/components/settings/AISettingsSection";

@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Prisma } from "@prisma/client";
 import { getUserSettings } from "@/actions/getUserSettings";
 import { updateUserSettings } from "@/actions/updateUserSettings";
+import { toast } from "sonner";
 
 type UserSettings = Prisma.SettingsGetPayload<object>;
 
@@ -42,15 +43,13 @@ export const UserSettingsProvider = ({ children }: { children: React.ReactNode }
 
   const setSettingsAndUpdate = async (newSettings: UserSettings) => {
     if (!user?.id) return;
-    setLoading(true);
-    setError(null);
+    const previousSettings = settings;
+    setSettings(newSettings); // Optimistic update
     try {
-      const updated = await updateUserSettings(newSettings);
-      setSettings(updated);
+      await updateUserSettings(newSettings);
     } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
+      setSettings(previousSettings!); // revert
+      toast.error("Erreur lors de la mise à jour des paramètres.");
     }
   };
 

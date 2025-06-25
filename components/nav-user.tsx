@@ -30,7 +30,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import { useSession, signOut } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
-import { useMounted } from "@/hooks/use-mounted"
+import { useMounted } from "@/hooks/useMounted"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
@@ -69,7 +69,7 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user?.image || ''} alt={user?.name || ''} />
-                <AvatarFallback className="rounded-lg">{user?.name?.charAt(0)}</AvatarFallback>
+                <AvatarFallback className="rounded-lg select-none">{user?.name?.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user?.name}</span>

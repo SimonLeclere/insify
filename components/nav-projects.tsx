@@ -36,7 +36,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useMounted } from "@/hooks/use-mounted";
+import { useMounted } from "@/hooks/useMounted";
 import useExportPDF from "@/hooks/useExportPDF";
 
 type Project = Prisma.ProjectGetPayload<object>;
