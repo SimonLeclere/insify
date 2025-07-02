@@ -117,7 +117,7 @@ export function AccountProvidersSection() {
                     onClick={async () => {
                       const { success, error } = await linkAccount({
                         provider: provider.name.toLowerCase(),
-                        callbackURL: process.env.NEXT_PUBLIC_BASE_URL + "/settings?connected=true#account"
+                        callbackURL: window.location.origin + "/settings?connected=true#account"
                       });
                       if (!success) {
                         toast.error(error || "Erreur lors de la connexion");

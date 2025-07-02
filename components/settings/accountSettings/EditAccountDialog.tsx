@@ -36,7 +36,7 @@ export function EditAccountDialog({ open, onOpenChange, initialValues }: EditAcc
     if (open) {
       form.reset(initialValues);
     }
-  }, [open, initialValues]);
+  }, [open, initialValues, form]);
 
   // Ajout de la validation pour éviter les champs vides
   const validateNotEmpty = (value: string | undefined) => {

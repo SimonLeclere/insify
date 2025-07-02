@@ -6,7 +6,6 @@ import { useTheme } from "next-themes";
 
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/shadcn/style.css";
-import "@blocknote/xl-ai/style.css";
 
 import { extensions } from "./extensions"
 

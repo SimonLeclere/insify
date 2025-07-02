@@ -1,14 +1,14 @@
 "use client";
 
-import { useCreateBlockNote } from "@blocknote/react";
+import { FormattingToolbar, FormattingToolbarController, getDefaultReactSlashMenuItems, getFormattingToolbarItems, SuggestionMenuController, useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/shadcn";
 import { useTheme } from "next-themes";
 
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/shadcn/style.css";
-import "@blocknote/xl-ai/style.css"; // add the AI stylesheet
 
 import { extensions } from "./extensions"
+import { en } from "@blocknote/core/locales";
 
 import { updateProjectContent } from "@/actions/updateProjectContentAction";
 
@@ -18,8 +18,15 @@ import { useRef } from "react";
 import debounce from "lodash.debounce";
 import { User } from "better-auth";
 import type { Project } from "@prisma/client";
-import { MobileToolbar } from "./MobileToolbar";
+// import { MobileToolbar } from "./MobileToolbar";
 import { useProjects } from "@/providers/ProjectsContext";
+
+import { createGroq } from "@ai-sdk/groq";
+import { en as aiEn } from "@blocknote/xl-ai/locales";
+import { AIMenuController, AIToolbarButton, createAIExtension, getAISlashMenuItems } from "@blocknote/xl-ai";
+import "@blocknote/xl-ai/style.css"; // add the AI stylesheet
+import { BlockNoteEditor, filterSuggestionItems } from "@blocknote/core";
+import { useUserSettings } from "@/providers/UserSettingsContext";
 
 const colors = [ "#958DF1", "#F98181", "#FBBC88", "#FAF594", "#70CFF8", "#94FADB", "#B9F18D" ];
 
@@ -27,7 +34,7 @@ const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
 
 export default function Editor({ project, user }: { project?: Project, user?: User }) {
 
-  // Références pour les objets Yjs
+  const { settings, loading } = useUserSettings();
   const docRef = useRef<Y.Doc | null>(null);
   const providerRef = useRef<YPartyKitProvider | null>(null);
   const { resolvedTheme } = useTheme();
@@ -85,14 +92,31 @@ export default function Editor({ project, user }: { project?: Project, user?: Us
       showCursorLabels: "activity" as "activity" | "always"
     }
   }
+ 
+  const provider = createGroq({
+    baseURL: "/api/ai",
+    apiKey: "",
+  });
+  
+  const model = provider(settings?.aiModel || "llama-3.3-70b-versatile");
 
   const editor = useCreateBlockNote({
+    dictionary: {
+      ...en,
+      ai: aiEn,
+    },
     tables: {
       splitCells: true,
       cellBackgroundColor: true,
       cellTextColor: true,
       headers: true,
     },
+    extensions: [
+      createAIExtension({
+        model,
+        stream: false
+      }),
+    ],
     _tiptapOptions: {
       extensions: extensions,
     },
@@ -103,9 +127,52 @@ export default function Editor({ project, user }: { project?: Project, user?: Us
     <BlockNoteView
       editor={editor}
       theme={resolvedTheme === "dark" ? "dark" : "light"}
-      formattingToolbar={false}
+      formattingToolbar={!settings?.aiEnabled && !loading}
+      slashMenu={!settings?.aiEnabled && !loading}
     >
-      <MobileToolbar />
+        {
+          settings?.aiEnabled && !loading && (
+            <>
+              <AIMenuController />
+              <FormattingToolbarWithAI />
+              <SuggestionMenuWithAI editor={editor} />
+            </>
+          )
+        }
     </BlockNoteView>
+  );
+}
+
+// Formatting toolbar with the `AIToolbarButton` added
+function FormattingToolbarWithAI() {
+  return (
+    <FormattingToolbarController
+      formattingToolbar={() => (
+        <FormattingToolbar>
+          {...getFormattingToolbarItems()}
+          <AIToolbarButton />
+        </FormattingToolbar>
+      )}
+    />
+  );
+}
+
+// Slash menu with the AI option added
+function SuggestionMenuWithAI(props: {
+  editor: BlockNoteEditor;
+}) {
+  return (
+    <SuggestionMenuController
+      triggerCharacter="/"
+      getItems={async (query) =>
+        filterSuggestionItems(
+          [
+            ...getDefaultReactSlashMenuItems(props.editor),
+            ...getAISlashMenuItems(props.editor),
+          ],
+          query,
+        )
+      }
+    />
   );
 }

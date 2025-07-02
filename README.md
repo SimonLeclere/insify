@@ -55,6 +55,8 @@ Simon développe un éditeur de texte en ligne utilisant Next.js et ShadCN UI. L
 4. Vue "read-only" accessible sans se connecter, avec la possibilité de demander l'accès en écriture si besoin
 5. Centre de notifications avec qui a modifié quoi, nouveautés dans l'app, invitations, demandes d'accès, etc.
 6. S'inspirer des features de https://docs.numerique.gouv.fr/home/
+7. Ajouter un header à chaque page avec titre, image éventuellement, l'icône + metadata
+8. Permettre de tag des utilisateurs / projets / dates / ... dans l'éditeur
 
 **Idée pour dev** :
 Dans un dossier llm/ par exemple, mettre un fichier par topic avec des instructions sur comment je veux que l'ia développpe. Comme ca Copilot génèrera toujours du bon code (ex: comment récupérer un utilisateur, comment récupérer la session, comment organiser le projet, me demander de rajouter un composant shadcn si besoin, ex)
@@ -62,3 +64,6 @@ Dans un dossier llm/ par exemple, mettre un fichier par topic avec des instructi
 **TODO**:
 https://www.better-auth.com/docs/concepts/users-accounts#token-encryption ?
 Copier et améliorer ExperimentalMobileFormattingToolbarController + ouvrir une PR ?
+
+
+https://reactbits.dev/animations/star-border

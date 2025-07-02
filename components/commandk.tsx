@@ -13,15 +13,6 @@ import { useTheme } from "next-themes";
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  Check,
-  Laptop,
-  LayoutGrid,
-  Moon,
-  Plus,
-  Search,
-  Sun,
-} from "lucide-react";
 
 import * as Icons from "lucide-react";
 const IconsMap = Icons as unknown as Record<string, Icons.LucideIcon>;
@@ -69,7 +60,7 @@ export function CommandMenu() {
         className="lg:hidden inline-flex h-7 w-7 justify-center"
         onClick={() => setOpen(true)}
       >
-        <Search />
+        <Icons.Search />
         <span className="sr-only">Search</span>
       </Button>
 
@@ -124,13 +115,13 @@ export function CommandMenu() {
 
             {!search?.startsWith("%") && (
               <CommandItem onSelect={() => setSearch("%")}>
-                <LayoutGrid />
+                <Icons.LayoutGrid />
                 <span>Projets</span>
                 <CommandShortcut>%</CommandShortcut>
               </CommandItem>
             )}
             <CommandItem onSelect={() => runCommand(openCreateProjectModal)}>
-              <Plus />
+              <Icons.Plus />
               <span>Créer un nouveau projet</span>
             </CommandItem>
           </CommandGroup>
@@ -163,7 +154,7 @@ export function CommandMenu() {
               </CommandItem>
             )}
             <CommandItem>
-              <Plus />
+              <Icons.Plus />
               <span>Créer une nouvelle équipe</span>
             </CommandItem>
           </CommandGroup>
@@ -198,7 +189,7 @@ export function CommandMenu() {
                     runCommand(() => router.push(`/projects`))
                   }
                 >
-                  <LayoutGrid />
+                  <Icons.LayoutGrid />
                   <span>Projets</span>
                   <span className="sr-only">{"> Projets"}</span>
                 </CommandItem>
@@ -212,12 +203,22 @@ export function CommandMenu() {
                   <span>Documentation</span>
                   <span className="sr-only">{"> Documentation"}</span>
                 </CommandItem>
+                <CommandItem
+                  keywords={[">"]}
+                  onSelect={() =>
+                    runCommand(() => router.push(`/settings`))
+                  }
+                >
+                  <Icons.Settings2 />
+                  <span>Paramètres</span>
+                  <span className="sr-only">{"> Paramètres"}</span>
+                </CommandItem>
               </>
             )}
 
             {!search?.startsWith(">") && (
               <CommandItem onSelect={() => setSearch(">")}>
-                <LayoutGrid />
+                <Icons.LayoutGrid />
                 <span>Navigation</span>
                 <CommandShortcut>{">"}</CommandShortcut>
               </CommandItem>
@@ -229,11 +230,11 @@ export function CommandMenu() {
               onSelect={() => runCommand(() => setTheme("light"))}
               keywords={["theme"]}
             >
-              <Sun />
+              <Icons.Sun />
               Light
               {theme === "light" && (
                 <CommandShortcut>
-                  <Check />
+                  <Icons.Check />
                 </CommandShortcut>
               )}
             </CommandItem>
@@ -241,11 +242,11 @@ export function CommandMenu() {
               onSelect={() => runCommand(() => setTheme("dark"))}
               keywords={["theme"]}
             >
-              <Moon />
+              <Icons.Moon />
               Dark
               {theme === "dark" && (
                 <CommandShortcut>
-                  <Check />
+                  <Icons.Check />
                 </CommandShortcut>
               )}
             </CommandItem>
@@ -253,11 +254,11 @@ export function CommandMenu() {
               onSelect={() => runCommand(() => setTheme("system"))}
               keywords={["theme"]}
             >
-              <Laptop />
+              <Icons.Laptop />
               System
               {theme === "system" && (
                 <CommandShortcut>
-                  <Check />
+                  <Icons.Check />
                 </CommandShortcut>
               )}
             </CommandItem>
