@@ -1,6 +1,8 @@
 import * as Y from "yjs";
 import YPartyKitProvider from "y-partykit/provider";
 import debounce from "lodash.debounce";
+import { Project } from "@prisma/client";
+import { User } from "better-auth";
 
 const colors = [
   "#958DF1", "#F98181", "#FBBC88", "#FAF594", "#70CFF8", "#94FADB", "#B9F18D"
@@ -8,9 +10,13 @@ const colors = [
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
 
 export function useCollaboration({ project, user, updateProjectContent, resetUpdateDate }: {
-  project?: any,
-  user?: any,
-  updateProjectContent: (projectId: string, update: Uint8Array) => Promise<any>,
+  project?: Project,
+  user?: User,
+  updateProjectContent: (projectId: string, update: Uint8Array) => Promise<{
+    success: boolean;
+    data: Project | null;
+    error?: string | null;
+  }>,
   resetUpdateDate: (projectId: string) => void
 }) {
   let colabConfig;

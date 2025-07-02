@@ -22,11 +22,12 @@ export default function AISettingsSection() {
 
   const [pendingAiEnabled, setPendingAiEnabled] = useState<boolean | null>();
 
-  if (error) return <div>Erreur lors du chargement des paramètres</div>;
-
-  React.useEffect(() => {
+  
+  useEffect(() => {
     setPendingAiEnabled(settings?.aiEnabled ?? false);
   }, [settings?.aiEnabled]);
+  
+  if (error) return <div>Erreur lors du chargement des paramètres</div>;
 
   const testConfiguration = async () => {
     if (!settings?.aiProvider || !settings?.aiModel || !settings?.aiApiKey) return;
@@ -44,7 +45,7 @@ export default function AISettingsSection() {
           setTestStatus("idle");
           setTestMessage("");
         }, 3000);
-        settings && setSettings({ ...settings, aiEnabled: true });
+        if (settings) setSettings({ ...settings, aiEnabled: true });
       } else {
         setTestStatus("error");
         setTestMessage("Configuration invalide.");
@@ -53,7 +54,7 @@ export default function AISettingsSection() {
           setTestMessage("");
         }, 3000);
       }
-    } catch (e: any) {
+    } catch {
       setTestStatus("error");
       setTestMessage("Erreur réseau");
       setTimeout(() => {

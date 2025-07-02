@@ -23,7 +23,7 @@ import { MobileToolbar } from "./MobileToolbar";
 import FormattingToolbarWithAI from "./FormattingToolbar";
 import SuggestionMenuWithAI from "./SuggestionMenu";
 
-import { getAIConfig, getAIExtension } from "./aiConfig";
+import { getAIConfig } from "./aiConfig";
 import { useCollaboration } from "./collabConfig";
 
 export default function Editor({ project, user }: { project?: Project, user?: User }) {
@@ -42,7 +42,7 @@ export default function Editor({ project, user }: { project?: Project, user?: Us
   });
 
   // IA config externalisée
-  const { model, aiEn } = getAIConfig(settings);
+  const { aiEn, extension: AIExtension } = getAIConfig(settings);
 
   const editor = useCreateBlockNote({
     dictionary: {
@@ -56,7 +56,7 @@ export default function Editor({ project, user }: { project?: Project, user?: Us
       headers: true,
     },
     extensions: [
-      getAIExtension(model),
+      AIExtension,
     ],
     _tiptapOptions: {
       extensions: extensions,
